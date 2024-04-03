@@ -33,6 +33,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?Badge $badge_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,5 +109,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getBadgeId(): ?Badge
+    {
+        return $this->badge_id;
+    }
+
+    public function setBadgeId(?Badge $badge_id): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($badge_id === null && $this->badge_id !== null) {
+            $this->badge_id->setUserId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($badge_id !== null && $badge_id->getUserId() !== $this) {
+            $badge_id->setUserId($this);
+        }
+
+        $this->badge_id = $badge_id;
+
+        return $this;
     }
 }
