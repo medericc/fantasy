@@ -20,6 +20,10 @@ class Game
     #[ORM\JoinColumn(nullable: false)]
     private ?team $team_away = null;
 
+    #[ORM\ManyToOne(inversedBy: 'game_week')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Week $week = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +56,18 @@ class Game
     public function setTeamAway(team $team_away): static
     {
         $this->team_away = $team_away;
+
+        return $this;
+    }
+
+    public function getWeek(): ?Week
+    {
+        return $this->week;
+    }
+
+    public function setWeek(?Week $week): static
+    {
+        $this->week = $week;
 
         return $this;
     }
