@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -24,6 +26,14 @@ class Player
 
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?team $team = null;
+
+    #[ORM\ManyToMany(targetEntity: choice::class, inversedBy: 'players')]
+    private Collection $choice;
+
+    public function __construct()
+    {
+        $this->choice = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,30 @@ class Player
     public function setTeam(?team $team): static
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, choice>
+     */
+    public function getChoice(): Collection
+    {
+        return $this->choice;
+    }
+
+    public function addChoice(choice $choice): static
+    {
+        if (!$this->choice->contains($choice)) {
+            $this->choice->add($choice);
+        }
+
+        return $this;
+    }
+
+    public function removeChoice(choice $choice): static
+    {
+        $this->choice->removeElement($choice);
 
         return $this;
     }
