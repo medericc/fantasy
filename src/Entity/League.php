@@ -17,7 +17,7 @@ class League
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
+//a changer aussi ?
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'league_id')]
     private Collection $teams;
 
@@ -62,7 +62,7 @@ class League
     {
         if (!$this->teams->contains($team)) {
             $this->teams->add($team);
-            $team->setLeagueId($this);
+            $team->setLeague($this);
         }
 
         return $this;
@@ -72,8 +72,8 @@ class League
     {
         if ($this->teams->removeElement($team)) {
             // set the owning side to null (unless already changed)
-            if ($team->getLeagueId() === $this) {
-                $team->setLeagueId(null);
+            if ($team->getLeague() === $this) {
+                $team->setLeague(null);
             }
         }
 
