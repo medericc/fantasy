@@ -17,8 +17,8 @@ class League
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-//a changer aussi ?
-    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'league_id')]
+
+    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'league')]
     private Collection $teams;
 
     public function __construct()
