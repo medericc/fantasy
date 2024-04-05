@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "nom": "Tarbes GB",
+        "league": "LFB"
+    },
+    {
+        "id": 2,
+        "nom": "Lattes-Montpellier",
+        "league": "LFB"
+    },
+    {
+        "id": 3,
+        "nom": "Landerneau",
+        "league": "LFB"
+    },
+    {
+        "id": 4,
+        "nom": "Saint Amand",
+        "league": "LFB"
+    },
+    {
+        "id": 5,
+        "nom": "ASVEL F",
+        "league": "LFB"
+    },
+    {
+        "id": 6,
+        "nom": "Tango Bourges",
+        "league": "LFB"
+    },
+    {
+        "id": 7,
+        "nom": "Basket Landes",
+        "league": "LFB"
+    },
+    {
+        "id": 8,
+        "nom": "Flammes Carolo",
+        "league": "LFB"
+    },
+    {
+        "id": 9,
+        "nom": "Roche Vendée",
+        "league": "LFB"
+    },
+    {
+        "id": 10,
+        "nom": "ESBVA Lille",
+        "league": "LFB"
+    },
+    {
+        "id": 11,
+        "nom": "UF Angers",
+        "league": "LFB"
+    },
+    {
+        "id": 12,
+        "nom": "Charnay BBS",
+        "league": "LFB"
+    },
+    {
+        "id": 13,
+        "nom": "Pole Espoir",
+        "league": "LF2"
+    },
+    {
+        "id": 14,
+        "nom": "Chartres Basket",
+        "league": "LF2"
+    },
+    {
+        "id": 15,
+        "nom": "AS Aulnoye",
+        "league": "LF2"
+    },
+    {
+        "id": 16,
+        "nom": "SIG Basket",
+        "league": "LF2"
+    },
+    {
+        "id": 17,
+        "nom": "Cavigal Nice",
+        "league": "LF2"
+    },
+    {
+        "id": 18,
+        "nom": "USO Mondeville",
+        "league": "LF2"
+    },
+    {
+        "id": 19,
+        "nom": "Toulouse MB",
+        "league": "LF2"
+    },
+    {
+        "id": 20,
+        "nom": "BB La Tronche-Meylan",
+        "league": "LF2"
+    },
+    {
+        "id": 21,
+        "nom": "Feytiat Basket",
+        "league": "LF2"
+    },
+    {
+        "id": 22,
+        "nom": "BC Montbrison",
+        "league": "LF2"
+    },
+    {
+        "id": 23,
+        "nom": "Champagne Basket",
+        "league": "LF2"
+    },
+    {
+        "id": 24,
+        "nom": "Pays Voironnais",
+        "league": "LF2"
+    }
+]

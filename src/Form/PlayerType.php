@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\choice;
+use App\Entity\Choice;
 use App\Entity\Player;
-use App\Entity\team;
+use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,11 +19,11 @@ class PlayerType extends AbstractType
             ->add('name')
             ->add('rate')
             ->add('team', EntityType::class, [
-                'class' => team::class,
+                'class' => Team::class,
                 'choice_label' => 'id',
             ])
             ->add('choice', EntityType::class, [
-                'class' => choice::class,
+                'class' => Choice::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])

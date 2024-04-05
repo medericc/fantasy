@@ -25,7 +25,7 @@ class Player
     private ?float $rate = null;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
-    private ?team $team = null;
+    private ?Team $team = null;
 
     #[ORM\ManyToMany(targetEntity: Choice::class, inversedBy: 'players')]
     private Collection $choice;
@@ -76,12 +76,12 @@ class Player
         return $this;
     }
 
-    public function getTeam(): ?team
+    public function getTeam(): ?Team
     {
         return $this->team;
     }
 
-    public function setTeam(?team $team): static
+    public function setTeam(?Team $team): static
     {
         $this->team = $team;
 

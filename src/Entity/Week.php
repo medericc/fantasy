@@ -18,7 +18,7 @@ class Week
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: game::class, mappedBy: 'week')]
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'week')]
     private Collection $game_week;
 
     public function __construct()
@@ -51,14 +51,14 @@ class Week
     }
 
     /**
-     * @return Collection<int, game>
+     * @return Collection<int, Game>
      */
     public function getGameWeek(): Collection
     {
         return $this->game_week;
     }
 
-    public function addGameWeek(game $gameWeek): static
+    public function addGameWeek(Game $gameWeek): static
     {
         if (!$this->game_week->contains($gameWeek)) {
             $this->game_week->add($gameWeek);
@@ -68,7 +68,7 @@ class Week
         return $this;
     }
 
-    public function removeGameWeek(game $gameWeek): static
+    public function removeGameWeek(Game $gameWeek): static
     {
         if ($this->game_week->removeElement($gameWeek)) {
             // set the owning side to null (unless already changed)

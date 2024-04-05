@@ -20,7 +20,7 @@ class Team
 
     #[ORM\ManyToOne(inversedBy: 'teams')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?league $league = null;
+    private ?League $league = null;
 
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'team')]
     private Collection $players;
@@ -58,12 +58,12 @@ class Team
         return $this;
     }
 
-    public function getLeague(): ?league
+    public function getLeague(): ?League
     {
         return $this->league;
     }
 
-    public function setLeague(?league $league): static
+    public function setLeague(?League $league): static
     {
         $this->league = $league;
 

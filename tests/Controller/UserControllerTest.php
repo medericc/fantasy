@@ -2,6 +2,7 @@
 
 namespace App\Test\Controller;
 
+use App\Entity\Badge;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -62,10 +63,11 @@ class UserControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new User();
+        $badge = new Badge();
         $fixture->setEmail('My Title');
-        $fixture->setRoles('My Title');
+        $fixture->setRoles(['Value']);
         $fixture->setPassword('My Title');
-        $fixture->setBadge_id('My Title');
+        $fixture->setBadgeId($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -82,10 +84,11 @@ class UserControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new User();
+        $badge = new Badge();
         $fixture->setEmail('Value');
-        $fixture->setRoles('Value');
+        $fixture->setRoles(['Value']);
         $fixture->setPassword('Value');
-        $fixture->setBadge_id('Value');
+        $fixture->setBadgeId($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -113,10 +116,12 @@ class UserControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new User();
+        
+        $badge = new Badge();
         $fixture->setEmail('Value');
-        $fixture->setRoles('Value');
+        $fixture->setRoles(['Value']);
         $fixture->setPassword('Value');
-        $fixture->setBadge_id('Value');
+        $fixture->setBadgeId($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();

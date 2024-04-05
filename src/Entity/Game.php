@@ -14,11 +14,11 @@ class Game
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?team $team_home = null;
+    private ?Team $team_home = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?team $team_away = null;
+    private ?Team $team_away = null;
 
     #[ORM\ManyToOne(inversedBy: 'game_week')]
     #[ORM\JoinColumn(nullable: false)]
@@ -36,24 +36,24 @@ class Game
         return $this;
     }
 
-    public function getTeamHome(): ?team
+    public function getTeamHome(): ?Team
     {
         return $this->team_home;
     }
 
-    public function setTeamHome(?team $team_home): static
+    public function setTeamHome(?Team $team_home): static
     {
         $this->team_home = $team_home;
 
         return $this;
     }
 
-    public function getTeamAway(): ?team
+    public function getTeamAway(): ?Team
     {
         return $this->team_away;
     }
 
-    public function setTeamAway(team $team_away): static
+    public function setTeamAway(Team $team_away): static
     {
         $this->team_away = $team_away;
 

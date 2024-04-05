@@ -16,7 +16,7 @@ class TeamType extends AbstractType
         $builder
             ->add('name')
             ->add('league', EntityType::class, [
-                'class' => league::class,
+                'class' => League::class,
                 'choice_label' => 'id',
             ])
         ;
