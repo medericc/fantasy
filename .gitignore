@@ -1,5 +1,6 @@
 /.idea/
 .env
+package-lock.json
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
