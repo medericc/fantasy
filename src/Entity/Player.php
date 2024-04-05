@@ -27,7 +27,7 @@ class Player
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?team $team = null;
 
-    #[ORM\ManyToMany(targetEntity: choice::class, inversedBy: 'players')]
+    #[ORM\ManyToMany(targetEntity: Choice::class, inversedBy: 'players')]
     private Collection $choice;
 
     public function __construct()
@@ -89,14 +89,14 @@ class Player
     }
 
     /**
-     * @return Collection<int, choice>
+     * @return Collection<int, Choice>
      */
     public function getChoice(): Collection
     {
         return $this->choice;
     }
 
-    public function addChoice(choice $choice): static
+    public function addChoice(Choice $choice): static
     {
         if (!$this->choice->contains($choice)) {
             $this->choice->add($choice);
@@ -105,7 +105,7 @@ class Player
         return $this;
     }
 
-    public function removeChoice(choice $choice): static
+    public function removeChoice(Choice $choice): static
     {
         $this->choice->removeElement($choice);
 
