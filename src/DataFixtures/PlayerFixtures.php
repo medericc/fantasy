@@ -15,22 +15,21 @@ class PlayerFixtures extends Fixture
         
     public function __construct(private TeamRepository $teamRepository){
     }
- 
-    public function load(ObjectManager $manager): void
 
-    
+    public function load(ObjectManager $manager): void
     {
 
         $faker = Factory::create('fr_FR');
         for ($i=0;$i < 24;$i++) {
-        $player = new Player();
-        $player->setForename($faker->firstName);
-        $player->setName($faker->lastName);
-        $team = $this->teamRepository->findOneBy(['id'=> $faker->numberBetween(1,24)]);
-        $player->setRate(rand(-8,20));
-        $player->setTeam($team);
+            $player = new Player();
+            $player->setForename($faker->firstName);
+            $player->setName($faker->lastName);
+            $team = $this->teamRepository->findOneBy(['id'=> $faker->numberBetween(1,24)]);
+            $player->setRate(rand(-8,20));
+            $player->setTeam($team);
 
-        $manager->persist($player); }
+            $manager->persist($player); 
+        }
         $manager->flush();
     }
 }

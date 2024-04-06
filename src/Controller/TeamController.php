@@ -42,7 +42,7 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_team_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
     public function show(Team $team): Response
     {
         return $this->render('team/show.html.twig', [
@@ -50,7 +50,19 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_team_edit', methods: ['GET', 'POST'])]
+    #[Route('/players/{id}', name: 'app_team_players', methods: ['GET'])]
+    public function showPlayers(Team $team): Response
+    {
+
+        dd($team->getPlayers());
+
+        
+        return $this->render('team/show.html.twig', [
+            'team' => $team,
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TeamType::class, $team);
@@ -68,7 +80,7 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_team_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_team_delete', methods: ['POST'])]
     public function delete(Request $request, Team $team, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->getPayload()->get('_token'))) {

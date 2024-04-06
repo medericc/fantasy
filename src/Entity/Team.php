@@ -22,7 +22,7 @@ class Team
     #[ORM\JoinColumn(nullable: false)]
     private ?League $league = null;
 
-    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'team')]
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'team', fetch: 'EAGER')]
     private Collection $players;
 
     public function __construct()
