@@ -21,6 +21,10 @@ class Week
     #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'week')]
     private Collection $game_week;
 
+    #[ORM\ManyToOne(inversedBy: 'weeks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?League $league = null;
+
     public function __construct()
     {
         $this->game_week = new ArrayCollection();
@@ -76,6 +80,18 @@ class Week
                 $gameWeek->setWeek(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLeagueId(): ?League
+    {
+        return $this->league;
+    }
+
+    public function setLeagueId(?League $league): static
+    {
+        $this->league = $league;
 
         return $this;
     }

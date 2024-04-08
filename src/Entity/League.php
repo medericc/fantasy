@@ -21,9 +21,13 @@ class League
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'league')]
     private Collection $teams;
 
+    #[ORM\OneToMany(targetEntity: Week::class, mappedBy: 'league_id')]
+    private Collection $weeks;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->weeks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,6 +78,36 @@ class League
             // set the owning side to null (unless already changed)
             if ($team->getLeague() === $this) {
                 $team->setLeague(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Week>
+     */
+    public function getWeeks(): Collection
+    {
+        return $this->weeks;
+    }
+
+    public function addWeek(Week $week): static
+    {
+        if (!$this->weeks->contains($week)) {
+            $this->weeks->add($week);
+            $week->setLeagueId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeek(Week $week): static
+    {
+        if ($this->weeks->removeElement($week)) {
+            // set the owning side to null (unless already changed)
+            if ($week->getLeagueId() === $this) {
+                $week->setLeagueId(null);
             }
         }
 

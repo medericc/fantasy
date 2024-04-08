@@ -1,0 +1,221 @@
+[
+    {
+        "id": 1,
+        "name": "un",
+        "league_id": 1
+    },
+    {
+        "id": 2,
+        "name": "deux",
+        "league_id": 1
+    },
+    {
+        "id": 3,
+        "name": "trois",
+        "league_id": 1
+    },
+    {
+        "id": 4,
+        "name": "quatre",
+        "league_id": 1
+    },
+    {
+        "id": 5,
+        "name": "cinq",
+        "league_id": 1
+    },
+    {
+        "id": 6,
+        "name": "six",
+        "league_id": 1
+    },
+    {
+        "id": 7,
+        "name": "sept",
+        "league_id": 1
+    },
+    {
+        "id": 8,
+        "name": "huit",
+        "league_id": 1
+    },
+    {
+        "id": 9,
+        "name": "neuf",
+        "league_id": 1
+    },
+    {
+        "id": 10,
+        "name": "dix",
+        "league_id": 1
+    },
+    {
+        "id": 11,
+        "name": "onze",
+        "league_id": 1
+    },
+    {
+        "id": 12,
+        "name": "douze",
+        "league_id": 1
+    },
+    {
+        "id": 13,
+        "name": "treize",
+        "league_id": 1
+    },
+    {
+        "id": 14,
+        "name": "quatorze",
+        "league_id": 1
+    },
+    {
+        "id": 15,
+        "name": "quinze",
+        "league_id": 1
+    },
+    {
+        "id": 16,
+        "name": "seize",
+        "league_id": 1
+    },
+    {
+        "id": 17,
+        "name": "dix-sept",
+        "league_id": 1
+    },
+    {
+        "id": 18,
+        "name": "dix-huit",
+        "league_id": 1
+    },
+    {
+        "id": 19,
+        "name": "dix-neuf",
+        "league_id": 1
+    },
+    {
+        "id": 20,
+        "name": "vingt",
+        "league_id": 1
+    },
+    {
+        "id": 21,
+        "name": "vingt-et-un",
+        "league_id": 1
+    },
+    {
+        "id": 22,
+        "name": "vingt-deux",
+        "league_id": 1
+    },{
+        "id": 23,
+        "name": "vingt-trois",
+        "league_id": 2
+    },
+    {
+        "id": 24,
+        "name": "vingt-quatre",
+        "league_id": 2
+    },
+    {
+        "id": 25,
+        "name": "vingt-cinq",
+        "league_id": 2
+    },
+    {
+        "id": 26,
+        "name": "vingt-six",
+        "league_id": 2
+    },
+    {
+        "id": 27,
+        "name": "vingt-sept",
+        "league_id": 2
+    },
+    {
+        "id": 28,
+        "name": "vingt-huit",
+        "league_id": 2
+    },
+    {
+        "id": 29,
+        "name": "vingt-neuf",
+        "league_id": 2
+    },
+    {
+        "id": 30,
+        "name": "trente",
+        "league_id": 2
+    },
+    {
+        "id": 31,
+        "name": "trente-et-un",
+        "league_id": 2
+    },
+    {
+        "id": 32,
+        "name": "trente-deux",
+        "league_id": 2
+    },
+    {
+        "id": 33,
+        "name": "trente-trois",
+        "league_id": 2
+    },
+    {
+        "id": 34,
+        "name": "trente-quatre",
+        "league_id": 2
+    },
+    {
+        "id": 35,
+        "name": "trente-cinq",
+        "league_id": 2
+    },
+    {
+        "id": 36,
+        "name": "trente-six",
+        "league_id": 2
+    },
+    {
+        "id": 37,
+        "name": "trente-sept",
+        "league_id": 2
+    },
+    {
+        "id": 38,
+        "name": "trente-huit",
+        "league_id": 2
+    },
+    {
+        "id": 39,
+        "name": "trente-neuf",
+        "league_id": 2
+    },
+    {
+        "id": 40,
+        "name": "quarante",
+        "league_id": 2
+    },
+    {
+        "id": 41,
+        "name": "quarante-et-un",
+        "league_id": 2
+    },
+    {
+        "id": 42,
+        "name": "quarante-deux",
+        "league_id": 2
+    },
+    {
+        "id": 43,
+        "name": "quarante-trois",
+        "league_id": 2
+    },
+    {
+        "id": 44,
+        "name": "quarante-quatre",
+        "league_id": 2
+    }
+]

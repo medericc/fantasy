@@ -24,7 +24,7 @@ class Player
     #[ORM\Column(nullable: true)]
     private ?float $rate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'players', fetch: 'EAGER')]
+    #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Team $team = null;
 
     #[ORM\ManyToMany(targetEntity: Choice::class, inversedBy: 'players')]
