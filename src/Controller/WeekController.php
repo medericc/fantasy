@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Week;
 use App\Entity\Team;
 use App\Form\WeekType;
+use App\Repository\TeamRepository;
 use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,13 +44,22 @@ class WeekController extends AbstractController
         ]);
     }
 
+
+   
     #[Route('/{id}', name: 'app_week_show', methods: ['GET'])]
-    public function show(Team $team): Response
+    public function show(TeamRepository $teamRepository): Response
     {
+       
+        $teams = $teamRepository->findBy(['league' => 1]);
+
+       
+
+       
         return $this->render('week/show.html.twig', [
-            'week' => $team,
+            'teams' => $teams,
         ]);
     }
+    
 
     #[Route('/{id}/edit', name: 'app_week_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Week $week, EntityManagerInterface $entityManager): Response
