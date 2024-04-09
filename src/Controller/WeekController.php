@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Week;
+use App\Entity\Team;
 use App\Form\WeekType;
 use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,10 +44,10 @@ class WeekController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_week_show', methods: ['GET'])]
-    public function show(Week $week): Response
+    public function show(Team $team): Response
     {
         return $this->render('week/show.html.twig', [
-            'week' => $week,
+            'week' => $team,
         ]);
     }
 

@@ -1,3 +1,4 @@
+import { registerReactControllerComponents } from '@symfony/ux-react';
 /*
 * Welcome to your app's main JavaScript file!
 *
@@ -27,3 +28,5 @@ document.addEventListener('turbo:load', function (e) {
         return new Tooltip(tooltipTriggerEl)
     });
 });
+
+registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));

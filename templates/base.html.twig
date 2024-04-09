@@ -16,4 +16,10 @@
     <body class='container' >
         {% block body %}{% endblock %}
     </body>
+    {% set name  = "TESTNAME" %}
+<div {{ react_component('Hello', { 'fullName': name }) }}>
+        Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
+    </div> (modifié)
+[00:13]
+
 </html>
