@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\League;
 use App\Form\LeagueType;
 use App\Repository\LeagueRepository;
+use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,13 +44,29 @@ class LeagueController extends AbstractController
         ]);
     }
 
+
+
+
+
     #[Route('/{id}', name: 'app_league_show', methods: ['GET'])]
-    public function show(League $league): Response
+    public function show(WeekRepository $WeekRepository, $id): Response
     {
+
+        $weeks = $WeekRepository->findBy(['league' => $id]);
+      
+      
         return $this->render('league/show.html.twig', [
-            'league' => $league,
+            'leagues' => $weeks,
         ]);
     }
+
+
+
+
+
+
+
+
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_league_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, League $league, EntityManagerInterface $entityManager): Response

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Player;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
@@ -42,13 +43,35 @@ class TeamController extends AbstractController
         ]);
     }
 
+
+
+
+
+
+
+
     #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
     public function show(Team $team): Response
     {
+        
+        $players = $team->getPlayers();
+    
         return $this->render('team/show.html.twig', [
             'team' => $team,
+            'players' => $players,
         ]);
     }
+    
+
+
+
+
+
+
+
+
+
+
 
     #[Route('/players/{id}', name: 'app_team_players', methods: ['GET'])]
     public function showPlayers(Team $team): Response

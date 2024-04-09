@@ -7,6 +7,7 @@ use App\Entity\Team;
 use App\Form\WeekType;
 use App\Repository\TeamRepository;
 use App\Repository\WeekRepository;
+use App\Repository\LeagueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,18 +48,16 @@ class WeekController extends AbstractController
 
    
     #[Route('/{id}', name: 'app_week_show', methods: ['GET'])]
-    public function show(TeamRepository $teamRepository): Response
+    public function show(Week $week, TeamRepository $teamRepository): Response
     {
        
-        $teams = $teamRepository->findBy(['league' => 1]);
+        $teams = $teamRepository->findBy(['league' => $week->getLeagueId()]);
 
-       
-
-       
         return $this->render('week/show.html.twig', [
             'teams' => $teams,
         ]);
     }
+    
     
 
     #[Route('/{id}/edit', name: 'app_week_edit', methods: ['GET', 'POST'])]

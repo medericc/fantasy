@@ -11,6 +11,9 @@
                 <tr>
                     <th>Equipe</th>
                     <td>{{ team.name }}</td>
+                      <td>
+            <a href="{{ path('app_team_show', {'id': team.id}) }}">show</a>
+    </td>
                 </tr>
             {% endfor %}
         </tbody>
