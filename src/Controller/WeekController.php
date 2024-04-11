@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Choice;
 use App\Entity\Week;
 use App\Entity\Team;
+use App\Form\ChoiceType;
 use App\Form\WeekType;
 use App\Repository\TeamRepository;
 use App\Repository\WeekRepository;
@@ -47,7 +49,7 @@ class WeekController extends AbstractController
 
 
    
-    #[Route('/{id}', name: 'app_week_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_week_show', methods: ['GET'])]
     public function show(Week $week, TeamRepository $teamRepository): Response
     {
        
@@ -78,7 +80,7 @@ class WeekController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_week_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_week_delete', methods: ['POST'])]
     public function delete(Request $request, Week $week, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$week->getId(), $request->getPayload()->get('_token'))) {
@@ -87,5 +89,17 @@ class WeekController extends AbstractController
         }
 
         return $this->redirectToRoute('app_week_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/choice', name: 'app_week_choice', methods: ['GET', 'POST'])]
+    public function makeChoice(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $choice = new Choice();
+        $form = $this->createForm(ChoiceType::class, $choice);
+        $form->handleRequest($request);
+
+        return $this->render('week/choice.html.twig', [
+            'form' => $form,
+        ]);
     }
 }

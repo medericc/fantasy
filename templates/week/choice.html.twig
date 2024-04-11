@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Choice{% endblock %}
+
+{% block body %}
+    <h1>Create new Week</h1>
+
+   {{form(form)}}
+
+    <a href="{{ path('app_week_index') }}">back to list</a>
+
+    
+<script>
+  
+
+
+window.onload = () => {
+
+    let league = document.querySelector("#question_choice_week_id")
+    league.addEventListener("change", function(){
+      // mettre le select du player a null
+        document.querySelector("#question_choice_players").innerHTML = null
+            let form = this.closest("form")
+            const data = new URLSearchParams();
+            for (const pair of new FormData(form)) {
+              if (pair[0] != 'question_choice[_token]'){
+                data.append(pair[0], pair[1]);
+                }
+            }
+            // let data = this.name + "=" + this.value
+            
+            fetch(form.action, {
+                method: 'post',
+                body: data,
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                }
+            })
+
+            .then(response => response.text())
+            .then(html => {
+            let content = document.createElement("html")
+            content.innerHTML = html
+            console.log(content)
+            let newSelect = content.querySelector("#question_choice_team") 
+            
+
+            document.querySelector("#question_choice_team").replaceWith(newSelect)
+
+            
+
+
+                let team = document.querySelector("#question_choice_team")
+                    if (typeof team !== 'undefined' && team !== null ) {
+                        
+                    
+                    team.addEventListener("change", function(){
+                        
+                          const data = new URLSearchParams();
+                            for (const pair of new FormData(form)) {
+                              if (pair[0] != 'question_choice[_token]'){
+                                data.append(pair[0], pair[1]);
+                                }
+                            }
+                            // data += '&' + this.name + "=" + this.value
+                            
+                        fetch(form.action, {
+                            method: 'post',
+                            body: data,
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            content = document.createElement("html")
+                            content.innerHTML = html
+                            let nouveauSelect = content.querySelector("#question_choice_players")
+                            document.querySelector("#question_choice_players").replaceWith(nouveauSelect)
+                        })
+    
+                    })
+                }
+                
+        
+        })
+    })  
+    }
+</script>
+{% endblock %}

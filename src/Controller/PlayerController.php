@@ -50,6 +50,14 @@ class PlayerController extends AbstractController
         ]);
     }
 
+    #[Route('/team/{id}', name: 'app_player_show_team', methods: ['GET'])]
+    public function showByTeam(Player $player): Response
+    {
+        return $this->render('player/show.html.twig', [
+            'player' => $player,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_player_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Player $player, EntityManagerInterface $entityManager): Response
     {
