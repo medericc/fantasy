@@ -17,7 +17,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles')
             ->add('password')
-            ->add('badge_id', EntityType::class, [
+            ->add('badge', EntityType::class, [
                 'class' => Badge::class,
                 'choice_label' => 'id',
             ])

@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Choice;
 use App\Entity\Week;
-use App\Entity\Team;
 use App\Form\ChoiceType;
 use App\Form\WeekType;
 use App\Repository\TeamRepository;
 use App\Repository\WeekRepository;
-use App\Repository\LeagueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
-    private ?Badge $badge_id = null;
+    private ?Badge $badge = null;
 
     public function getId(): ?int
     {
@@ -111,24 +111,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getBadgeId(): ?Badge
+    public function getBadge(): ?Badge
     {
-        return $this->badge_id;
+        return $this->badge;
     }
 
-    public function setBadgeId(?Badge $badge_id): static
+    public function setBadge(?Badge $badge): static
     {
         // unset the owning side of the relation if necessary
-        if ($badge_id === null && $this->badge_id !== null) {
-            $this->badge_id->setUserId(null);
+        if ($badge === null && $this->badge !== null) {
+            $this->badge->setUserId(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($badge_id !== null && $badge_id->getUserId() !== $this) {
-            $badge_id->setUserId($this);
+        if ($badge !== null && $badge->getUserId() !== $this) {
+            $badge->setUserId($this);
         }
 
-        $this->badge_id = $badge_id;
+        $this->badge = $badge;
 
         return $this;
     }

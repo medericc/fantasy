@@ -51,7 +51,7 @@ class UserControllerTest extends WebTestCase
             'user[email]' => 'Testing',
             'user[roles]' => 'Testing',
             'user[password]' => 'Testing',
-            'user[badge_id]' => 'Testing',
+            'user[badge]' => 'Testing',
         ]);
 
         self::assertResponseRedirects($this->path);
@@ -67,7 +67,7 @@ class UserControllerTest extends WebTestCase
         $fixture->setEmail('My Title');
         $fixture->setRoles(['Value']);
         $fixture->setPassword('My Title');
-        $fixture->setBadgeId($badge);
+        $fixture->setBadge($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -88,7 +88,7 @@ class UserControllerTest extends WebTestCase
         $fixture->setEmail('Value');
         $fixture->setRoles(['Value']);
         $fixture->setPassword('Value');
-        $fixture->setBadgeId($badge);
+        $fixture->setBadge($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -99,7 +99,7 @@ class UserControllerTest extends WebTestCase
             'user[email]' => 'Something New',
             'user[roles]' => 'Something New',
             'user[password]' => 'Something New',
-            'user[badge_id]' => 'Something New',
+            'user[badge]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/user/');
@@ -109,7 +109,7 @@ class UserControllerTest extends WebTestCase
         self::assertSame('Something New', $fixture[0]->getEmail());
         self::assertSame('Something New', $fixture[0]->getRoles());
         self::assertSame('Something New', $fixture[0]->getPassword());
-        self::assertSame('Something New', $fixture[0]->getBadge_id());
+        self::assertSame('Something New', $fixture[0]->getBadge());
     }
 
     public function testRemove(): void
@@ -121,7 +121,7 @@ class UserControllerTest extends WebTestCase
         $fixture->setEmail('Value');
         $fixture->setRoles(['Value']);
         $fixture->setPassword('Value');
-        $fixture->setBadgeId($badge);
+        $fixture->setBadge($badge);
 
         $this->manager->persist($fixture);
         $this->manager->flush();

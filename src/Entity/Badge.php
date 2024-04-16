@@ -16,7 +16,7 @@ class Badge
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(inversedBy: 'badge_id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'badge', cascade: ['persist', 'remove'])]
     private ?User $user_id = null;
 
     public function getId(): ?int
