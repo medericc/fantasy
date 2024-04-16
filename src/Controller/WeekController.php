@@ -53,7 +53,7 @@ class WeekController extends AbstractController
     public function show(Week $week, TeamRepository $teamRepository): Response
     {
        
-        $teams = $teamRepository->findBy(['league' => $week->getLeagueId()]);
+        $teams = $teamRepository->findBy(['league' => $week->getLeague()]);
 
         return $this->render('week/show.html.twig', [
             'teams' => $teams,

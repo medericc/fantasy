@@ -64,7 +64,7 @@ class ChoiceType extends AbstractType
     }
 
     private function addTeamField(FormInterface $form, ?Week $week) : void{
-        $league =  $week?->getLeagueId();
+        $league =  $week?->getLeague();
         $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
             'team', 
             EntityType::class,

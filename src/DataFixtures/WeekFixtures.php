@@ -29,12 +29,12 @@ class WeekFixtures extends Fixture
             $week->setName($item['name']);
 
            
-            $league = $manager->getRepository(League::class)->find($item['league_id']);
+            $league = $manager->getRepository(League::class)->find($item['league']);
             if (!$league) {
-                throw new \Exception('League with id ' . $item['league_id'] . ' not found.');
+                throw new \Exception('League with id ' . $item['league'] . ' not found.');
             }
 
-            $week->setLeagueId($league);
+            $week->setLeague($league);
 
             $manager->persist($week);
         }

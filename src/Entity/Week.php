@@ -84,12 +84,12 @@ class Week
         return $this;
     }
 
-    public function getLeagueId(): ?League
+    public function getLeague(): ?League
     {
         return $this->league;
     }
 
-    public function setLeagueId(?League $league): static
+    public function setLeague(?League $league): static
     {
         $this->league = $league;
 

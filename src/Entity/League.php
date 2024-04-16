@@ -21,7 +21,7 @@ class League
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'league')]
     private Collection $teams;
 
-    #[ORM\OneToMany(targetEntity: Week::class, mappedBy: 'league_id')]
+    #[ORM\OneToMany(targetEntity: Week::class, mappedBy: 'league')]
     private Collection $weeks;
 
     public function __construct()
@@ -96,7 +96,7 @@ class League
     {
         if (!$this->weeks->contains($week)) {
             $this->weeks->add($week);
-            $week->setLeagueId($this);
+            $week->setLeague($this);
         }
 
         return $this;
@@ -106,8 +106,8 @@ class League
     {
         if ($this->weeks->removeElement($week)) {
             // set the owning side to null (unless already changed)
-            if ($week->getLeagueId() === $this) {
-                $week->setLeagueId(null);
+            if ($week->getLeague() === $this) {
+                $week->setLeague(null);
             }
         }
 
