@@ -6,9 +6,6 @@ use App\Entity\Choice;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\Week;
-use App\Repository\LeagueRepository;
-use App\Repository\TeamRepository;
-use App\Repository\WeekRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,12 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChoiceType extends AbstractType
 {
-    private $weekRepository;
-
-    public function __construct( WeekRepository $weekRepository)
-    {
-        $this->weekRepository = $weekRepository;
-    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -44,9 +35,7 @@ class ChoiceType extends AbstractType
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) {
                 $form = $event->getForm();
-                $data = $event->getData();
-                $week = $this->weekRepository->findOneBy(['id' => $data]);
-                $this->addTeamField($form->getParent(), $week);
+                $this->addTeamField($form->getParent(), $form->getData());
             });
 
         $builder->addEventListener(
