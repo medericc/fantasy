@@ -17,7 +17,7 @@ class Badge
     private ?string $name = null;
 
     #[ORM\OneToOne(inversedBy: 'badge', cascade: ['persist', 'remove'])]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class Badge
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
