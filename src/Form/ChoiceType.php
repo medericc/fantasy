@@ -20,9 +20,10 @@ class ChoiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('week_id', EntityType::class, [
+            ->add('week', EntityType::class, [
                 'class' => Week::class,
                 'choice_label' => 'id',
+                'placeholder' => 'Selectionner une semaine',
             ])
 
             ->add('save', SubmitType::class, [
@@ -31,7 +32,7 @@ class ChoiceType extends AbstractType
             
         ;
 
-        $builder->get('week_id')->addEventListener(
+        $builder->get('week')->addEventListener(
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) {
                 $form = $event->getForm();

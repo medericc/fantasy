@@ -16,7 +16,7 @@ class Choice
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Week $week_id = null;
+    private ?Week $week = null;
 
     #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'choice')]
     private Collection $players;
@@ -31,14 +31,14 @@ class Choice
         return $this->id;
     }
 
-    public function getWeekId(): ?Week
+    public function getWeek(): ?Week
     {
-        return $this->week_id;
+        return $this->week;
     }
 
-    public function setWeekId(?Week $week_id): static
+    public function setWeek(?Week $week): static
     {
-        $this->week_id = $week_id;
+        $this->week = $week;
 
         return $this;
     }
