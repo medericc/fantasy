@@ -20,14 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChoiceType extends AbstractType
 {
-    private $leagueRepository;
-    private $teamRepository;
     private $weekRepository;
 
-    public function __construct(LeagueRepository $leagueRepository, TeamRepository $teamRepository, WeekRepository $weekRepository)
+    public function __construct( WeekRepository $weekRepository)
     {
-        $this->leagueRepository = $leagueRepository;
-        $this->teamRepository = $teamRepository;
         $this->weekRepository = $weekRepository;
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -50,7 +46,6 @@ class ChoiceType extends AbstractType
                 $form = $event->getForm();
                 $data = $event->getData();
                 $week = $this->weekRepository->findOneBy(['id' => $data]);
-                
                 $this->addTeamField($form->getParent(), $week);
             });
 
@@ -58,7 +53,7 @@ class ChoiceType extends AbstractType
             FormEvents::POST_SET_DATA,
             function(FormEvent $event) {
                 $data = $event->getData();
-                /* @var $players Players */ 
+                /* @var $players Player */
                 $players = $data->getPlayers();
                 // ca doit retourner null au debut et faire la suite du else
                 
@@ -78,14 +73,8 @@ class ChoiceType extends AbstractType
             });
     }
 
-    private function addTeamField(FormInterface $form, ?Week $week){
-        $league = null;
-        if ($week) {
-            $league = $this->leagueRepository->findBy(['id' => $week->getLeagueId()]);
-        } 
-
-        
-
+    private function addTeamField(FormInterface $form, ?Week $week) : void{
+        $league =  $week?->getLeagueId();
         $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
             'team', 
             EntityType::class,
@@ -96,8 +85,8 @@ class ChoiceType extends AbstractType
                 // 'placeholder' => $region ? 'Selectionner le département' : 'Selectionner une région',
                 'required' => false,
                 'auto_initialize' => false,
-                'choices' => $week ? $this->teamRepository->findBy(['league' => $league]) : [],
-                'disabled' => $week ? false : true
+                'choices' => $league?->getTeams() ?? [],
+                'disabled' => !$week
             ]
         );
 
@@ -111,7 +100,7 @@ class ChoiceType extends AbstractType
         $form->add($builder->getForm());
     }
 
-    private function addPlayerField(FormInterface $form, ?Team $team) {
+    private function addPlayerField(FormInterface $form, ?Team $team): void{
         $form->add('players', EntityType::class, [
             'class' => Player::class,
             'choice_label' => 'id',
@@ -121,7 +110,7 @@ class ChoiceType extends AbstractType
     }
 
 
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'question_choice';
     }
