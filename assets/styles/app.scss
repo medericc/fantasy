@@ -1,6 +1,13 @@
 $primary: #0074d9;
 $danger: #ff4136;
 @import "~bootstrap/scss/bootstrap";
-// body {
-// background-color: skyblue;
-// }
+body {
+background-color: skyblue;
+
+    .footer {
+        background-color: $primary;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+}

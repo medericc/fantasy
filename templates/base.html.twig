@@ -14,7 +14,9 @@
         {% endblock %}
     </head>
     <body class='container' >
+        {% include "_partials/_header.html.twig" %}
         {% block body %}{% endblock %}
+        {% include "_partials/_footer.html.twig" %}
     </body>
     {% set name  = "TESTNAME" %}
 <div {{ react_component('Hello', { 'fullName': name }) }}>

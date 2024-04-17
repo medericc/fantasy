@@ -22,4 +22,9 @@ class WeekType extends AbstractType
             'data_class' => Week::class,
         ]);
     }
+
+    public function getBlockPrefix()
+{
+    return "custom_week_type";
+}
 }
