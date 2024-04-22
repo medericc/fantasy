@@ -1,67 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block body %}
-<div class="container mt-5 mb-5"> 
-    <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LFB</h1>
-                    <h2>PTS SEMAINE</h2>
-                </div>
-                <div>
-                    <h2>RANKING SEMAINE</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LF2</h1>
-                    <h2>PTS SEMAINE</h2>
-                </div>
-                <div>
-                    <h2>RANKING SEMAINE</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>Dashboard</h1>
+    <h2>Matches for Week {{ weekId }}</h2>
 
-    <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LFB</h1>
-                    <h2>PTS SAISON</h2>
-                </div>
-                <div>
-                    <h2>RANKING SAISON</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LF2</h1>
-                    <h2>PTS SAISON</h2>
-                </div>
-                <div>
-                    <h2>RANKING SAISON</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% if weekId > 22 %}
+        <h3>LF2 Matches</h3>
+        <ul>
+            {% for match in matchesLF2 %}
+                <li>Match Day: {{ match.match_day }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-    <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <h1>5 MAJEUR</h1>
-                <div><h2>LFB</h2></div>
-                <div><h2>LF2</h2></div>
-            </div>
-        </div>
-    </div>
-</div>
+    {% if weekId <= 22 %}
+        <h3>LFB Matches</h3>
+        <ul>
+            {% for match in matchesLFB %}
+                <li>Match Day: {{ match.match_day }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
