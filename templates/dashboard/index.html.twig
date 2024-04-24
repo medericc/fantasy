@@ -10,7 +10,11 @@
         <h3>LF2 Matches</h3>
         <ul>
             {% for match in matchesLF2 %}
-                <li>Match Day: {{ weekId }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
+                <li>
+                    Match Day: {{ weekId }} | 
+                    <a href="{{ path('app_team_show', {'id': match.home_team_id}) }}">Home Team ID: {{ match.home_team_id }}</a> | 
+                    <a href="{{ path('app_team_show', {'id': match.away_team_id}) }}">Away Team ID: {{ match.away_team_id }}</a>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -19,8 +23,19 @@
         <h3>LFB Matches</h3>
         <ul>
             {% for match in matchesLFB %}
-                <li>Match Day: {{ match.match_day }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
+                <li>
+                    Match Day: {{ match.match_day }} | 
+                    <a href="{{ path('app_team_show', {'id': match.home_team_id}) }}">Home Team ID: {{ match.home_team_id }}</a> | 
+                    <a href="{{ path('app_team_show', {'id': match.away_team_id}) }}">Away Team ID: {{ match.away_team_id }}</a>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
+    {% block deck %}
+    <div>
+        <h3>DECK</h3>
+       
+    </div>
+{% endblock %}
+
 {% endblock %}

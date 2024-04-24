@@ -15,13 +15,16 @@
     </head>
     <body class='container' >
         {% include "_partials/_header.html.twig" %}
+    {% set name  = "TESTNAME" %}
+    {% set lastName  = "LASTNAME" %}
+    {% set number  = "01234" %}
+        <div {{ react_component('Hello', { 'fullName': name, 'lastName': lastName, 'number': number }) }}>
+                    Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
+            </div> 
         {% block body %}{% endblock %}
         {% include "_partials/_footer.html.twig" %}
     </body>
-    {% set name  = "TESTNAME" %}
-<div {{ react_component('Hello', { 'fullName': name }) }}>
-        Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
-    </div> (modifié)
-[00:13]
+
+
 
 </html>
