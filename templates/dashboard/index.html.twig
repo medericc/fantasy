@@ -10,7 +10,7 @@
         <h3>LF2 Matches</h3>
         <ul>
             {% for match in matchesLF2 %}
-                <li>Match Day: {{ match.match_day }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
+                <li>Match Day: {{ weekId }} | Home Team ID: {{ match.home_team_id }} | Away Team ID: {{ match.away_team_id }}</li>
             {% endfor %}
         </ul>
     {% endif %}

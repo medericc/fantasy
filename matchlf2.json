@@ -1,1 +1,186 @@
-[ [ { "home_team_id": 13, "away_team_id": 24, "match_day": 23 }, { "home_team_id": 14, "away_team_id": 23, "match_day": 23 }, { "home_team_id": 15, "away_team_id": 22, "match_day": 23 }, { "home_team_id": 16, "away_team_id": 21, "match_day": 23 }, { "home_team_id": 17, "away_team_id": 20, "match_day": 23 }, { "home_team_id": 18, "away_team_id": 19, "match_day": 23 } ], [ { "home_team_id": 14, "away_team_id": 13, "match_day": 24 }, { "home_team_id": 15, "away_team_id": 24, "match_day": 24 }, { "home_team_id": 16, "away_team_id": 23, "match_day": 24 }, { "home_team_id": 17, "away_team_id": 22, "match_day": 24 }, { "home_team_id": 18, "away_team_id": 21, "match_day": 24 }, { "home_team_id": 19, "away_team_id": 20, "match_day": 24 } ], [ { "home_team_id": 15, "away_team_id": 14, "match_day": 25 }, { "home_team_id": 16, "away_team_id": 13, "match_day": 25 }, { "home_team_id": 17, "away_team_id": 24, "match_day": 25 }, { "home_team_id": 18, "away_team_id": 23, "match_day": 25 }, { "home_team_id": 19, "away_team_id": 22, "match_day": 25 }, { "home_team_id": 20, "away_team_id": 21, "match_day": 25 } ], [ { "home_team_id": 16, "away_team_id": 15, "match_day": 26 }, { "home_team_id": 17, "away_team_id": 14, "match_day": 26 }, { "home_team_id": 18, "away_team_id": 13, "match_day": 26 }, { "home_team_id": 19, "away_team_id": 24, "match_day": 26 }, { "home_team_id": 20, "away_team_id": 23, "match_day": 26 }, { "home_team_id": 21, "away_team_id": 22, "match_day": 26 } ], [ { "home_team_id": 17, "away_team_id": 16, "match_day": 27 }, { "home_team_id": 18, "away_team_id": 15, "match_day": 27 }, { "home_team_id": 19, "away_team_id": 14, "match_day": 27 }, { "home_team_id": 20, "away_team_id": 13, "match_day": 27 }, { "home_team_id": 21, "away_team_id": 24, "match_day": 27 }, { "home_team_id": 22, "away_team_id": 23, "match_day": 27 } ], [ { "home_team_id": 18, "away_team_id": 17, "match_day": 28 }, { "home_team_id": 19, "away_team_id": 16, "match_day": 28 }, { "home_team_id": 20, "away_team_id": 15, "match_day": 28 }, { "home_team_id": 21, "away_team_id": 14, "match_day": 28 }, { "home_team_id": 22, "away_team_id": 13, "match_day": 28 }, { "home_team_id": 23, "away_team_id": 24, "match_day": 28 } ], [ { "home_team_id": 19, "away_team_id": 18, "match_day": 29 }, { "home_team_id": 20, "away_team_id": 17, "match_day": 29 }, { "home_team_id": 21, "away_team_id": 16, "match_day": 29 }, { "home_team_id": 22, "away_team_id": 15, "match_day": 29 }, { "home_team_id": 23, "away_team_id": 14, "match_day": 29 }, { "home_team_id": 24, "away_team_id": 13, "match_day": 29 } ], [ { "home_team_id": 20, "away_team_id": 19, "match_day": 30 }, { "home_team_id": 21, "away_team_id": 18, "match_day": 30 }, { "home_team_id": 22, "away_team_id": 17, "match_day": 30 }, { "home_team_id": 23, "away_team_id": 16, "match_day": 30 }, { "home_team_id": 24, "away_team_id": 15, "match_day": 30 }, { "home_team_id": 13, "away_team_id": 14, "match_day": 30 } ], [ { "home_team_id": 21, "away_team_id": 20, "match_day": 31 }, { "home_team_id": 22, "away_team_id": 19, "match_day": 31 }, { "home_team_id": 23, "away_team_id": 18, "match_day": 31 }, { "home_team_id": 24, "away_team_id": 17, "match_day": 31 }, { "home_team_id": 13, "away_team_id": 16, "match_day": 31 }, { "home_team_id": 14, "away_team_id": 15, "match_day": 31 } ], [ { "home_team_id": 22, "away_team_id": 21, "match_day": 32 }, { "home_team_id": 23, "away_team_id": 20, "match_day": 32 }, { "home_team_id": 24, "away_team_id": 19, "match_day": 32 }, { "home_team_id": 13, "away_team_id": 18, "match_day": 32 }, { "home_team_id": 14, "away_team_id": 17, "match_day": 32 }, { "home_team_id": 15, "away_team_id": 16, "match_day": 32 } ], [ { "home_team_id": 23, "away_team_id": 22, "match_day": 33 }, { "home_team_id": 24, "away_team_id": 21, "match_day": 33 }, { "home_team_id": 13, "away_team_id": 20, "match_day": 33 }, { "home_team_id": 14, "away_team_id": 19, "match_day": 33 }, { "home_team_id": 15, "away_team_id": 18, "match_day": 33 }, { "home_team_id": 16, "away_team_id": 17, "match_day": 33 } ], [ { "home_team_id": 24, "away_team_id": 23, "match_day": 34 }, { "home_team_id": 13, "away_team_id": 22, "match_day": 34 }, { "home_team_id": 14, "away_team_id": 21, "match_day": 34 }, { "home_team_id": 15, "away_team_id": 20, "match_day": 34 }, { "home_team_id": 16, "away_team_id": 19, "match_day": 34 }, { "home_team_id": 17, "away_team_id": 18, "match_day": 34 } ], [ { "home_team_id": 24, "away_team_id": 13, "match_day": 35 }, { "home_team_id": 23, "away_team_id": 14, "match_day": 35 }, { "home_team_id": 22, "away_team_id": 15, "match_day": 35 }, { "home_team_id": 21, "away_team_id": 16, "match_day": 35 }, { "home_team_id": 20, "away_team_id": 17, "match_day": 35 }, { "home_team_id": 19, "away_team_id": 18, "match_day": 35 } ], [ { "home_team_id": 13, "away_team_id": 14, "match_day": 36 }, { "home_team_id": 24, "away_team_id": 15, "match_day": 36 }, { "home_team_id": 23, "away_team_id": 16, "match_day": 36 }, { "home_team_id": 22, "away_team_id": 17, "match_day": 36 }, { "home_team_id": 21, "away_team_id": 18, "match_day": 36 }, { "home_team_id": 20, "away_team_id": 19, "match_day": 36 } ], [ { "home_team_id": 14, "away_team_id": 15, "match_day": 37 }, { "home_team_id": 13, "away_team_id": 16, "match_day": 37 }, { "home_team_id": 24, "away_team_id": 17, "match_day": 37 }, { "home_team_id": 23, "away_team_id": 18, "match_day": 37 }, { "home_team_id": 22, "away_team_id": 19, "match_day": 37 }, { "home_team_id": 21, "away_team_id": 20, "match_day": 37 } ], [ { "home_team_id": 15, "away_team_id": 16, "match_day": 38 }, { "home_team_id": 14, "away_team_id": 17, "match_day": 38 }, { "home_team_id": 13, "away_team_id": 18, "match_day": 38 }, { "home_team_id": 24, "away_team_id": 19, "match_day": 38 }, { "home_team_id": 23, "away_team_id": 20, "match_day": 38 }, { "home_team_id": 22, "away_team_id": 21, "match_day": 38 } ], [ { "home_team_id": 16, "away_team_id": 17, "match_day": 39 }, { "home_team_id": 15, "away_team_id": 18, "match_day": 39 }, { "home_team_id": 14, "away_team_id": 19, "match_day": 39 }, { "home_team_id": 13, "away_team_id": 20, "match_day": 39 }, { "home_team_id": 24, "away_team_id": 21, "match_day": 39 }, { "home_team_id": 23, "away_team_id": 22, "match_day": 39 } ], [ { "home_team_id": 17, "away_team_id": 18, "match_day": 40 }, { "home_team_id": 16, "away_team_id": 19, "match_day": 40 }, { "home_team_id": 15, "away_team_id": 20, "match_day": 40 }, { "home_team_id": 14, "away_team_id": 21, "match_day": 40 }, { "home_team_id": 13, "away_team_id": 22, "match_day": 40 }, { "home_team_id": 24, "away_team_id": 23, "match_day": 40 } ], [ { "home_team_id": 18, "away_team_id": 19, "match_day": 41 }, { "home_team_id": 17, "away_team_id": 20, "match_day": 41 }, { "home_team_id": 16, "away_team_id": 21, "match_day": 41 }, { "home_team_id": 15, "away_team_id": 22, "match_day": 41 }, { "home_team_id": 14, "away_team_id": 23, "match_day": 41 }, { "home_team_id": 13, "away_team_id": 24, "match_day": 41 } ], [ { "home_team_id": 19, "away_team_id": 20, "match_day": 42 }, { "home_team_id": 18, "away_team_id": 21, "match_day": 42 }, { "home_team_id": 17, "away_team_id": 22, "match_day": 42 }, { "home_team_id": 16, "away_team_id": 23, "match_day": 42 }, { "home_team_id": 15, "away_team_id": 24, "match_day": 42 }, { "home_team_id": 14, "away_team_id": 13, "match_day": 42 } ], [ { "home_team_id": 20, "away_team_id": 21, "match_day": 43 }, { "home_team_id": 19, "away_team_id": 22, "match_day": 43 }, { "home_team_id": 18, "away_team_id": 23, "match_day": 43 }, { "home_team_id": 17, "away_team_id": 24, "match_day": 43 }, { "home_team_id": 16, "away_team_id": 13, "match_day": 43 }, { "home_team_id": 15, "away_team_id": 14, "match_day": 43 } ], [ { "home_team_id": 21, "away_team_id": 22, "match_day": 44 }, { "home_team_id": 20, "away_team_id": 23, "match_day": 44 }, { "home_team_id": 19, "away_team_id": 24, "match_day": 44 }, { "home_team_id": 18, "away_team_id": 13, "match_day": 44 }, { "home_team_id": 17, "away_team_id": 14, "match_day": 44 }, { "home_team_id": 16, "away_team_id": 15, "match_day": 44 } ], [ { "home_team_id": 22, "away_team_id": 23, "match_day": 45 }, { "home_team_id": 21, "away_team_id": 24, "match_day": 45 }, { "home_team_id": 20, "away_team_id": 13, "match_day": 45 }, { "home_team_id": 19, "away_team_id": 14, "match_day": 45 }, { "home_team_id": 18, "away_team_id": 15, "match_day": 45 }, { "home_team_id": 17, "away_team_id": 16, "match_day": 45 } ] ]
+{ 
+    "23": [ 
+        { "home_team_id": 13, "away_team_id": 24 }, 
+        { "home_team_id": 14, "away_team_id": 23 }, 
+        { "home_team_id": 15, "away_team_id": 22 }, 
+        { "home_team_id": 16, "away_team_id": 21 }, 
+        { "home_team_id": 17, "away_team_id": 20 }, 
+        { "home_team_id": 18, "away_team_id": 19 } 
+        ], 
+    "24": [ 
+        { "home_team_id": 14, "away_team_id": 13 }, 
+        { "home_team_id": 15, "away_team_id": 24 }, 
+        { "home_team_id": 16, "away_team_id": 23 }, 
+        { "home_team_id": 17, "away_team_id": 22 }, 
+        { "home_team_id": 18, "away_team_id": 21 }, 
+        { "home_team_id": 19, "away_team_id": 20 } 
+        ], 
+    "25": [ 
+        { "home_team_id": 15, "away_team_id": 14 }, 
+        { "home_team_id": 16, "away_team_id": 13 }, 
+        { "home_team_id": 17, "away_team_id": 24 }, 
+        { "home_team_id": 18, "away_team_id": 23 }, 
+        { "home_team_id": 19, "away_team_id": 22 }, 
+        { "home_team_id": 20, "away_team_id": 21 } 
+        ],
+    "26": [ 
+        { "home_team_id": 16, "away_team_id": 15 }, 
+        { "home_team_id": 17, "away_team_id": 14 }, 
+        { "home_team_id": 18, "away_team_id": 13 }, 
+        { "home_team_id": 19, "away_team_id": 24 }, 
+        { "home_team_id": 20, "away_team_id": 23 }, 
+        { "home_team_id": 21, "away_team_id": 22 } 
+        ], 
+    "27": [ 
+        { "home_team_id": 17, "away_team_id": 16 }, 
+        { "home_team_id": 18, "away_team_id": 15 }, 
+        { "home_team_id": 19, "away_team_id": 14 }, 
+        { "home_team_id": 20, "away_team_id": 13 }, 
+        { "home_team_id": 21, "away_team_id": 24 }, 
+        { "home_team_id": 22, "away_team_id": 23 } 
+    ], 
+    "28":[ 
+        { "home_team_id": 18, "away_team_id": 17 }, 
+        { "home_team_id": 19, "away_team_id": 16 }, 
+        { "home_team_id": 20, "away_team_id": 15 }, 
+        { "home_team_id": 21, "away_team_id": 14 }, 
+        { "home_team_id": 22, "away_team_id": 13 }, 
+        { "home_team_id": 23, "away_team_id": 24 } 
+    ], 
+    "29":[ 
+        { "home_team_id": 19, "away_team_id": 18 }, 
+        { "home_team_id": 20, "away_team_id": 17 }, 
+        { "home_team_id": 21, "away_team_id": 16 }, 
+        { "home_team_id": 22, "away_team_id": 15 }, 
+        { "home_team_id": 23, "away_team_id": 14 }, 
+        { "home_team_id": 24, "away_team_id": 13 } 
+    ], 
+    "30": [ 
+        { "home_team_id": 20, "away_team_id": 19 }, 
+        { "home_team_id": 21, "away_team_id": 18 }, 
+        { "home_team_id": 22, "away_team_id": 17 }, 
+        { "home_team_id": 23, "away_team_id": 16 }, 
+        { "home_team_id": 24, "away_team_id": 15 }, 
+        { "home_team_id": 13, "away_team_id": 14 } 
+    ], 
+    "31": [ 
+        { "home_team_id": 21, "away_team_id": 20 }, 
+        { "home_team_id": 22, "away_team_id": 19 }, 
+        { "home_team_id": 23, "away_team_id": 18 }, 
+        { "home_team_id": 24, "away_team_id": 17 }, 
+        { "home_team_id": 13, "away_team_id": 16 }, 
+        { "home_team_id": 14, "away_team_id": 15 } 
+    ], 
+    "32": [ 
+        { "home_team_id": 22, "away_team_id": 21 }, 
+        { "home_team_id": 23, "away_team_id": 20 }, 
+        { "home_team_id": 24, "away_team_id": 19 }, 
+        { "home_team_id": 13, "away_team_id": 18 }, 
+        { "home_team_id": 14, "away_team_id": 17 }, 
+        { "home_team_id": 15, "away_team_id": 16 } 
+    ], 
+    "33": [ 
+        { "home_team_id": 23, "away_team_id": 22 }, 
+        { "home_team_id": 24, "away_team_id": 21 }, 
+        { "home_team_id": 13, "away_team_id": 20 }, 
+        { "home_team_id": 14, "away_team_id": 19 }, 
+        { "home_team_id": 15, "away_team_id": 18 }, 
+        { "home_team_id": 16, "away_team_id": 17 } 
+    ], 
+    "34": [ 
+        { "home_team_id": 24, "away_team_id": 23 }, 
+        { "home_team_id": 13, "away_team_id": 22 }, 
+        { "home_team_id": 14, "away_team_id": 21 }, 
+        { "home_team_id": 15, "away_team_id": 20 }, 
+        { "home_team_id": 16, "away_team_id": 19 }, 
+        { "home_team_id": 17, "away_team_id": 18 } 
+    ], 
+    "35": [ 
+        { "home_team_id": 24, "away_team_id": 13 }, 
+        { "home_team_id": 23, "away_team_id": 14 }, 
+        { "home_team_id": 22, "away_team_id": 15 }, 
+        { "home_team_id": 21, "away_team_id": 16 }, 
+        { "home_team_id": 20, "away_team_id": 17 }, 
+        { "home_team_id": 19, "away_team_id": 18 } 
+    ], 
+    "36": [ 
+        { "home_team_id": 13, "away_team_id": 14 }, 
+        { "home_team_id": 24, "away_team_id": 15 }, 
+        { "home_team_id": 23, "away_team_id": 16 }, 
+        { "home_team_id": 22, "away_team_id": 17 }, 
+        { "home_team_id": 21, "away_team_id": 18 }, 
+        { "home_team_id": 20, "away_team_id": 19 } 
+    ], 
+    "37": [ 
+        { "home_team_id": 14, "away_team_id": 15 }, 
+        { "home_team_id": 13, "away_team_id": 16 }, 
+        { "home_team_id": 24, "away_team_id": 17 }, 
+        { "home_team_id": 23, "away_team_id": 18 }, 
+        { "home_team_id": 22, "away_team_id": 19 }, 
+        { "home_team_id": 21, "away_team_id": 20 } 
+    ], 
+    "38": [ 
+        { "home_team_id": 15, "away_team_id": 16 }, 
+        { "home_team_id": 14, "away_team_id": 17 }, 
+        { "home_team_id": 13, "away_team_id": 18 }, 
+        { "home_team_id": 24, "away_team_id": 19 }, 
+        { "home_team_id": 23, "away_team_id": 20 }, 
+        { "home_team_id": 22, "away_team_id": 21 } 
+    ], 
+    "39": [ 
+        { "home_team_id": 16, "away_team_id": 17 }, 
+        { "home_team_id": 15, "away_team_id": 18 }, 
+        { "home_team_id": 14, "away_team_id": 19 }, 
+        { "home_team_id": 13, "away_team_id": 20 }, 
+        { "home_team_id": 24, "away_team_id": 21 }, 
+        { "home_team_id": 23, "away_team_id": 22 } 
+    ], 
+    "40": [ 
+        { "home_team_id": 17, "away_team_id": 18 }, 
+        { "home_team_id": 16, "away_team_id": 19 }, 
+        { "home_team_id": 15, "away_team_id": 20 }, 
+        { "home_team_id": 14, "away_team_id": 21 }, 
+        { "home_team_id": 13, "away_team_id": 22 }, 
+        { "home_team_id": 24, "away_team_id": 23 } 
+    ], 
+    "41": [ 
+        { "home_team_id": 18, "away_team_id": 19 }, 
+        { "home_team_id": 17, "away_team_id": 20 }, 
+        { "home_team_id": 16, "away_team_id": 21 }, 
+        { "home_team_id": 15, "away_team_id": 22 }, 
+        { "home_team_id": 14, "away_team_id": 23 }, 
+        { "home_team_id": 13, "away_team_id": 24 } 
+    ], 
+    "42": [ 
+        { "home_team_id": 19, "away_team_id": 20 }, 
+        { "home_team_id": 18, "away_team_id": 21 }, 
+        { "home_team_id": 17, "away_team_id": 22 }, 
+        { "home_team_id": 16, "away_team_id": 23 }, 
+        { "home_team_id": 15, "away_team_id": 24 }, 
+        { "home_team_id": 14, "away_team_id": 13 } 
+    ], 
+    "43": [ 
+        { "home_team_id": 20, "away_team_id": 21 }, 
+        { "home_team_id": 19, "away_team_id": 22 }, 
+        { "home_team_id": 18, "away_team_id": 23 }, 
+        { "home_team_id": 17, "away_team_id": 24 }, 
+        { "home_team_id": 16, "away_team_id": 13 }, 
+        { "home_team_id": 15, "away_team_id": 14 } 
+    ], 
+    "44": [ 
+        { "home_team_id": 21, "away_team_id": 22 }, 
+        { "home_team_id": 20, "away_team_id": 23 }, 
+        { "home_team_id": 19, "away_team_id": 24 }, 
+        { "home_team_id": 18, "away_team_id": 13 }, 
+        { "home_team_id": 17, "away_team_id": 14 }, 
+        { "home_team_id": 16, "away_team_id": 15 } 
+    ], 
+    "45": [ 
+        { "home_team_id": 22, "away_team_id": 23 }, 
+        { "home_team_id": 21, "away_team_id": 24 }, 
+        { "home_team_id": 20, "away_team_id": 13 }, 
+        { "home_team_id": 19, "away_team_id": 14 }, 
+        { "home_team_id": 18, "away_team_id": 15 }, 
+        { "home_team_id": 17, "away_team_id": 16 } 
+    ]
+}
