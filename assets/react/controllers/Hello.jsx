@@ -1,5 +1,12 @@
 import React from 'react';
 
 export default function (props) {
-    return <div>Hello {props.fullName}</div>;
+
+    const {fullName, lastName, number} = props;
+
+    return   <>
+                <div>Hello {fullName}</div>
+                <div>NOM {lastName}</div>
+                <div>NUMERO {number}</div>
+            </>
 }
