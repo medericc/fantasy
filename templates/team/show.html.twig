@@ -12,6 +12,7 @@
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Note</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@
                     <td>{{ player.forename }}</td>
                     <td>{{ player.name }}</td>
                     <td>{{ player.rate }}</td>
+                    <td>
+                        <button class="btn btn-primary">Ajouter</button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

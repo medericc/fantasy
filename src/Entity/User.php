@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,6 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Badge $badge = null;
+
+    #[ORM\OneToMany(targetEntity: Choice::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $choices;
+
+    public function __construct()
+    {
+        $this->choices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,6 +139,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->badge = $badge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Choice>
+     */
+    public function getChoices(): Collection
+    {
+        return $this->choices;
+    }
+
+    public function addChoice(Choice $choice): static
+    {
+        if (!$this->choices->contains($choice)) {
+            $this->choices->add($choice);
+            $choice->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChoice(Choice $choice): static
+    {
+        if ($this->choices->removeElement($choice)) {
+            // set the owning side to null (unless already changed)
+            if ($choice->getUser() === $this) {
+                $choice->setUser(null);
+            }
+        }
 
         return $this;
     }

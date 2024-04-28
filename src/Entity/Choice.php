@@ -21,6 +21,10 @@ class Choice
     #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'choice')]
     private Collection $players;
 
+    #[ORM\ManyToOne(inversedBy: 'choices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -66,6 +70,18 @@ class Choice
         if ($this->players->removeElement($player)) {
             $player->removeChoice($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

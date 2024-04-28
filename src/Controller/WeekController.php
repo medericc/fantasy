@@ -6,6 +6,7 @@ use App\Entity\Choice;
 use App\Entity\Week;
 use App\Form\ChoiceType;
 use App\Form\WeekType;
+use App\Repository\ChoiceRepository;
 use App\Repository\TeamRepository;
 use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -90,14 +91,42 @@ class WeekController extends AbstractController
     }
 
     #[Route('/choice', name: 'app_week_choice', methods: ['GET', 'POST'])]
-    public function makeChoice(Request $request, EntityManagerInterface $entityManager): Response
+    public function makeChoice(Request $request, EntityManagerInterface $entityManager, ChoiceRepository $choiceRepository): Response
     {
         $choice = new Choice();
         $form = $this->createForm(ChoiceType::class, $choice);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+            $choice->setUser($this->getUser());
+
+          
+            $entityManager->persist($choice);
+
+           
+            $entityManager->flush();
+
+            $this->savePlayerChoice($entityManager, $choice);
+
+
+           
+            return $this->redirectToRoute('app_week_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('week/choice.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+
+    private function savePlayerChoice(EntityManagerInterface $entityManager, Choice $choice): void
+    {
+        $players = $choice->getPlayers();
+        foreach ($players as $player) {
+            $player->addChoice($choice);
+            $entityManager->persist($player);
+        }
+        $entityManager->flush();
+    }
+    
 }
