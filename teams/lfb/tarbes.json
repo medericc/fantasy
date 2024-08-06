@@ -1,0 +1,36 @@
+{
+    "team_id": 1,
+    "players": [
+      {
+        "forename": "Lena",
+        "name": "Monasse"
+      
+      },
+      {
+        "forename": "Nancy",
+        "name": "Fora"
+      
+      },
+      {
+        "forename": "Camille",
+        "name": "Droguet"
+      
+      },
+      {
+        "forename": "Serena",
+        "name": "Kessler"
+      
+      },
+      {
+        "forename": "Jess-mine",
+        "name": "Zodia"
+      
+      },
+      {
+        "forename": "Musa",
+        "name": "Murjanatu"
+     
+      }
+    ]
+  }
+  

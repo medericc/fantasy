@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-               
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Note</th>
@@ -18,16 +17,85 @@
         <tbody>
             {% for player in players %}
                 <tr>
-                   
                     <td>{{ player.forename }}</td>
                     <td>{{ player.name }}</td>
                     <td>{{ player.rate }}</td>
                     <td>
-                        <button class="btn btn-primary">Ajouter</button>
+                        <button class="btn btn-primary add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
+    <!-- Modal -->
+    <div class="modal fade" id="playerModal" tabindex="-1" aria-labelledby="playerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playerModalLabel">Ajouter des joueurs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="playerForm">
+                        <div id="selectedPlayers"></div>
+                        <button type="button" class="btn btn-primary" id="savePlayers">OK</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let selectedPlayers = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const addPlayerButtons = document.querySelectorAll('.add-player-btn');
+            const playerModal = new bootstrap.Modal(document.getElementById('playerModal'));
+            const selectedPlayersDiv = document.getElementById('selectedPlayers');
+
+            addPlayerButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const playerId = this.getAttribute('data-player-id');
+                    const playerForename = this.getAttribute('data-player-forename');
+                    const playerName = this.getAttribute('data-player-name');
+
+                    selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
+                    updateSelectedPlayers();
+
+                    playerModal.show();
+                });
+            });
+
+            document.getElementById('savePlayers').addEventListener('click', function () {
+                $.ajax({
+                    url: "{{ path('app_player_save_ajax') }}",
+                    type: "POST",
+                    data: JSON.stringify({ players: selectedPlayers }),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('Players saved successfully!');
+                        selectedPlayers = [];
+                        updateSelectedPlayers();
+                        playerModal.hide();
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An error occurred while saving players: ' + error);
+                    }
+                });
+            });
+
+            function updateSelectedPlayers() {
+                selectedPlayersDiv.innerHTML = '';
+                selectedPlayers.forEach(player => {
+                    const playerElement = document.createElement('div');
+                    playerElement.textContent = `${player.forename} ${player.name}`;
+                    selectedPlayersDiv.appendChild(playerElement);
+                });
+            }
+        });
+    </script>
 {% endblock %}

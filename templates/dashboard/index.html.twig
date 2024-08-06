@@ -31,11 +31,30 @@
             {% endfor %}
         </ul>
     {% endif %}
+
     {% block deck %}
     <div>
         <h3>DECK</h3>
-       
+        <ul id="deckPlayers">
+            {% for player in selectedPlayers %}
+                <li>{{ player.forename }} {{ player.name }}</li>
+            {% endfor %}
+        </ul>
     </div>
+    {% endblock %}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Assuming you have a way to get the selected players from the server
+        const selectedPlayers = {{ selectedPlayers|json_encode|raw }};
+
+        const deckPlayersUl = document.getElementById('deckPlayers');
+        selectedPlayers.forEach(player => {
+            const li = document.createElement('li');
+            li.textContent = `${player.forename} ${player.name}`;
+            deckPlayersUl.appendChild(li);
+        });
+    </script>
 {% endblock %}

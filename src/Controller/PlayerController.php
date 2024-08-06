@@ -9,7 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/player')]
 class PlayerController extends AbstractController
@@ -79,11 +80,35 @@ class PlayerController extends AbstractController
     #[Route('/{id}', name: 'app_player_delete', methods: ['POST'])]
     public function delete(Request $request, Player $player, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->request->get('_token'))) {
             $entityManager->remove($player);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/save-players', name: 'app_player_save_ajax', methods: ['POST'])]
+    public function savePlayers(Request $request, PlayerRepository $playerRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $savedPlayers = [];
+
+        foreach ($data['players'] as $playerData) {
+            $player = $playerRepository->find($playerData['id']);
+            if ($player) {
+                $savedPlayers[] = [
+                    'id' => $player->getId(),
+                    'forename' => $player->getForename(),
+                    'name' => $player->getName(),
+                ];
+                // Si vous avez besoin de persister d'autres entités ou de mettre à jour des champs, vous pouvez le faire ici
+            }
+        }
+
+        // Si vous avez des entités à persister ou à mettre à jour, faites-le ici et appelez $entityManager->flush()
+        // $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success', 'players' => $savedPlayers]);
     }
 }
