@@ -1,20 +1,21 @@
 <?php
+
 namespace App\Controller;
 
 use App\Repository\PlayerRepository;
+use App\Repository\WeekRepository;
 use App\Service\WeekService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-    public function __construct(private readonly WeekService $weekService){}
+    public function __construct(private readonly WeekService $weekService) {}
 
     #[Route('/dashboard/week/{id}', name: 'app_dashboard_id', methods: ['GET'])]
-    public function index(int $id, PlayerRepository $playerRepository): Response
+    public function index(int $id, PlayerRepository $playerRepository, WeekRepository $weekRepository): Response
     {
         $matchesLFB = json_decode(file_get_contents('../matchlfb.json'), true);
         $matchesLF2 = json_decode(file_get_contents('../matchlf2.json'), true);
@@ -27,11 +28,18 @@ class DashboardController extends AbstractController
             $matchesLF2Filtered = $matchesLF2[$id];
         }
 
-        // Récupérer les joueurs sélectionnés
-        $selectedPlayers = $playerRepository->findBy(['selected' => true, 'weekId' => $id]);
+        // Retrieve the week entity
+        $week = $weekRepository->find($id);
+        if (!$week) {
+            throw $this->createNotFoundException('Week not found');
+        }
+
+        // Get the selected players for the week
+        $selectedPlayers = $playerRepository->findBy(['selected' => true, 'week' => $week]);
 
         return $this->render('dashboard/index.html.twig', [
-            'weekId' => $id,
+            'weekId' => $id, // Pass the weekId to the template
+            'week' => $week, // Ensure the 'week' variable is passed to the template
             'matchesLF2' => $matchesLF2Filtered,
             'matchesLFB' => $matchesLFBFiltered,
             'selectedPlayers' => $selectedPlayers

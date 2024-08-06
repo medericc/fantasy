@@ -23,7 +23,7 @@ class PlayerRepository extends ServiceEntityRepository
     /**
      * @return Player[] Returns an array of Player objects
      */
-    public function findByField($field, $value): array
+    public function findByField(string $field, $value): array
     {
         return $this->createQueryBuilder('p')
             ->andWhere("p.{$field} = :val")

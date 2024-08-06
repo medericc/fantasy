@@ -1,4 +1,6 @@
 <?php
+// src/Entity/Player.php
+
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
@@ -32,6 +34,10 @@ class Player
     #[ORM\Column(type: 'boolean')]
     private bool $selected = false;
 
+    #[ORM\ManyToOne(targetEntity: Week::class, inversedBy: 'players')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Week $week = null;
+
     public function __construct()
     {
         $this->choice = new ArrayCollection();
@@ -50,7 +56,6 @@ class Player
     public function setForename(?string $forename): static
     {
         $this->forename = $forename;
-
         return $this;
     }
 
@@ -62,7 +67,6 @@ class Player
     public function setName(?string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -74,7 +78,6 @@ class Player
     public function setRate(?float $rate): static
     {
         $this->rate = $rate;
-
         return $this;
     }
 
@@ -86,13 +89,9 @@ class Player
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Choice>
-     */
     public function getChoice(): Collection
     {
         return $this->choice;
@@ -122,7 +121,18 @@ class Player
     public function setSelected(bool $selected): static
     {
         $this->selected = $selected;
+        return $this;
+    }
 
+    public function getWeek(): ?Week
+    {
+        return $this->week;
+    }
+
+    public function setWeek(?Week $week): static
+    {
+        $this->week = $week;
         return $this;
     }
 }
+

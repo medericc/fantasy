@@ -1,10 +1,12 @@
 <?php
+// src/Controller/PlayerController.php
 
 namespace App\Controller;
 
 use App\Entity\Player;
 use App\Form\PlayerType;
 use App\Repository\PlayerRepository;
+use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +82,7 @@ class PlayerController extends AbstractController
     #[Route('/{id}', name: 'app_player_delete', methods: ['POST'])]
     public function delete(Request $request, Player $player, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $player->getId(), $request->request->get('_token'))) {
             $entityManager->remove($player);
             $entityManager->flush();
         }
@@ -89,18 +91,27 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/save-players', name: 'app_player_save_ajax', methods: ['POST'])]
-    public function savePlayers(Request $request, PlayerRepository $playerRepository, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function savePlayers(
+        Request $request,
+        PlayerRepository $playerRepository,
+        WeekRepository $weekRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
         $savedPlayers = [];
-    
+
         foreach ($data['players'] as $playerData) {
             $player = $playerRepository->find($playerData['id']);
             if ($player) {
-                $player->setSelected(true); // Assurez-vous que ce champ existe dans votre entité Player
-                $player->setWeekId($playerData['weekId']); // Ajoutez un champ pour la semaine si ce n'est pas déjà fait
+                $player->setSelected(true);
+
+                $week = $weekRepository->find($playerData['weekId']);
+                if ($week) {
+                    $player->setWeek($week);
+                }
+
                 $entityManager->persist($player);
-    
+
                 $savedPlayers[] = [
                     'id' => $player->getId(),
                     'forename' => $player->getForename(),
@@ -108,9 +119,9 @@ class PlayerController extends AbstractController
                 ];
             }
         }
-    
+
         $entityManager->flush();
-    
+
         return new JsonResponse(['status' => 'success', 'players' => $savedPlayers]);
     }
 }

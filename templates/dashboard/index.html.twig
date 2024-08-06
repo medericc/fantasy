@@ -4,14 +4,14 @@
 
 {% block body %}
     <h1>Dashboard</h1>
-    <h2>Matches for Week {{ weekId }}</h2>
+    <h2>Matches for Week {{ week.id }}</h2>
 
-    {% if weekId > 22 %}
+    {% if week.id > 22 %}
         <h3>LF2 Matches</h3>
         <ul>
             {% for match in matchesLF2 %}
                 <li>
-                    Match Day: {{ weekId }} | 
+                    Match Day: {{ week.id }} | 
                     <a href="{{ path('app_team_show', {'id': match.home_team_id}) }}">Home Team ID: {{ match.home_team_id }}</a> | 
                     <a href="{{ path('app_team_show', {'id': match.away_team_id}) }}">Away Team ID: {{ match.away_team_id }}</a>
                 </li>
@@ -19,7 +19,7 @@
         </ul>
     {% endif %}
 
-    {% if weekId <= 22 %}
+    {% if week.id <= 22 %}
         <h3>LFB Matches</h3>
         <ul>
             {% for match in matchesLFB %}
@@ -33,15 +33,14 @@
     {% endif %}
 
     {% block deck %}
-  <div>
-    <h3>DECK</h3>
-    <ul id="deckPlayers">
-        {% for player in selectedPlayers %}
-            <li>{{ player.forename }} {{ player.name }}</li>
-        {% endfor %}
-    </ul>
-</div>
-
+        <div>
+            <h3>DECK</h3>
+            <ul id="deckPlayers">
+                {% for player in selectedPlayers %}
+                    <li>{{ player.forename }} {{ player.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endblock %}
 {% endblock %}
 

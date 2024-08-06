@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Controller;
 
-use App\Entity\Player;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
@@ -10,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/team')]
 class TeamController extends AbstractController
@@ -43,45 +41,28 @@ class TeamController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
     #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
-    public function show(Team $team): Response
+    public function show(Team $team, Request $request): Response
     {
-        
+        $weekId = $request->query->get('weekId');
         $players = $team->getPlayers();
-    
+
         return $this->render('team/show.html.twig', [
             'team' => $team,
             'players' => $players,
+            'weekId' => $weekId, // Pass weekId to the template
         ]);
     }
-    
-
-
-
-
-
-
-
-
-
-
 
     #[Route('/players/{id}', name: 'app_team_players', methods: ['GET'])]
-    public function showPlayers(Team $team): Response
+    public function showPlayers(Team $team, Request $request): Response
     {
-
+        $weekId = $request->query->get('weekId');
         dd($team->getPlayers());
 
-        
         return $this->render('team/show.html.twig', [
             'team' => $team,
+            'weekId' => $weekId, // Pass weekId to the template
         ]);
     }
 
@@ -106,7 +87,7 @@ class TeamController extends AbstractController
     #[Route('/delete/{id}', name: 'app_team_delete', methods: ['POST'])]
     public function delete(Request $request, Team $team, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->get('_token'))) {
             $entityManager->remove($team);
             $entityManager->flush();
         }

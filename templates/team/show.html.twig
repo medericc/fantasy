@@ -50,57 +50,47 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-       document.addEventListener('DOMContentLoaded', function () {
-    console.log("DOM fully loaded and parsed");
-    let selectedPlayers = [];
-    let currentWeekId = {{ weekId }}; // Assurez-vous que `weekId` est défini dans le contexte Twig
+        $(document).ready(function () {
+            let selectedPlayers = [];
+            const playerModal = new bootstrap.Modal(document.getElementById('playerModal'));
+            const selectedPlayersDiv = $('#selectedPlayers');
 
-    const addPlayerButtons = document.querySelectorAll('.add-player-btn');
-    const playerModal = new bootstrap.Modal(document.getElementById('playerModal'));
-    const selectedPlayersDiv = document.getElementById('selectedPlayers');
+            $('.add-player-btn').on('click', function () {
+                const playerId = $(this).data('player-id');
+                const playerForename = $(this).data('player-forename');
+                const playerName = $(this).data('player-name');
 
-    addPlayerButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const playerId = this.getAttribute('data-player-id');
-            const playerForename = this.getAttribute('data-player-forename');
-            const playerName = this.getAttribute('data-player-name');
+                selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
+                updateSelectedPlayers();
+                playerModal.show();
+            });
 
-            selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName, weekId: currentWeekId });
-            updateSelectedPlayers();
+            $('#savePlayers').on('click', function () {
+                fetch("{{ path('app_player_save_ajax') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ players: selectedPlayers }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Players saved successfully!');
+                    selectedPlayers = [];
+                    updateSelectedPlayers();
+                    playerModal.hide();
+                })
+                .catch(error => {
+                    alert('An error occurred while saving players: ' + error);
+                });
+            });
 
-            playerModal.show();
+            function updateSelectedPlayers() {
+                selectedPlayersDiv.empty();
+                selectedPlayers.forEach(player => {
+                    selectedPlayersDiv.append(`<div>${player.forename} ${player.name}</div>`);
+                });
+            }
         });
-    });
-
-    document.getElementById('savePlayers').addEventListener('click', function () {
-        fetch("{{ path('app_player_save_ajax') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ players: selectedPlayers }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Players saved successfully!');
-            selectedPlayers = [];
-            updateSelectedPlayers();
-            playerModal.hide();
-        })
-        .catch(error => {
-            alert('An error occurred while saving players: ' + error);
-        });
-    });
-
-    function updateSelectedPlayers() {
-        selectedPlayersDiv.innerHTML = '';
-        selectedPlayers.forEach(player => {
-            const playerElement = document.createElement('div');
-            playerElement.textContent = `${player.forename} ${player.name}`;
-            selectedPlayersDiv.appendChild(playerElement);
-        });
-    }
-});
-
     </script>
 {% endblock %}

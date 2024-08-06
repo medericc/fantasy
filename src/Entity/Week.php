@@ -25,9 +25,13 @@ class Week
     #[ORM\JoinColumn(nullable: false)]
     private ?League $league = null;
 
+    #[ORM\OneToMany(mappedBy: 'week', targetEntity: Player::class)]
+    private Collection $players;
+
     public function __construct()
     {
         $this->game_week = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -38,7 +42,6 @@ class Week
     public function setId(int $id): static
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -50,7 +53,6 @@ class Week
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -68,7 +70,6 @@ class Week
             $this->game_week->add($gameWeek);
             $gameWeek->setWeek($this);
         }
-
         return $this;
     }
 
@@ -80,7 +81,6 @@ class Week
                 $gameWeek->setWeek(null);
             }
         }
-
         return $this;
     }
 
@@ -92,7 +92,34 @@ class Week
     public function setLeague(?League $league): static
     {
         $this->league = $league;
+        return $this;
+    }
 
+    /**
+     * @return Collection<int, Player>
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): static
+    {
+        if (!$this->players->contains($player)) {
+            $this->players->add($player);
+            $player->setWeek($this);
+        }
+        return $this;
+    }
+
+    public function removePlayer(Player $player): static
+    {
+        if ($this->players->removeElement($player)) {
+            // set the owning side to null (unless already changed)
+            if ($player->getWeek() === $this) {
+                $player->setWeek(null);
+            }
+        }
         return $this;
     }
 }
