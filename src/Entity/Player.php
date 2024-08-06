@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
@@ -29,6 +28,9 @@ class Player
 
     #[ORM\ManyToMany(targetEntity: Choice::class, inversedBy: 'players')]
     private Collection $choice;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $selected = false;
 
     public function __construct()
     {
@@ -108,6 +110,18 @@ class Player
     public function removeChoice(Choice $choice): static
     {
         $this->choice->removeElement($choice);
+
+        return $this;
+    }
+
+    public function isSelected(): bool
+    {
+        return $this->selected;
+    }
+
+    public function setSelected(bool $selected): static
+    {
+        $this->selected = $selected;
 
         return $this;
     }

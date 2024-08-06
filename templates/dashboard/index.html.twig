@@ -47,7 +47,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        // Assuming you have a way to get the selected players from the server
         const selectedPlayers = {{ selectedPlayers|json_encode|raw }};
 
         const deckPlayersUl = document.getElementById('deckPlayers');
