@@ -5,6 +5,7 @@ use App\Repository\PlayerRepository;
 use App\Service\WeekService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,7 +28,7 @@ class DashboardController extends AbstractController
         }
 
         // Récupérer les joueurs sélectionnés
-        $selectedPlayers = $playerRepository->findBy(['selected' => true]);
+        $selectedPlayers = $playerRepository->findBy(['selected' => true, 'weekId' => $id]);
 
         return $this->render('dashboard/index.html.twig', [
             'weekId' => $id,

@@ -93,22 +93,24 @@ class PlayerController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $savedPlayers = [];
-
+    
         foreach ($data['players'] as $playerData) {
             $player = $playerRepository->find($playerData['id']);
             if ($player) {
+                $player->setSelected(true); // Assurez-vous que ce champ existe dans votre entité Player
+                $player->setWeekId($playerData['weekId']); // Ajoutez un champ pour la semaine si ce n'est pas déjà fait
+                $entityManager->persist($player);
+    
                 $savedPlayers[] = [
                     'id' => $player->getId(),
                     'forename' => $player->getForename(),
                     'name' => $player->getName(),
                 ];
-                // Si vous avez besoin de persister d'autres entités ou de mettre à jour des champs, vous pouvez le faire ici
             }
         }
-
-        // Si vous avez des entités à persister ou à mettre à jour, faites-le ici et appelez $entityManager->flush()
-        // $entityManager->flush();
-
+    
+        $entityManager->flush();
+    
         return new JsonResponse(['status' => 'success', 'players' => $savedPlayers]);
     }
 }

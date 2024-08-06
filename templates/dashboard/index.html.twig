@@ -33,14 +33,15 @@
     {% endif %}
 
     {% block deck %}
-    <div>
-        <h3>DECK</h3>
-        <ul id="deckPlayers">
-            {% for player in selectedPlayers %}
-                <li>{{ player.forename }} {{ player.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+  <div>
+    <h3>DECK</h3>
+    <ul id="deckPlayers">
+        {% for player in selectedPlayers %}
+            <li>{{ player.forename }} {{ player.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
     {% endblock %}
 {% endblock %}
 
