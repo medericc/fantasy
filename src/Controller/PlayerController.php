@@ -1,6 +1,10 @@
 <?php
 // src/Controller/PlayerController.php
 
+// src/Controller/PlayerController.php
+
+// src/Controller/PlayerController.php
+
 namespace App\Controller;
 
 use App\Entity\Player;
@@ -100,14 +104,20 @@ class PlayerController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $savedPlayers = [];
 
+        if ($data === null) {
+            return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
+        }
+
         foreach ($data['players'] as $playerData) {
             $player = $playerRepository->find($playerData['id']);
             if ($player) {
                 $player->setSelected(true);
 
-                $week = $weekRepository->find($playerData['weekId']);
-                if ($week) {
-                    $player->setWeek($week);
+                if (isset($playerData['weekId'])) {
+                    $week = $weekRepository->find($playerData['weekId']);
+                    if ($week) {
+                        $player->setWeek($week);
+                    }
                 }
 
                 $entityManager->persist($player);

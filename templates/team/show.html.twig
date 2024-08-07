@@ -34,7 +34,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="playerModalLabel">Ajouter des joueurs</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="closeModalButton" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="playerForm">
@@ -46,22 +46,27 @@
         </div>
     </div>
 {% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     <script>
         $(document).ready(function () {
             let selectedPlayers = [];
-            const playerModal = new bootstrap.Modal(document.getElementById('playerModal'));
+            const playerModalElement = document.getElementById('playerModal');
+            const playerModal = new bootstrap.Modal(playerModalElement);
             const selectedPlayersDiv = $('#selectedPlayers');
+            const closeModalButton = $('#closeModalButton');
 
             $('.add-player-btn').on('click', function () {
                 const playerId = $(this).data('player-id');
                 const playerForename = $(this).data('player-forename');
                 const playerName = $(this).data('player-name');
 
-                selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
-                updateSelectedPlayers();
+                if (!isPlayerSelected(playerId)) {
+                    selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
+                    updateSelectedPlayers();
+                } else {
+                    alert('Le joueur est déjà sélectionné.');
+                }
                 playerModal.show();
             });
 
@@ -73,17 +78,34 @@
                     },
                     body: JSON.stringify({ players: selectedPlayers }),
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    alert('Players saved successfully!');
-                    selectedPlayers = [];
-                    updateSelectedPlayers();
-                    playerModal.hide();
+                    if (data.status === 'success') {
+                        alert('Players saved successfully!');
+                        selectedPlayers = [];
+                        updateSelectedPlayers();
+                        playerModal.hide();
+                    } else {
+                        alert('An error occurred: ' + data.message);
+                    }
                 })
                 .catch(error => {
-                    alert('An error occurred while saving players: ' + error);
+                    alert('An error occurred while saving players: ' + error.message);
                 });
             });
+
+            closeModalButton.on('click', function () {
+                playerModal.hide();
+            });
+
+            function isPlayerSelected(playerId) {
+                return selectedPlayers.some(player => player.id === playerId);
+            }
 
             function updateSelectedPlayers() {
                 selectedPlayersDiv.empty();
