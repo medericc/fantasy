@@ -7,6 +7,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Choice;
 use App\Entity\Player;
 use App\Form\PlayerType;
 use App\Repository\PlayerRepository;
@@ -93,7 +94,6 @@ class PlayerController extends AbstractController
 
         return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
     }
-
     #[Route('/save-players', name: 'app_player_save_ajax', methods: ['POST'])]
     public function savePlayers(
         Request $request,
@@ -111,16 +111,16 @@ class PlayerController extends AbstractController
         foreach ($data['players'] as $playerData) {
             $player = $playerRepository->find($playerData['id']);
             if ($player) {
-                $player->setSelected(true);
+                $choice = new Choice();
+                $choice->setUser($this->getUser());
 
-                if (isset($playerData['weekId'])) {
-                    $week = $weekRepository->find($playerData['weekId']);
-                    if ($week) {
-                        $player->setWeek($week);
-                    }
+                $week = $weekRepository->find($playerData['weekId'] ?? null);
+                if ($week) {
+                    $choice->setWeek($week);
                 }
 
-                $entityManager->persist($player);
+                $choice->addPlayer($player);
+                $entityManager->persist($choice);
 
                 $savedPlayers[] = [
                     'id' => $player->getId(),
