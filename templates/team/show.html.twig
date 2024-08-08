@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Team{% endblock %}
+{% block title %}Team: {{ team.name }}{% endblock %}
 
 {% block body %}
-    <h1>Team</h1>
+    <h1>Team: {{ team.name }}</h1>
 
+    <h2>Players in the Team</h2>
     <table class="table">
         <thead>
             <tr>
@@ -15,13 +16,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for player in players %}
+            {% for player in team.players %}
                 <tr>
                     <td>{{ player.forename }}</td>
                     <td>{{ player.name }}</td>
                     <td>{{ player.rate }}</td>
                     <td>
-                        <button class="btn btn-primary add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
+                        <button type="button" class="btn btn-primary add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
                     </td>
                 </tr>
             {% endfor %}
@@ -33,14 +34,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="playerModalLabel">Ajouter des joueurs</h5>
+                    <h5 class="modal-title" id="playerModalLabel">Joueurs Sélectionnés</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="playerForm">
-                        <div id="selectedPlayers"></div>
-                        <button type="button" class="btn btn-primary" id="savePlayers">OK</button>
-                    </form>
+                    <div id="selectedPlayers"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="savePlayers">OK</button>
                 </div>
             </div>
         </div>
@@ -56,6 +57,7 @@
             const playerModal = new bootstrap.Modal(playerModalElement);
             const selectedPlayersDiv = $('#selectedPlayers');
 
+            // On button click, add the player to the selectedPlayers list and update the modal
             $('.add-player-btn').on('click', function () {
                 const playerId = $(this).data('player-id');
                 const playerForename = $(this).data('player-forename');
@@ -70,39 +72,31 @@
                 }
             });
 
+            // On OK button click, send the selected players to the server via AJAX
             $('#savePlayers').on('click', function () {
-                fetch("{{ path('app_player_save_ajax') }}", {
+                fetch("{{ path('app_team_save_players') }}", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ players: selectedPlayers }),
                 })
-                .then(response => {
-                    console.log(response);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('Players saved successfully!');
+                        alert('Joueurs ajoutés avec succès !');
                         selectedPlayers = [];
                         updateSelectedPlayers();
                         playerModal.hide();
+                        location.reload();  // Reload the page to show the updated player list
                     } else {
-                        alert('An error occurred: ' + data.message);
+                        alert('Une erreur est survenue : ' + data.message);
                     }
                 })
                 .catch(error => {
-                    alert('An error occurred while saving players: ' + error.message);
-               console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de l\'ajout des joueurs : ' + error.message);
+                    console.error('Erreur:', error);
                 });
-            });
-
-            $(document).on('click', '.btn-close', function () {
-                playerModal.hide();
             });
 
             function isPlayerSelected(playerId) {
