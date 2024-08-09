@@ -21,28 +21,29 @@ class ChoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Choice::class);
     }
 
-//    /**
-//     * @return Choice[] Returns an array of Choice objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Choice
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Finds recent choices for a player within the last X weeks.
+     *
+     * @param int $playerId
+     * @param int $currentWeekId
+     * @param int $blockWeeks
+     * @param int $userId
+     *
+     * @return Choice[] Returns an array of Choice objects
+     */
+    public function findRecentChoicesForPlayer(int $playerId, int $currentWeekId, int $blockWeeks, int $userId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.week', 'w')
+            ->where('c.player = :playerId')
+            ->andWhere('c.user = :userId')
+            ->andWhere('w.id >= :weekStart')
+            ->andWhere('w.id < :currentWeekId')
+            ->setParameter('playerId', $playerId)
+            ->setParameter('userId', $userId)
+            ->setParameter('weekStart', $currentWeekId - $blockWeeks)
+            ->setParameter('currentWeekId', $currentWeekId)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -28,98 +28,72 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <!-- Modal -->
-    <div class="modal fade" id="playerModal" tabindex="-1" aria-labelledby="playerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="playerModalLabel">Joueurs Sélectionnés</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="selectedPlayers"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="savePlayers">OK</button>
-                </div>
-            </div>
-        </div>
+      <div>
+        <h3>DECK</h3>
+        <ul id="deckPlayers">
+            {% for player in selectedPlayers %}
+                <li>
+                    {{ player.forename }} {{ player.name }}
+                    <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}')">Supprimer</button>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-$(document).ready(function () {
-    let selectedPlayers = [];
-    const playerModalElement = document.getElementById('playerModal');
-    const playerModal = new bootstrap.Modal(playerModalElement);
-    const selectedPlayersDiv = $('#selectedPlayers');
-    const weekId = new URLSearchParams(window.location.search).get('weekId');
+        $(document).ready(function () {
+            const weekId = new URLSearchParams(window.location.search).get('weekId');
 
-    $('.add-player-btn').on('click', function () {
-        const playerId = $(this).data('player-id');
-        const playerForename = $(this).data('player-forename');
-        const playerName = $(this).data('player-name');
+            $('.add-player-btn').on('click', function () {
+                const playerId = $(this).data('player-id');
+                const playerForename = $(this).data('player-forename');
+                const playerName = $(this).data('player-name');
 
-        if (selectedPlayers.length >= 5) {
-            alert('Vous ne pouvez pas sélectionner plus de 5 joueurs.');
-            return;
-        }
-
-        if (!isPlayerSelected(playerId)) {
-            selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
-            updateSelectedPlayers();
-            playerModal.show();
-        } else {
-            alert('Le joueur est déjà sélectionné.');
-        }
-    });
-
-    $('#savePlayers').on('click', function () {
-        if (selectedPlayers.length > 5) {
-            alert('Vous ne pouvez pas sélectionner plus de 5 joueurs.');
-            return;
-        }
-
-        fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ players: selectedPlayers }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Joueurs sauvegardés avec succès!');
-                selectedPlayers = [];
-                updateSelectedPlayers();
-                playerModal.hide();
-                location.reload();
-            } else {
-                alert('Erreur: ' + data.message);
+                fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ players: [{ id: playerId, forename: playerForename, name: playerName }] }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(playerForename + ' ' + playerName + ' a été ajouté avec succès!');
+                        location.reload(); // Recharger la page pour mettre à jour la liste des joueurs
+                    } else {
+                        alert('Erreur: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Erreur: ' + error.message);
+                    console.error('Erreur:', error);
+                });
+            });
+        });
+          function confirmDelete(playerId, playerName) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ' + playerName + ' du DECK ?')) {
+                fetch(`/dashboard/delete-player/${playerId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token('delete-player') }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert(playerName + ' a été supprimé du DECK.');
+                        location.reload(); // Recharger la page pour refléter les modifications
+                    } else {
+                        alert('Une erreur s\'est produite lors de la suppression de ' + playerName);
+                    }
+                })
+                .catch(error => {
+                    alert('Erreur : ' + error.message);
+                });
             }
-        })
-        .catch(error => {
-            alert('Erreur: ' + error.message);
-            console.error('Erreur:', error);
-        });
-    });
-
-    function isPlayerSelected(playerId) {
-        return selectedPlayers.some(player => player.id === playerId);
-    }
-
-    function updateSelectedPlayers() {
-        selectedPlayersDiv.empty();
-        selectedPlayers.forEach(player => {
-            selectedPlayersDiv.append(`<div>${player.forename} ${player.name}</div>`);
-        });
-    }
-});
-
-
+        }
     </script>
 {% endblock %}

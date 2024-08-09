@@ -1,9 +1,14 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Choice;
+
+use App\Entity\User;
+
 use App\Entity\Team;
 use App\Form\TeamType;
+use App\Repository\ChoiceRepository;
 use App\Repository\TeamRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\WeekRepository;
@@ -46,18 +51,35 @@ class TeamController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
-    public function show(Team $team, PlayerRepository $playerRepository, Request $request): Response
-    {
+    public function show(
+        Team $team,
+        PlayerRepository $playerRepository,
+        Request $request,
+        ChoiceRepository $choiceRepository,
+        WeekRepository $weekRepository
+    ): Response {
         $weekId = $request->query->get('weekId');
-        $players = $playerRepository->findAll();
-    
+        $week = $weekRepository->find($weekId);
+
+        if (!$week) {
+            throw $this->createNotFoundException('Week not found');
+        }
+
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException('User not found');
+        }
+
+        $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
+        $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
+
         return $this->render('team/show.html.twig', [
             'team' => $team,
-            'players' => $players,
+            'players' => $playerRepository->findAll(),
+            'selectedPlayers' => $selectedPlayers,
             'weekId' => $weekId,
         ]);
     }
-    
 
     #[Route('/edit/{id}', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, EntityManagerInterface $entityManager): Response
@@ -89,76 +111,73 @@ class TeamController extends AbstractController
     }
 
     #[Route('/save-players', name: 'app_team_save_players', methods: ['POST'])]
-    public function savePlayers(
-        Request $request,
-        PlayerRepository $playerRepository,
-        WeekRepository $weekRepository,
-        EntityManagerInterface $entityManager
-    ): JsonResponse {
-        try {
-            $data = json_decode($request->getContent(), true);
-    
-            if ($data === null) {
-                return new JsonResponse(['status' => 'error', 'message' => 'JSON invalide'], 400);
-            }
-    
-            // Récupération de l'utilisateur et de la semaine
-            $weekId = $request->query->get('weekId');
-            if (!$weekId) {
-                return new JsonResponse(['status' => 'error', 'message' => 'L\'ID de la semaine est requis'], 400);
-            }
-    
-            $week = $weekRepository->find($weekId);
-            if (!$week) {
-                return new JsonResponse(['status' => 'error', 'message' => 'ID de la semaine invalide'], 400);
-            }
-    
-            $user = $this->getUser();
-    
-            // Récupérer les choix existants de l'utilisateur pour cette semaine
-            $existingChoices = $entityManager->getRepository(Choice::class)->findBy([
-                'week' => $week,
-                'user' => $user,
-            ]);
-    
-            $existingPlayerIds = array_map(function($choice) {
-                return $choice->getPlayer()->getId();
-            }, $existingChoices);
-    
-            // Vérification du nombre de joueurs sélectionnés au total
-            $totalPlayersSelected = count($existingPlayerIds) + count($data['players']);
-            if ($totalPlayersSelected > 5) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Vous ne pouvez pas sélectionner plus de 5 joueurs au total'], 400);
-            }
-    
-            foreach ($data['players'] as $playerData) {
-                $playerId = $playerData['id'];
-    
-                // Vérification si le joueur est déjà sélectionné
-                if (in_array($playerId, $existingPlayerIds)) {
-                    return new JsonResponse(['status' => 'error', 'message' => 'Le joueur ' . $playerData['forename'] . ' ' . $playerData['name'] . ' a déjà été sélectionné pour cette semaine'], 400);
-                }
-    
-                // Ajouter le choix pour ce joueur
-                $player = $playerRepository->find($playerId);
-                if ($player) {
-                    $choice = new Choice();
-                    $choice->setUser($user);
-                    $choice->setWeek($week);
-                    $choice->setPlayer($player);
-                    $entityManager->persist($choice);
-                }
-            }
-    
-            $entityManager->flush();
-    
-            return new JsonResponse(['status' => 'success', 'message' => 'Joueurs sauvegardés avec succès']);
-    
-        } catch (\Exception $e) {
-            return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
+public function savePlayers(
+    Request $request,
+    PlayerRepository $playerRepository,
+    WeekRepository $weekRepository,
+    ChoiceRepository $choiceRepository,
+    EntityManagerInterface $entityManager
+): JsonResponse {
+    try {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data === null) {
+            return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
         }
+
+        $weekId = $request->query->get('weekId');
+        if (!$weekId) {
+            return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
+        }
+
+        $week = $weekRepository->find($weekId);
+        if (!$week) {
+            return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse(['status' => 'error', 'message' => 'User not authenticated'], 401);
+        }
+
+        $existingChoices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
+        $existingPlayerIds = array_map(fn($choice) => $choice->getPlayer()->getId(), $existingChoices);
+
+        $totalPlayersSelected = count($existingPlayerIds) + count($data['players']);
+        if ($totalPlayersSelected > 5) {
+            return new JsonResponse(['status' => 'error', 'message' => 'You cannot select more than 5 players in total'], 400);
+        }
+
+        foreach ($data['players'] as $playerData) {
+            $playerId = $playerData['id'];
+
+            if (in_array($playerId, $existingPlayerIds)) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' has already been selected for this week'], 400);
+            }
+
+            $recentChoices = $choiceRepository->findRecentChoicesForPlayer($playerId, $week->getId(), 5, $user->getId());
+            if (!empty($recentChoices)) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' is blocked for the next 5 weeks.']);
+            }
+
+            $player = $playerRepository->find($playerId);
+            if ($player) {
+                $choice = new Choice();
+                $choice->setUser($user);
+                $choice->setWeek($week);
+                $choice->setPlayer($player);
+                $entityManager->persist($choice);
+            }
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success', 'message' => 'Players successfully saved']);
+
+    } catch (\Exception $e) {
+        return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
-    
-    
-    
+}
+
 }

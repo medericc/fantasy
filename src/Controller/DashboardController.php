@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Choice;
 use App\Repository\ChoiceRepository;
-use App\Repository\PlayerRepository;
 use App\Repository\WeekRepository;
 use App\Service\WeekService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,21 +14,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-    public function __construct(private readonly WeekService $weekService) {}
+    private $weekService;
+    private $entityManager;
+
+    public function __construct(WeekService $weekService, EntityManagerInterface $entityManager)
+    {
+        $this->weekService = $weekService;
+        $this->entityManager = $entityManager;
+    }
 
     #[Route('/dashboard/week/{id}', name: 'app_dashboard_id', methods: ['GET'])]
-    public function index(int $id, PlayerRepository $playerRepository, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
+    public function index(int $id, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
     {
-        $matchesLFB = json_decode(file_get_contents('../matchlfb.json'), true);
-        $matchesLF2 = json_decode(file_get_contents('../matchlf2.json'), true);
+        // Load match data from JSON files
+        $matchesLFB = json_decode(file_get_contents($this->getParameter('kernel.project_dir') . '/matchlfb.json'), true);
+        $matchesLF2 = json_decode(file_get_contents($this->getParameter('kernel.project_dir') . '/matchlf2.json'), true);
 
-        $matchesLFBFiltered = [];
-        $matchesLF2Filtered = [];
-        if ($id <= 22) {
-            $matchesLFBFiltered = $matchesLFB[$id];
-        } else {
-            $matchesLF2Filtered = $matchesLF2[$id];
-        }
+        // Filter matches based on week ID
+        $matchesLFBFiltered = $id <= 22 ? $matchesLFB[$id] ?? [] : [];
+        $matchesLF2Filtered = $id > 22 ? $matchesLF2[$id] ?? [] : [];
 
         // Retrieve the week entity
         $week = $weekRepository->find($id);
@@ -38,17 +42,14 @@ class DashboardController extends AbstractController
 
         // Get the selected players for the specific week from the Choice table
         $choices = $choiceRepository->findBy(['week' => $week]);
-        $selectedPlayers = [];
-        foreach ($choices as $choice) {
-            $selectedPlayers[] = $choice->getPlayer();
-        }
+        $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
 
         return $this->render('dashboard/index.html.twig', [
-            'weekId' => $id, // Pass the weekId to the template
-            'week' => $week, // Ensure the 'week' variable is passed to the template
+            'weekId' => $id,
+            'week' => $week,
             'matchesLF2' => $matchesLF2Filtered,
             'matchesLFB' => $matchesLFBFiltered,
-            'selectedPlayers' => $selectedPlayers // Pass selected players to the template
+            'selectedPlayers' => $selectedPlayers,
         ]);
     }
 
@@ -57,13 +58,26 @@ class DashboardController extends AbstractController
     {
         $session = $request->getSession();
         $weeksData = $this->weekService->getWeeksData();
-        $weeksLF2 = $weeksData['weeksLF2'];
-        $weeksLFB = $weeksData['weeksLFB'];
-        $session->set('weeksLFB', $weeksLFB);
-        $session->set('weeksLF2', $weeksLF2);
+        $session->set('weeksLFB', $weeksData['weeksLFB']);
+        $session->set('weeksLF2', $weeksData['weeksLF2']);
 
         return $this->render('dashboard/show.html.twig', [
-            'controller_name' => 'DashboardController'
+            'controller_name' => 'DashboardController',
         ]);
+    }
+
+    #[Route('/dashboard/delete-player/{id}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
+    public function deletePlayer(int $id, ChoiceRepository $choiceRepository): Response
+    {
+        $choice = $choiceRepository->find($id);
+        if (!$choice) {
+            return new Response('Player not found in the DECK.', Response::HTTP_NOT_FOUND);
+        }
+
+        // Remove the player from the Choice table
+        $this->entityManager->remove($choice);
+        $this->entityManager->flush();
+
+        return new Response('Player successfully removed from the DECK.', Response::HTTP_OK);
     }
 }
