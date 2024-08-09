@@ -67,25 +67,28 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/delete-player/{id}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
-    public function deletePlayer(int $id, ChoiceRepository $choiceRepository): Response
+    #[Route('/dashboard/delete-player/{weekId}/{playerId}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
+    public function deletePlayer(int $weekId, int $playerId, ChoiceRepository $choiceRepository): Response
     {
         try {
-            // Récupérer l'entité Choice correspondante
-            $choice = $choiceRepository->find($id);
+            // Find the Choice entity by player and week
+            $choice = $choiceRepository->findOneBy(['player' => $playerId, 'week' => $weekId]);
+    
             if (!$choice) {
-                return new Response('Player not found in the DECK.', Response::HTTP_NOT_FOUND);
+                return new Response('Player not found in the DECK for the specified week.', Response::HTTP_NOT_FOUND);
             }
-
-            // Supprimer le joueur de la table Choice
+    
+            // Remove the Choice entity
             $this->entityManager->remove($choice);
             $this->entityManager->flush();
-
+    
             return new Response('Player successfully removed from the DECK.', Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Gestion des exceptions avec log d'erreur
-            $this->addFlash('error', 'Une erreur s\'est produite lors de la suppression du joueur: ' . $e->getMessage());
-            return new Response('Une erreur s\'est produite lors de la suppression du joueur.', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $this->addFlash('error', 'An error occurred while deleting the player: ' . $e->getMessage());
+            return new Response('An error occurred while deleting the player.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
 }
+ 
