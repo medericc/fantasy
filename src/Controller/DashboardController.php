@@ -26,21 +26,21 @@ class DashboardController extends AbstractController
     #[Route('/dashboard/week/{id}', name: 'app_dashboard_id', methods: ['GET'])]
     public function index(int $id, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
     {
-        // Load match data from JSON files
+        // Charger les données des matchs à partir des fichiers JSON
         $matchesLFB = json_decode(file_get_contents($this->getParameter('kernel.project_dir') . '/matchlfb.json'), true);
         $matchesLF2 = json_decode(file_get_contents($this->getParameter('kernel.project_dir') . '/matchlf2.json'), true);
 
-        // Filter matches based on week ID
+        // Filtrer les matchs en fonction de l'ID de la semaine
         $matchesLFBFiltered = $id <= 22 ? $matchesLFB[$id] ?? [] : [];
         $matchesLF2Filtered = $id > 22 ? $matchesLF2[$id] ?? [] : [];
 
-        // Retrieve the week entity
+        // Récupérer l'entité Week correspondante
         $week = $weekRepository->find($id);
         if (!$week) {
             throw $this->createNotFoundException('Week not found');
         }
 
-        // Get the selected players for the specific week from the Choice table
+        // Obtenir les joueurs sélectionnés pour la semaine spécifique dans la table Choice
         $choices = $choiceRepository->findBy(['week' => $week]);
         $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
 
@@ -56,6 +56,7 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function show(Request $request): Response
     {
+        // Gestion de la session pour stocker les données des semaines
         $session = $request->getSession();
         $weeksData = $this->weekService->getWeeksData();
         $session->set('weeksLFB', $weeksData['weeksLFB']);
@@ -69,15 +70,22 @@ class DashboardController extends AbstractController
     #[Route('/dashboard/delete-player/{id}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
     public function deletePlayer(int $id, ChoiceRepository $choiceRepository): Response
     {
-        $choice = $choiceRepository->find($id);
-        if (!$choice) {
-            return new Response('Player not found in the DECK.', Response::HTTP_NOT_FOUND);
+        try {
+            // Récupérer l'entité Choice correspondante
+            $choice = $choiceRepository->find($id);
+            if (!$choice) {
+                return new Response('Player not found in the DECK.', Response::HTTP_NOT_FOUND);
+            }
+
+            // Supprimer le joueur de la table Choice
+            $this->entityManager->remove($choice);
+            $this->entityManager->flush();
+
+            return new Response('Player successfully removed from the DECK.', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            // Gestion des exceptions avec log d'erreur
+            $this->addFlash('error', 'Une erreur s\'est produite lors de la suppression du joueur: ' . $e->getMessage());
+            return new Response('Une erreur s\'est produite lors de la suppression du joueur.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        // Remove the player from the Choice table
-        $this->entityManager->remove($choice);
-        $this->entityManager->flush();
-
-        return new Response('Player successfully removed from the DECK.', Response::HTTP_OK);
     }
 }
