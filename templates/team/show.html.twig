@@ -64,7 +64,7 @@ $(document).ready(function () {
         const playerName = $(this).data('player-name');
 
         if (selectedPlayers.length >= 5) {
-            alert('You cannot select more than 5 players.');
+            alert('Vous ne pouvez pas sélectionner plus de 5 joueurs.');
             return;
         }
 
@@ -73,13 +73,13 @@ $(document).ready(function () {
             updateSelectedPlayers();
             playerModal.show();
         } else {
-            alert('Player is already selected.');
+            alert('Le joueur est déjà sélectionné.');
         }
     });
 
     $('#savePlayers').on('click', function () {
         if (selectedPlayers.length > 5) {
-            alert('You cannot select more than 5 players.');
+            alert('Vous ne pouvez pas sélectionner plus de 5 joueurs.');
             return;
         }
 
@@ -93,18 +93,18 @@ $(document).ready(function () {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Players saved successfully!');
+                alert('Joueurs sauvegardés avec succès!');
                 selectedPlayers = [];
                 updateSelectedPlayers();
                 playerModal.hide();
                 location.reload();
             } else {
-                alert('Error: ' + data.message);
+                alert('Erreur: ' + data.message);
             }
         })
         .catch(error => {
-            alert('Error: ' + error.message);
-            console.error('Error:', error);
+            alert('Erreur: ' + error.message);
+            console.error('Erreur:', error);
         });
     });
 
@@ -119,7 +119,6 @@ $(document).ready(function () {
         });
     }
 });
-
 
 
     </script>

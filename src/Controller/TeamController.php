@@ -99,63 +99,66 @@ class TeamController extends AbstractController
             $data = json_decode($request->getContent(), true);
     
             if ($data === null) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
+                return new JsonResponse(['status' => 'error', 'message' => 'JSON invalide'], 400);
             }
     
-            if (count($data['players']) > 5) {
-                return new JsonResponse(['status' => 'error', 'message' => 'You cannot select more than 5 players'], 400);
-            }
-    
+            // Récupération de l'utilisateur et de la semaine
             $weekId = $request->query->get('weekId');
             if (!$weekId) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
+                return new JsonResponse(['status' => 'error', 'message' => 'L\'ID de la semaine est requis'], 400);
             }
     
             $week = $weekRepository->find($weekId);
             if (!$week) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
+                return new JsonResponse(['status' => 'error', 'message' => 'ID de la semaine invalide'], 400);
             }
     
             $user = $this->getUser();
-            $existingPlayerIds = [];
+    
+            // Récupérer les choix existants de l'utilisateur pour cette semaine
+            $existingChoices = $entityManager->getRepository(Choice::class)->findBy([
+                'week' => $week,
+                'user' => $user,
+            ]);
+    
+            $existingPlayerIds = array_map(function($choice) {
+                return $choice->getPlayer()->getId();
+            }, $existingChoices);
+    
+            // Vérification du nombre de joueurs sélectionnés au total
+            $totalPlayersSelected = count($existingPlayerIds) + count($data['players']);
+            if ($totalPlayersSelected > 5) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Vous ne pouvez pas sélectionner plus de 5 joueurs au total'], 400);
+            }
     
             foreach ($data['players'] as $playerData) {
-                $player = $playerRepository->find($playerData['id']);
+                $playerId = $playerData['id'];
+    
+                // Vérification si le joueur est déjà sélectionné
+                if (in_array($playerId, $existingPlayerIds)) {
+                    return new JsonResponse(['status' => 'error', 'message' => 'Le joueur ' . $playerData['forename'] . ' ' . $playerData['name'] . ' a déjà été sélectionné pour cette semaine'], 400);
+                }
+    
+                // Ajouter le choix pour ce joueur
+                $player = $playerRepository->find($playerId);
                 if ($player) {
-                    // Vérifier si le joueur a déjà été choisi pour cet utilisateur et cette semaine
-                    $existingChoice = $entityManager->getRepository(Choice::class)->findOneBy([
-                        'week' => $week,
-                        'user' => $user,
-                        'player' => $player,
-                    ]);
-    
-                    if ($existingChoice) {
-                        return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $player->getForename() . ' ' . $player->getName() . ' has already been selected for this week'], 400);
-                    }
-    
-                    if (in_array($player->getId(), $existingPlayerIds)) {
-                        return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $player->getForename() . ' ' . $player->getName() . ' is selected more than once in this request'], 400);
-                    }
-    
-                    $existingPlayerIds[] = $player->getId();
-    
                     $choice = new Choice();
                     $choice->setUser($user);
                     $choice->setWeek($week);
                     $choice->setPlayer($player);
-    
                     $entityManager->persist($choice);
                 }
             }
     
             $entityManager->flush();
     
-            return new JsonResponse(['status' => 'success', 'message' => 'Players saved successfully']);
+            return new JsonResponse(['status' => 'success', 'message' => 'Joueurs sauvegardés avec succès']);
     
         } catch (\Exception $e) {
             return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    
     
     
 }
