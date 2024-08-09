@@ -1,9 +1,8 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\ChoiceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ChoiceRepository::class)]
@@ -14,36 +13,21 @@ class Choice
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Week::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Week $week = null;
+
+    #[ORM\ManyToOne(targetEntity: Player::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Player $player = null;
+
     #[ORM\ManyToOne(inversedBy: 'choices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'choices')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Week $week = null;
-
-    #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'choice')]
-    private Collection $players;
-
-    public function __construct()
-    {
-        $this->players = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-        return $this;
     }
 
     public function getWeek(): ?Week
@@ -57,45 +41,25 @@ class Choice
         return $this;
     }
 
-    /**
-     * @return Collection<int, Player>
-     */
-    public function getPlayers(): Collection
+    public function getPlayer(): ?Player
     {
-        return $this->players;
+        return $this->player;
     }
 
-    public function addPlayer(Player $player): static
+    public function setPlayer(?Player $player): static
     {
-        // Vérification du nombre de choix déjà effectués par cet utilisateur pour cette semaine
-        if ($this->userHasReachedMaxChoices()) {
-            throw new \Exception('You have already made the maximum of 5 choices for this week.');
-        }
-
-        if (!$this->players->contains($player)) {
-            $this->players->add($player);
-            $player->addChoice($this);
-        }
-
+        $this->player = $player;
         return $this;
     }
 
-    public function removePlayer(Player $player): static
+    public function getUser(): ?User
     {
-        if ($this->players->removeElement($player)) {
-            $player->removeChoice($this);
-        }
-
-        return $this;
+        return $this->user;
     }
 
-    private function userHasReachedMaxChoices(): bool
+    public function setUser(?User $user): static
     {
-        // Rechercher le nombre de choix déjà effectués par cet utilisateur pour cette semaine
-        $existingChoicesCount = count($this->getUser()->getChoices()->filter(function(Choice $choice) {
-            return $choice->getWeek() === $this->getWeek();
-        }));
-
-        return $existingChoicesCount >= 5;
+        $this->user = $user;
+        return $this;
     }
 }
