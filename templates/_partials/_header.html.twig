@@ -1,26 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a href="{{ path('app_dashboard') }}" class="navbar-brand">
-            {% if app.user is not null %}
-                {% if app.user.pseudo is not null %}
+        {% if app.user is not null %}
+            {% if app.user.pseudo is not null %}
+                <!-- Lien vers le tableau de bord avec le pseudo de l'utilisateur -->
+                <a href="{{ path('app_dashboard') }}" class="navbar-brand">
                     <p>{{ app.user.pseudo }}</p>
-                {% else %}
-                    <p>CONNEXION</p>
-                {% endif %}
+                </a>
             {% else %}
+                <!-- Affiche "CONNEXION" si l'utilisateur est connecté mais sans pseudo -->
                 <p>CONNEXION</p>
             {% endif %}
-        </a>
+        {% else %}
+            <!-- Affiche "CONNEXION" si l'utilisateur n'est pas connecté -->
+            <p>CONNEXION</p>
+        {% endif %}
+       
         <p>LFB X POINTS ( RANK )</p>
         <p>LF2 X POINTS ( RANK )</p>
-        <form class="form-inline my-2 my-lg-0" action="{{ path('app_logout') }}" method="post">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Déco</button>
-        </form>
+
+        <!-- Autres éléments de la navbar -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
+                <!-- Les éléments de menu déroulant pour les decks et les classements -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         DECK LFB
@@ -64,6 +69,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">RULES</a>
                 </li>
+
+                <!-- Affiche le bouton "Déconnexion" si l'utilisateur est connecté -->
+                {% if app.user is not null %}
+                <li class="nav-item">
+                    <form class="form-inline" action="{{ path('app_logout') }}" method="post">
+                        <button class="btn btn-outline-success" type="submit">Déconnexion</button>
+                    </form>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
