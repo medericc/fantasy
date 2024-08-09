@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attribuer des points{% endblock %}
+
+{% block body %}
+    <h1>Attribuer des points à {{ player.forename }} {{ player.name }} pour la semaine {{ week.id }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.rate) }}
+        <button type="submit" class="btn btn-success">{{ form_label(form.save) }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_team_show', { 'id': player.team.id, 'weekId': week.id }) }}" class="btn btn-secondary">Retour à l'équipe</a>
+{% endblock %}

@@ -16,6 +16,9 @@
                 <th>Nom</th>
                 <th>Note</th>
                 <th>Action</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>Points</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -27,6 +30,11 @@
                     <td>
                         <button type="button" class="btn btn-primary add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
                     </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('assign_points', { 'playerId': player.id, 'weekId': weekId }) }}" class="btn btn-warning">Attribuer des points</a>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
