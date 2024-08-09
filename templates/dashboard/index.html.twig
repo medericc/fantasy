@@ -32,28 +32,12 @@
         </ul>
     {% endif %}
 
-    {% block deck %}
-        <div>
-            <h3>DECK</h3>
-            <ul id="deckPlayers">
-                {% for player in selectedPlayers %}
-                    <li>{{ player.forename }} {{ player.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endblock %}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        const selectedPlayers = {{ selectedPlayers|json_encode|raw }};
-
-        const deckPlayersUl = document.getElementById('deckPlayers');
-        selectedPlayers.forEach(player => {
-            const li = document.createElement('li');
-            li.textContent = `${player.forename} ${player.name}`;
-            deckPlayersUl.appendChild(li);
-        });
-    </script>
+    <div>
+        <h3>DECK</h3>
+        <ul id="deckPlayers">
+            {% for player in selectedPlayers %}
+                <li>{{ player.forename }} {{ player.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
