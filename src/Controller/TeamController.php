@@ -97,50 +97,65 @@ class TeamController extends AbstractController
     ): JsonResponse {
         try {
             $data = json_decode($request->getContent(), true);
-
+    
             if ($data === null) {
                 return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
             }
-
+    
+            if (count($data['players']) > 5) {
+                return new JsonResponse(['status' => 'error', 'message' => 'You cannot select more than 5 players'], 400);
+            }
+    
             $weekId = $request->query->get('weekId');
             if (!$weekId) {
                 return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
             }
-
+    
             $week = $weekRepository->find($weekId);
             if (!$week) {
                 return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
             }
-
-            $savedPlayers = [];
+    
+            $user = $this->getUser();
+            $existingPlayerIds = [];
+    
             foreach ($data['players'] as $playerData) {
                 $player = $playerRepository->find($playerData['id']);
                 if ($player) {
-                    // Un choix pour chaque joueur
+                    // Vérifier si le joueur a déjà été choisi pour cet utilisateur et cette semaine
+                    $existingChoice = $entityManager->getRepository(Choice::class)->findOneBy([
+                        'week' => $week,
+                        'user' => $user,
+                        'player' => $player,
+                    ]);
+    
+                    if ($existingChoice) {
+                        return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $player->getForename() . ' ' . $player->getName() . ' has already been selected for this week'], 400);
+                    }
+    
+                    if (in_array($player->getId(), $existingPlayerIds)) {
+                        return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $player->getForename() . ' ' . $player->getName() . ' is selected more than once in this request'], 400);
+                    }
+    
+                    $existingPlayerIds[] = $player->getId();
+    
                     $choice = new Choice();
-                    $choice->setUser($this->getUser());
+                    $choice->setUser($user);
                     $choice->setWeek($week);
                     $choice->setPlayer($player);
-                    
+    
                     $entityManager->persist($choice);
-
-                    $savedPlayers[] = [
-                        'id' => $player->getId(),
-                        'forename' => $player->getForename(),
-                        'name' => $player->getName(),
-                    ];
                 }
             }
-
+    
             $entityManager->flush();
-
-            return new JsonResponse(['status' => 'success', 'players' => $savedPlayers]);
-
+    
+            return new JsonResponse(['status' => 'success', 'message' => 'Players saved successfully']);
+    
         } catch (\Exception $e) {
             return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
-    
     
     
 }

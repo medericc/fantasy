@@ -56,23 +56,33 @@ $(document).ready(function () {
     const playerModalElement = document.getElementById('playerModal');
     const playerModal = new bootstrap.Modal(playerModalElement);
     const selectedPlayersDiv = $('#selectedPlayers');
-    const weekId = new URLSearchParams(window.location.search).get('weekId'); // Récupère weekId de l'URL
+    const weekId = new URLSearchParams(window.location.search).get('weekId');
 
     $('.add-player-btn').on('click', function () {
         const playerId = $(this).data('player-id');
         const playerForename = $(this).data('player-forename');
         const playerName = $(this).data('player-name');
 
+        if (selectedPlayers.length >= 5) {
+            alert('You cannot select more than 5 players.');
+            return;
+        }
+
         if (!isPlayerSelected(playerId)) {
             selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
             updateSelectedPlayers();
             playerModal.show();
         } else {
-            alert('Le joueur est déjà sélectionné.');
+            alert('Player is already selected.');
         }
     });
 
     $('#savePlayers').on('click', function () {
+        if (selectedPlayers.length > 5) {
+            alert('You cannot select more than 5 players.');
+            return;
+        }
+
         fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
             method: "POST",
             headers: {
@@ -83,18 +93,18 @@ $(document).ready(function () {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Joueurs ajoutés avec succès !');
+                alert('Players saved successfully!');
                 selectedPlayers = [];
                 updateSelectedPlayers();
                 playerModal.hide();
-                location.reload();  // Reload the page to show the updated player list
+                location.reload();
             } else {
-                alert('Une erreur est survenue : ' + data.message);
+                alert('Error: ' + data.message);
             }
         })
         .catch(error => {
-            alert('Une erreur est survenue lors de l\'ajout des joueurs : ' + error.message);
-            console.error('Erreur:', error);
+            alert('Error: ' + error.message);
+            console.error('Error:', error);
         });
     });
 
@@ -109,6 +119,7 @@ $(document).ready(function () {
         });
     }
 });
+
 
 
     </script>
