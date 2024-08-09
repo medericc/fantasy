@@ -1,5 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <p>{{ app.user.pseudo }}</p>
+    {% if app.user is not null %}
+        {% if app.user.pseudo is not null %}
+            <p>{{ app.user.pseudo }}</p>
+        {% else %}
+            <p>CONNEXION</p>
+        {% endif %}
+    {% else %}
+        <p>CONNEXION</p>
+    {% endif %}
     <p>LFB X POINTS ( RANK )</p>
     <p>LF2 X POINTS ( RANK )</p>
     <form class="form-inline my-2 my-lg-0" action="{{ path('app_logout') }}" method="post">

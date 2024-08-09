@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\ChoiceRepository;
@@ -15,15 +14,16 @@ class Choice
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'choices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'choices')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Week $week = null;
 
     #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'choice')]
     private Collection $players;
-
-    #[ORM\ManyToOne(inversedBy: 'choices')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     public function __construct()
     {
@@ -35,6 +35,17 @@ class Choice
         return $this->id;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+        return $this;
+    }
+
     public function getWeek(): ?Week
     {
         return $this->week;
@@ -43,7 +54,6 @@ class Choice
     public function setWeek(?Week $week): static
     {
         $this->week = $week;
-
         return $this;
     }
 
@@ -57,6 +67,11 @@ class Choice
 
     public function addPlayer(Player $player): static
     {
+        // Vérification du nombre de choix déjà effectués par cet utilisateur pour cette semaine
+        if ($this->userHasReachedMaxChoices()) {
+            throw new \Exception('You have already made the maximum of 5 choices for this week.');
+        }
+
         if (!$this->players->contains($player)) {
             $this->players->add($player);
             $player->addChoice($this);
@@ -74,15 +89,13 @@ class Choice
         return $this;
     }
 
-    public function getUser(): ?User
+    private function userHasReachedMaxChoices(): bool
     {
-        return $this->user;
-    }
+        // Rechercher le nombre de choix déjà effectués par cet utilisateur pour cette semaine
+        $existingChoicesCount = count($this->getUser()->getChoices()->filter(function(Choice $choice) {
+            return $choice->getWeek() === $this->getWeek();
+        }));
 
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
+        return $existingChoicesCount >= 5;
     }
 }

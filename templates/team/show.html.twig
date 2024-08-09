@@ -51,64 +51,65 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function () {
-            let selectedPlayers = [];
-            const playerModalElement = document.getElementById('playerModal');
-            const playerModal = new bootstrap.Modal(playerModalElement);
-            const selectedPlayersDiv = $('#selectedPlayers');
+$(document).ready(function () {
+    let selectedPlayers = [];
+    const playerModalElement = document.getElementById('playerModal');
+    const playerModal = new bootstrap.Modal(playerModalElement);
+    const selectedPlayersDiv = $('#selectedPlayers');
+    const weekId = new URLSearchParams(window.location.search).get('weekId'); // Récupère weekId de l'URL
 
-            // On button click, add the player to the selectedPlayers list and update the modal
-            $('.add-player-btn').on('click', function () {
-                const playerId = $(this).data('player-id');
-                const playerForename = $(this).data('player-forename');
-                const playerName = $(this).data('player-name');
+    $('.add-player-btn').on('click', function () {
+        const playerId = $(this).data('player-id');
+        const playerForename = $(this).data('player-forename');
+        const playerName = $(this).data('player-name');
 
-                if (!isPlayerSelected(playerId)) {
-                    selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
-                    updateSelectedPlayers();
-                    playerModal.show();
-                } else {
-                    alert('Le joueur est déjà sélectionné.');
-                }
-            });
+        if (!isPlayerSelected(playerId)) {
+            selectedPlayers.push({ id: playerId, forename: playerForename, name: playerName });
+            updateSelectedPlayers();
+            playerModal.show();
+        } else {
+            alert('Le joueur est déjà sélectionné.');
+        }
+    });
 
-            // On OK button click, send the selected players to the server via AJAX
-            $('#savePlayers').on('click', function () {
-                fetch("{{ path('app_team_save_players') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ players: selectedPlayers }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Joueurs ajoutés avec succès !');
-                        selectedPlayers = [];
-                        updateSelectedPlayers();
-                        playerModal.hide();
-                        location.reload();  // Reload the page to show the updated player list
-                    } else {
-                        alert('Une erreur est survenue : ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Une erreur est survenue lors de l\'ajout des joueurs : ' + error.message);
-                    console.error('Erreur:', error);
-                });
-            });
-
-            function isPlayerSelected(playerId) {
-                return selectedPlayers.some(player => player.id === playerId);
+    $('#savePlayers').on('click', function () {
+        fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ players: selectedPlayers }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Joueurs ajoutés avec succès !');
+                selectedPlayers = [];
+                updateSelectedPlayers();
+                playerModal.hide();
+                location.reload();  // Reload the page to show the updated player list
+            } else {
+                alert('Une erreur est survenue : ' + data.message);
             }
-
-            function updateSelectedPlayers() {
-                selectedPlayersDiv.empty();
-                selectedPlayers.forEach(player => {
-                    selectedPlayersDiv.append(`<div>${player.forename} ${player.name}</div>`);
-                });
-            }
+        })
+        .catch(error => {
+            alert('Une erreur est survenue lors de l\'ajout des joueurs : ' + error.message);
+            console.error('Erreur:', error);
         });
+    });
+
+    function isPlayerSelected(playerId) {
+        return selectedPlayers.some(player => player.id === playerId);
+    }
+
+    function updateSelectedPlayers() {
+        selectedPlayersDiv.empty();
+        selectedPlayers.forEach(player => {
+            selectedPlayersDiv.append(`<div>${player.forename} ${player.name}</div>`);
+        });
+    }
+});
+
+
     </script>
 {% endblock %}

@@ -102,33 +102,40 @@ class TeamController extends AbstractController
                 return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
             }
     
+            $weekId = $request->query->get('weekId');
+            if (!$weekId) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
+            }
+    
+            $week = $weekRepository->find($weekId);
+            if (!$week) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
+            }
+    
+            $choice = new Choice();
+            $choice->setUser($this->getUser());
+            $choice->setWeek($week);
+    
             $savedPlayers = [];
             foreach ($data['players'] as $playerData) {
                 $player = $playerRepository->find($playerData['id']);
                 if ($player) {
-                    $choice = new Choice();
-                    $choice->setUser($this->getUser());
-    
-                    if (isset($playerData['weekId']) && !empty($playerData['weekId'])) {
-                        $week = $weekRepository->find($playerData['weekId']);
-                        if ($week) {
-                            $choice->setWeek($week);
-                        } else {
-                            return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
-                        }
+                    if (!$choice->getPlayers()->contains($player)) {
+                        $choice->addPlayer($player);
+                        $savedPlayers[] = [
+                            'id' => $player->getId(),
+                            'forename' => $player->getForename(),
+                            'name' => $player->getName(),
+                        ];
                     }
-    
-                    $choice->addPlayer($player);
-                    $entityManager->persist($choice);
-    
-                    $savedPlayers[] = [
-                        'id' => $player->getId(),
-                        'forename' => $player->getForename(),
-                        'name' => $player->getName(),
-                    ];
                 }
             }
     
+            if (count($choice->getPlayers()) > 5) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Cannot select more than 5 players'], 400);
+            }
+    
+            $entityManager->persist($choice);
             $entityManager->flush();
     
             return new JsonResponse(['status' => 'success', 'players' => $savedPlayers]);
@@ -137,6 +144,7 @@ class TeamController extends AbstractController
             return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    
     
     
 }
