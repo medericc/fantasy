@@ -51,35 +51,36 @@ class TeamController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
-    public function show(
-        Team $team,
-        PlayerRepository $playerRepository,
-        Request $request,
-        ChoiceRepository $choiceRepository,
-        WeekRepository $weekRepository
-    ): Response {
-        $weekId = $request->query->get('weekId');
-        $week = $weekRepository->find($weekId);
+public function show(
+    Team $team,
+    PlayerRepository $playerRepository,
+    Request $request,
+    ChoiceRepository $choiceRepository,
+    WeekRepository $weekRepository
+): Response {
+    $weekId = $request->query->get('weekId');
+    $week = $weekRepository->find($weekId);
 
-        if (!$week) {
-            throw $this->createNotFoundException('Week not found');
-        }
-
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException('User not found');
-        }
-
-        $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
-        $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
-
-        return $this->render('team/show.html.twig', [
-            'team' => $team,
-            'players' => $playerRepository->findAll(),
-            'selectedPlayers' => $selectedPlayers,
-            'weekId' => $weekId,
-        ]);
+    if (!$week) {
+        throw $this->createNotFoundException('Week not found');
     }
+
+    $user = $this->getUser();
+    if (!$user) {
+        throw $this->createAccessDeniedException('User not found');
+    }
+
+    $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
+    $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
+
+    return $this->render('team/show.html.twig', [
+        'team' => $team,
+        'players' => $playerRepository->findAll(),
+        'selectedPlayers' => $selectedPlayers,
+        'weekId' => $weekId, // Pass weekId to the template
+    ]);
+}
+
 
     #[Route('/edit/{id}', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, EntityManagerInterface $entityManager): Response

@@ -3,6 +3,9 @@
 {% block title %}Team: {{ team.name }}{% endblock %}
 
 {% block body %}
+    <!-- Back Button -->
+    <a href="{{ path('app_dashboard_id', { 'id': weekId }) }}" class="btn btn-secondary">Back</a>
+
     <h1>Team: {{ team.name }}</h1>
 
     <h2>Players in the Team</h2>
@@ -28,13 +31,14 @@
             {% endfor %}
         </tbody>
     </table>
-      <div>
+    
+    <div>
         <h3>DECK</h3>
         <ul id="deckPlayers">
             {% for player in selectedPlayers %}
                 <li>
                     {{ player.forename }} {{ player.name }}
-               </li>
+                </li>
             {% endfor %}
         </ul>
     </div>
@@ -73,6 +77,5 @@
                 });
             });
         });
-        
     </script>
 {% endblock %}
