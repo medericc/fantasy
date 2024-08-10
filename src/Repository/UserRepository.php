@@ -37,7 +37,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
-
+    public function findAllOrderedByPoints(string $league): array
+    {
+        $qb = $this->createQueryBuilder('u');
+    
+        if ($league === 'lfb') {
+            $qb->orderBy('u.ptl_lfb', 'DESC');
+        } elseif ($league === 'lf2') {
+            $qb->orderBy('u.pt_lf2', 'DESC');
+        } else {
+            throw new \InvalidArgumentException('Invalid league specified');
+        }
+    
+        return $qb->getQuery()->getResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

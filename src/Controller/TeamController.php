@@ -11,6 +11,7 @@ use App\Form\TeamType;
 use App\Repository\ChoiceRepository;
 use App\Repository\TeamRepository;
 use App\Repository\PlayerRepository;
+use App\Repository\UserRepository;
 use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -201,7 +202,21 @@ public function savePlayers(
     }
 }
 
-    
+#[Route('/ranking/{league}', name: 'app_team_ranking', methods: ['GET'])]
+public function ranking(string $league, UserRepository $userRepository): Response
+{
+    // Valide le type de league
+    if (!in_array($league, ['lfb', 'lf2'])) {
+        throw $this->createNotFoundException('Invalid league');
+    }
+
+    $users = $userRepository->findAllOrderedByPoints($league);
+
+    return $this->render('team/ranking.html.twig', [
+        'users' => $users,
+        'league' => $league,
+    ]);
+}
     
 
 }
