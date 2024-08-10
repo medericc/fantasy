@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Choice;
 use App\Repository\ChoiceRepository;
+use App\Repository\UserRepository;
 use App\Repository\WeekRepository;
 use App\Service\WeekService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-    private $weekService;
-    private $entityManager;
+    private WeekService $weekService;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(WeekService $weekService, EntityManagerInterface $entityManager)
     {
@@ -46,7 +46,7 @@ class DashboardController extends AbstractController
     
         // Calculer les points pour la semaine
         $totalPoints = array_reduce($choices, function($carry, $choice) {
-            return $carry + $choice->getPoints(); // Supposant que getPoints() retourne le score du joueur pour cette semaine
+            return $carry + $choice->getPoints();
         }, 0);
     
         return $this->render('dashboard/index.html.twig', [
@@ -55,37 +55,52 @@ class DashboardController extends AbstractController
             'matchesLF2' => $matchesLF2Filtered,
             'matchesLFB' => $matchesLFBFiltered,
             'selectedPlayers' => $selectedPlayers,
-            'totalPoints' => $totalPoints, // Passer les points à la vue
+            'totalPoints' => $totalPoints,
         ]);
     }
-    
-
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function show(Request $request): Response
-    {
-        // Gestion de la session pour stocker les données des semaines
-        $session = $request->getSession();
-        $weeksData = $this->weekService->getWeeksData();
-        $session->set('weeksLFB', $weeksData['weeksLFB']);
-        $session->set('weeksLF2', $weeksData['weeksLF2']);
+public function show(Request $request, UserRepository $userRepository): Response
+{
+    // Gestion de la session pour stocker les données des semaines
+    $session = $request->getSession();
+    $weeksData = $this->weekService->getWeeksData();
+    $session->set('weeksLFB', $weeksData['weeksLFB']);
+    $session->set('weeksLF2', $weeksData['weeksLF2']);
 
-        return $this->render('dashboard/show.html.twig', [
-            'controller_name' => 'DashboardController',
-        ]);
-    }
+    // Récupération de l'utilisateur connecté
+    $currentUser = $this->getUser();
+
+    // Récupérer les utilisateurs triés par points LFB
+    $usersLFB = $userRepository->findBy([], ['ptl_lfb' => 'DESC']);
+    $usersLF2 = $userRepository->findBy([], ['pt_lf2' => 'DESC']);
+
+    // Calcul du rang de l'utilisateur connecté
+    $rankLFB = array_search($currentUser, $usersLFB) + 1;
+    $rankLF2 = array_search($currentUser, $usersLF2) + 1;
+
+    return $this->render('dashboard/show.html.twig', [
+        'controller_name' => 'DashboardController',
+        'rankLFB' => $rankLFB,
+        'totalUsersLFB' => count($usersLFB),
+        'rankLF2' => $rankLF2,
+        'totalUsersLF2' => count($usersLF2),
+    ]);
+}
+
+    
 
     #[Route('/dashboard/delete-player/{weekId}/{playerId}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
     public function deletePlayer(int $weekId, int $playerId, ChoiceRepository $choiceRepository): Response
     {
         try {
-            // Find the Choice entity by player and week
+            // Trouver l'entité Choice par joueur et semaine
             $choice = $choiceRepository->findOneBy(['player' => $playerId, 'week' => $weekId]);
     
             if (!$choice) {
                 return new Response('Player not found in the DECK for the specified week.', Response::HTTP_NOT_FOUND);
             }
     
-            // Remove the Choice entity
+            // Supprimer l'entité Choice
             $this->entityManager->remove($choice);
             $this->entityManager->flush();
     
@@ -95,7 +110,4 @@ class DashboardController extends AbstractController
             return new Response('An error occurred while deleting the player.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
 }
- 
