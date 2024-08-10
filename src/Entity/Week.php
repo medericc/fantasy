@@ -103,23 +103,4 @@ class Week
         return $this->players;
     }
 
-    public function addPlayer(Player $player): static
-    {
-        if (!$this->players->contains($player)) {
-            $this->players->add($player);
-            $player->setWeek($this);
-        }
-        return $this;
-    }
-
-    public function removePlayer(Player $player): static
-    {
-        if ($this->players->removeElement($player)) {
-            // set the owning side to null (unless already changed)
-            if ($player->getWeek() === $this) {
-                $player->setWeek(null);
-            }
-        }
-        return $this;
-    }
 }

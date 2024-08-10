@@ -34,9 +34,7 @@ class Player
     #[ORM\Column(type: 'boolean')]
     private bool $selected = false;
 
-    #[ORM\ManyToOne(targetEntity: Week::class, inversedBy: 'players')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Week $week = null;
+
 
     public function __construct()
     {
@@ -124,15 +122,5 @@ class Player
         return $this;
     }
 
-    public function getWeek(): ?Week
-    {
-        return $this->week;
-    }
-
-    public function setWeek(?Week $week): static
-    {
-        $this->week = $week;
-        return $this;
-    }
 }
 
