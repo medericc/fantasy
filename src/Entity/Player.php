@@ -23,7 +23,7 @@ class Player
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $rate = null;
+    private ?float $rating = null;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Team $team = null;
@@ -70,14 +70,14 @@ class Player
         return $this;
     }
 
-    public function getRate(): ?float
+    public function getRating(): ?float
     {
-        return $this->rate;
+        return $this->rating;
     }
 
-    public function setRate(?float $rate): static
+    public function setRating(?float $rating): static
     {
-        $this->rate = $rate;
+        $this->rating = $rating;
         return $this;
     }
 
