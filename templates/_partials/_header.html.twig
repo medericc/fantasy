@@ -15,8 +15,8 @@
            <a href="{{ path('app_login') }}" class="navbar-brand">   <p>CONNEXION</p> </a>
         {% endif %}
        
-        <p>LFB X POINTS ( RANK )</p>
-        <p>LF2 X POINTS ( RANK )</p>
+        <p>LFB {{ app.user.getPtlLfb }} POINTS ( RANK )</p>
+        <p>LF2 {{ app.user.getPtLf2 }} POINTS ( RANK )</p>
 
         <!-- Autres éléments de la navbar -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
