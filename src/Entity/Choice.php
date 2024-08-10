@@ -82,20 +82,23 @@ class Choice
 
     public function updatePoints(EntityManagerInterface $entityManager): void
     {
-        // Récupérer le PlayerRate correspondant pour ce joueur et cette semaine
         $playerRate = $entityManager->getRepository(PlayerRate::class)->findOneBy([
             'player' => $this->getPlayer(),
             'week' => $this->getWeek(),
         ]);
     
         if ($playerRate) {
-            // Si un PlayerRate est trouvé, mettre à jour les points avec le rate
+            // Log de débogage pour vérifier la valeur du rate
+            dump($playerRate->getRate());
+    
             $this->points = $playerRate->getRate();
         } else {
-            // Si aucun PlayerRate n'est trouvé, mettre les points à 0 ou une autre valeur par défaut
+            // Log de débogage si aucun PlayerRate n'est trouvé
+            dump('No PlayerRate found for player and week');
+            
             $this->points = 0;
-           
         }
     }
+    
     
 }

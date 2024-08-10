@@ -210,17 +210,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     // Fonction pour mettre à jour les points cumulés
-    public function updateCumulativePoints(array $choices): void
+    public function updateCumulativePoints(): void
     {
         $this->ptl_lfb = 0.0;
         $this->pt_lf2 = 0.0;
 
-        foreach ($choices as $choice) {
-            $weekNumber = $choice->getWeek()->getNumber(); // Supposant qu'il y a une méthode getNumber() dans Week
-            if ($weekNumber >= 1 && $weekNumber <= 22) {
-                $this->ptl_lfb += $choice->getPoints();
-            } elseif ($weekNumber >= 23 && $weekNumber <= 44) {
-                $this->pt_lf2 += $choice->getPoints();
+        foreach ($this->choices as $choice) {
+            $weekId = $choice->getWeek()->getId();
+            $points = $choice->getPoints();
+
+            if ($weekId >= 1 && $weekId <= 22) {
+                $this->ptl_lfb += $points;
+            } elseif ($weekId >= 23 && $weekId <= 44) {
+                $this->pt_lf2 += $points;
             }
         }
     }

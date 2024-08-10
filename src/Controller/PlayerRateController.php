@@ -28,6 +28,7 @@ class PlayerRateController extends AbstractController
         Request $request,
         PlayerRepository $playerRepository,
         WeekRepository $weekRepository,
+        ChoiceRepository $choiceRepository,
         EntityManagerInterface $entityManager,
         PlayerRateRepository $playerRateRepository
     ): Response {
@@ -38,6 +39,7 @@ class PlayerRateController extends AbstractController
             throw $this->createNotFoundException('Player or Week not found');
         }
     
+        // Récupérer ou créer un nouveau PlayerRate pour ce joueur et cette semaine
         $playerRate = $playerRateRepository->findOneBy([
             'player' => $player,
             'week' => $week,
@@ -53,11 +55,17 @@ class PlayerRateController extends AbstractController
             $entityManager->persist($playerRate);
             $entityManager->flush();
     
-            // Mettre à jour le rating du joueur après avoir persisté le PlayerRate
+            // Mettre à jour le rating du joueur
             $player->updateRating($entityManager);
     
-            // Mettre à jour tous les choix pour ce joueur et cette semaine
+            // Mettre à jour les points pour tous les choix de ce joueur pour cette semaine
             $this->updateChoicesPoints($player, $week, $entityManager);
+
+            // Mettre à jour les points cumulés de l'utilisateur
+            $user = $this->getUser();
+            if ($user instanceof User) {
+                $this->updateUserPoints($user, $entityManager);
+            }
     
             $this->addFlash('success', 'Points assigned successfully.');
     
@@ -71,9 +79,6 @@ class PlayerRateController extends AbstractController
         ]);
     }
     
-    /**
-     * Met à jour les points pour tous les choix existants pour un joueur et une semaine donnés.
-     */
     private function updateChoicesPoints(Player $player, Week $week, EntityManagerInterface $entityManager): void
     {
         $choices = $entityManager->getRepository(Choice::class)->findBy([
@@ -89,29 +94,6 @@ class PlayerRateController extends AbstractController
         $entityManager->flush();
     }
     
-    /**
-     * Sauvegarde les joueurs et met à jour les points cumulés de l'utilisateur.
-     */
-    #[Route('/admin/save-players', name: 'save_players', methods: ['POST'])]
-    public function savePlayers(
-        Request $request,
-        PlayerRepository $playerRepository,
-        WeekRepository $weekRepository,
-        ChoiceRepository $choiceRepository,
-        EntityManagerInterface $entityManager
-    ): JsonResponse {
-        // Logique de sauvegarde des choix (à implémenter)
-        
-        // Après avoir sauvegardé les choix, mettre à jour les points cumulés de l'utilisateur
-        $user = $this->getUser();
-        $this->updateUserPoints($user, $entityManager);
-        
-        return new JsonResponse(['status' => 'success', 'message' => 'Players successfully saved']);
-    }
-    
-    /**
-     * Met à jour les points cumulés pour l'utilisateur.
-     */
     private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
     {
         $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);

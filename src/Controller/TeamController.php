@@ -25,6 +25,7 @@ class TeamController extends AbstractController
     private $datesLimites = [
         1 => '2023-09-14 23:00:00', // Semaine 1
         2 => '2024-09-21 23:00:00', // Semaine 2
+        24 => '2024-09-21 23:00:00', // Semaine 2
         // MODIFIER CA SINON C BLOQUEEEEEEEEEEE
     ];
 
