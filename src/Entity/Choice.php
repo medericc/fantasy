@@ -76,4 +76,9 @@ class Choice
         $this->points = $points;
         return $this;
     }
+    public function updatePoints()
+    {
+        $player = $this->getPlayer();
+        $this->points = $player->getRate(); // Logique de mise à jour des points
+    }
 }
