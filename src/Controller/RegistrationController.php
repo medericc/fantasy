@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\User;
@@ -24,7 +23,14 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the plain password
+            // Vérifier l'unicité du pseudo (pseudo déjà géré par la contrainte de l'entité)
+            $existingUserWithPseudo = $entityManager->getRepository(User::class)->findOneBy(['pseudo' => $user->getPseudo()]);
+            if ($existingUserWithPseudo) {
+                $this->addFlash('error', 'This pseudo is already in use. Please choose a different one.');
+                return $this->redirectToRoute('app_register');
+            }
+
+            // Encoder le mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -35,7 +41,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Log the user in
+            // Connexion automatique de l'utilisateur après l'inscription
             return $security->login($user, AppAuthenticator::class, 'main');
         }
 
