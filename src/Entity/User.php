@@ -44,6 +44,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Choice::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $choices;
 
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
+    private float $ptl_lfb = 0.0;
+
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
+    private float $pt_lf2 = 0.0;
+
     public function __construct()
     {
         $this->choices = new ArrayCollection();
@@ -180,4 +186,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPtlLfb(): float
+    {
+        return $this->ptl_lfb;
+    }
+
+    public function setPtlLfb(float $ptl_lfb): self
+    {
+        $this->ptl_lfb = $ptl_lfb;
+        return $this;
+    }
+
+    public function getPtLf2(): float
+    {
+        return $this->pt_lf2;
+    }
+
+    public function setPtLf2(float $pt_lf2): self
+    {
+        $this->pt_lf2 = $pt_lf2;
+        return $this;
+    }
+
+    // Fonction pour mettre à jour les points cumulés
+    public function updateCumulativePoints(array $choices): void
+    {
+        $this->ptl_lfb = 0.0;
+        $this->pt_lf2 = 0.0;
+
+        foreach ($choices as $choice) {
+            $weekNumber = $choice->getWeek()->getNumber(); // Supposant qu'il y a une méthode getNumber() dans Week
+            if ($weekNumber >= 1 && $weekNumber <= 22) {
+                $this->ptl_lfb += $choice->getPoints();
+            } elseif ($weekNumber >= 23 && $weekNumber <= 44) {
+                $this->pt_lf2 += $choice->getPoints();
+            }
+        }
+    }
+
 }

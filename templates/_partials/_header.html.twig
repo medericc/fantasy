@@ -8,11 +8,11 @@
                 </a>
             {% else %}
                 <!-- Affiche "CONNEXION" si l'utilisateur est connecté mais sans pseudo -->
-                <p>CONNEXION</p>
+                <a href="{{ path('app_login') }}" class="navbar-brand">  <p>CONNEXION</p></a>
             {% endif %}
         {% else %}
             <!-- Affiche "CONNEXION" si l'utilisateur n'est pas connecté -->
-            <p>CONNEXION</p>
+           <a href="{{ path('app_login') }}" class="navbar-brand">   <p>CONNEXION</p> </a>
         {% endif %}
        
         <p>LFB X POINTS ( RANK )</p>

@@ -121,7 +121,7 @@ class WeekController extends AbstractController
 
     private function savePlayerChoice(EntityManagerInterface $entityManager, Choice $choice): void
     {
-        $players = $choice->getPlayers();
+        $players = $choice->getPlayer();
         foreach ($players as $player) {
             $player->addChoice($choice);
             $entityManager->persist($player);

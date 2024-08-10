@@ -6,12 +6,15 @@ use App\Entity\Choice;
 use App\Entity\Player;
 use App\Entity\PlayerRate;
 use App\Entity\Week;
+use App\Entity\User;
 use App\Form\PlayerRateType;
+use App\Repository\ChoiceRepository;
 use App\Repository\PlayerRateRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\WeekRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +71,6 @@ class PlayerRateController extends AbstractController
         ]);
     }
     
-    
     /**
      * Met à jour les points pour tous les choix existants pour un joueur et une semaine donnés.
      */
@@ -87,5 +89,37 @@ class PlayerRateController extends AbstractController
         $entityManager->flush();
     }
     
+    /**
+     * Sauvegarde les joueurs et met à jour les points cumulés de l'utilisateur.
+     */
+    #[Route('/admin/save-players', name: 'save_players', methods: ['POST'])]
+    public function savePlayers(
+        Request $request,
+        PlayerRepository $playerRepository,
+        WeekRepository $weekRepository,
+        ChoiceRepository $choiceRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
+        // Logique de sauvegarde des choix (à implémenter)
+        
+        // Après avoir sauvegardé les choix, mettre à jour les points cumulés de l'utilisateur
+        $user = $this->getUser();
+        $this->updateUserPoints($user, $entityManager);
+        
+        return new JsonResponse(['status' => 'success', 'message' => 'Players successfully saved']);
+    }
     
+    /**
+     * Met à jour les points cumulés pour l'utilisateur.
+     */
+    private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
+    {
+        $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
+
+        // Mise à jour des points cumulés pour les deux périodes
+        $user->updateCumulativePoints($choices);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+    }
 }
