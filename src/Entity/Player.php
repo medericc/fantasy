@@ -6,6 +6,7 @@ namespace App\Entity;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -121,6 +122,29 @@ class Player
         $this->selected = $selected;
         return $this;
     }
+
+    public function updateRating(EntityManagerInterface $entityManager): void
+{
+    $playerRates = $entityManager->getRepository(PlayerRate::class)->findBy([
+        'player' => $this,
+    ]);
+
+    if (count($playerRates) > 0) {
+        $totalRates = array_reduce($playerRates, function ($sum, $playerRate) {
+            return $sum + $playerRate->getRate();
+        }, 0);
+
+        $averageRate = $totalRates / count($playerRates);
+        $this->setRating($averageRate);
+    } else {
+        // Si aucun PlayerRate n'est trouvé, le rating est défini à 0
+        $this->setRating(0);
+    }
+
+    $entityManager->persist($this);
+    $entityManager->flush();
+}
+
 
 }
 

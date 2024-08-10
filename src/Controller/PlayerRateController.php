@@ -50,6 +50,9 @@ class PlayerRateController extends AbstractController
             $entityManager->persist($playerRate);
             $entityManager->flush();
     
+            // Mettre à jour le rating du joueur après avoir persisté le PlayerRate
+            $player->updateRating($entityManager);
+    
             // Mettre à jour tous les choix pour ce joueur et cette semaine
             $this->updateChoicesPoints($player, $week, $entityManager);
     
@@ -64,6 +67,7 @@ class PlayerRateController extends AbstractController
             'week' => $week,
         ]);
     }
+    
     
     /**
      * Met à jour les points pour tous les choix existants pour un joueur et une semaine donnés.
