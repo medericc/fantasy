@@ -3,31 +3,31 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-<div class="container mt-5 mb-5"> 
-    <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LFB</h1>
-                    <h2>PTS SEMAINE</h2>
+  <div class="container mt-5 mb-5"> 
+        <div class="row">
+            <div class="col">
+                <div class="example-wrapper bg-danger mb-3 p-3">
+                    <div>
+                        <h1>LFB</h1>
+                        <h2>{{ totalPointsLFB }} PTS SEMAINE {{ latestWeekLFB.id }}</h2>
+                    </div>
+                    <div>
+                        <h2>RANKING SEMAINE {{ latestWeekLFB.id }}: {{ rankLFB }}e / {{ totalUsersLFB }}</h2>
+                    </div>
                 </div>
-                <div>
-                    <h2>RANKING SEMAINE</h2>
+            </div>
+            <div class="col">
+                <div class="example-wrapper bg-danger mb-3 p-3">
+                    <div>
+                        <h1>LF2</h1>
+                        <h2>{{ totalPointsLF2 }} PTS SEMAINE {{ latestWeekLF2.id -22 }}</h2>
+                    </div>
+                    <div>
+                        <h2>RANKING SEMAINE {{ latestWeekLF2.id }}: {{ rankLF2 }}e / {{ totalUsersLF2 }}</h2>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LF2</h1>
-                    <h2>PTS SEMAINE</h2>
-                </div>
-                <div>
-                    <h2>RANKING SEMAINE</h2>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col">

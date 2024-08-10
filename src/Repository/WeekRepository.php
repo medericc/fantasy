@@ -20,4 +20,21 @@ class WeekRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Week::class);
     }
+
+    public function findLatestFilledWeek(int $startWeek, int $endWeek): ?Week
+{
+    return $this->createQueryBuilder('w')
+        ->where('w.id >= :startWeek')
+        ->andWhere('w.id <= :endWeek')
+        ->andWhere('EXISTS (
+            SELECT c.id FROM App\Entity\Choice c WHERE c.week = w.id
+        )') // Semaine remplie
+        ->setParameter('startWeek', $startWeek)
+        ->setParameter('endWeek', $endWeek)
+        ->orderBy('w.id', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+    
 }

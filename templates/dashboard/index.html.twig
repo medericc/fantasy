@@ -4,10 +4,15 @@
 
 {% block body %}
     <h1>Dashboard</h1>
-    <h2>Matches for Week {{ week.id }}</h2>
-
-    <!-- Affichage des points de la semaine -->
-    <h3>Total Points for Week {{ week.id }}: {{ totalPoints }}</h3>
+    {% if week.id > 22 %}
+        <h2>Matches for Week {{ week.id - 22 }}</h2>
+        <!-- Affichage des points de la semaine pour LF2 -->
+        <h3>Total Points for Week {{ week.id - 22 }}: {{ totalPoints }}</h3>
+    {% else %}
+        <h2>Matches for Week {{ week.id }}</h2>
+        <!-- Affichage des points de la semaine pour LFB -->
+        <h3>Total Points for Week {{ week.id }}: {{ totalPoints }}</h3>
+    {% endif %}
 
     {% if week.id > 22 %}
         <h3>LF2 Matches</h3>
