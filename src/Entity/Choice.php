@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\PlayerRate;
 use App\Repository\ChoiceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ChoiceRepository::class)]
@@ -76,9 +78,24 @@ class Choice
         $this->points = $points;
         return $this;
     }
-    public function updatePoints()
+   
+
+    public function updatePoints(EntityManagerInterface $entityManager): void
     {
-        $player = $this->getPlayer();
-        $this->points = $player->getRating(); // Logique de mise à jour des points
+        // Récupérer le PlayerRate correspondant pour ce joueur et cette semaine
+        $playerRate = $entityManager->getRepository(PlayerRate::class)->findOneBy([
+            'player' => $this->getPlayer(),
+            'week' => $this->getWeek(),
+        ]);
+    
+        if ($playerRate) {
+            // Si un PlayerRate est trouvé, mettre à jour les points avec le rate
+            $this->points = $playerRate->getRate();
+        } else {
+            // Si aucun PlayerRate n'est trouvé, mettre les points à 0 ou une autre valeur par défaut
+            $this->points = 0;
+           
+        }
     }
+    
 }

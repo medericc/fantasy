@@ -169,10 +169,10 @@ public function show(
                     $choice->setUser($user);
                     $choice->setWeek($week);
                     $choice->setPlayer($player);
-                
-                    // Mettre à jour les points du choix
-                    $choice->updatePoints();
-                
+    
+                    // Mettre à jour les points du choix avec la méthode updatePoints
+                    $choice->updatePoints($entityManager);
+    
                     $entityManager->persist($choice);
                 }
             }
@@ -185,6 +185,7 @@ public function show(
             return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    
     
 
 }

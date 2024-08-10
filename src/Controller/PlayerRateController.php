@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Choice;
+use App\Entity\Player;
 use App\Entity\PlayerRate;
+use App\Entity\Week;
 use App\Form\PlayerRateType;
 use App\Repository\PlayerRateRepository;
 use App\Repository\PlayerRepository;
@@ -47,6 +50,9 @@ class PlayerRateController extends AbstractController
             $entityManager->persist($playerRate);
             $entityManager->flush();
     
+            // Mettre à jour tous les choix pour ce joueur et cette semaine
+            $this->updateChoicesPoints($player, $week, $entityManager);
+    
             $this->addFlash('success', 'Points assigned successfully.');
     
             return $this->redirectToRoute('app_team_show', ['id' => $player->getTeam()->getId(), 'weekId' => $weekId]);
@@ -58,5 +64,24 @@ class PlayerRateController extends AbstractController
             'week' => $week,
         ]);
     }
+    
+    /**
+     * Met à jour les points pour tous les choix existants pour un joueur et une semaine donnés.
+     */
+    private function updateChoicesPoints(Player $player, Week $week, EntityManagerInterface $entityManager): void
+    {
+        $choices = $entityManager->getRepository(Choice::class)->findBy([
+            'player' => $player,
+            'week' => $week,
+        ]);
+    
+        foreach ($choices as $choice) {
+            $choice->updatePoints($entityManager);
+            $entityManager->persist($choice);
+        }
+    
+        $entityManager->flush();
+    }
+    
     
 }
