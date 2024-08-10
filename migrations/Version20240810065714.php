@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240810052146 extends AbstractMigration
+final class Version20240810065714 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,14 @@ final class Version20240810052146 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE choice DROP player_rate_id, CHANGE points points DOUBLE PRECISION DEFAULT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64986CC499D ON user (pseudo)');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE choice ADD player_rate_id INT NOT NULL, CHANGE points points DOUBLE PRECISION NOT NULL');
+        $this->addSql('DROP INDEX IF EXISTS UNIQ_8D93D649E7927C74 ON user');
+        $this->addSql('DROP INDEX IF EXISTS UNIQ_8D93D64986CC499D ON user');
     }
+    
 }
