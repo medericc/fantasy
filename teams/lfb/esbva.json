@@ -1,0 +1,61 @@
+{
+    "team_id": 10,
+    "players": [
+      {
+        "forename": "Caroline",
+        "name": "Hériaud"
+      
+      },
+      {
+        "forename": "Clara",
+        "name": "Causeur"
+      
+      },
+      {
+        "forename": "Carla",
+        "name": "Leite"
+      
+      },
+      {
+        "forename": "Shavonte",
+        "name": "Zellous"
+      
+      },
+      {
+        "forename": "Iva",
+        "name": "Slonjsak"
+      
+      },
+      {
+        "forename": "Marie-Paule",
+        "name": "Foppossi"
+     
+      },
+      {
+        "forename": "Maïa",
+        "name": "Hirsch"
+      
+      },
+      {
+        "forename": "Kelsey",
+        "name": "Bone"
+      
+      },
+      {
+        "forename": "Héléna",
+        "name": "Ciak"
+      
+      },
+      {
+        "forename": "Aminata",
+        "name": "Gueye"
+      
+      },
+      {
+        "forename": "Elodie",
+        "name": "Lutbert"
+     
+      }
+    ]
+  }
+  

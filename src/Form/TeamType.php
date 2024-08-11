@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\league;
+use App\Entity\League;
 use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +17,7 @@ class TeamType extends AbstractType
             ->add('name')
             ->add('league', EntityType::class, [
                 'class' => League::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name', // Utiliser la propriété 'name' de l'entité League
             ])
         ;
     }

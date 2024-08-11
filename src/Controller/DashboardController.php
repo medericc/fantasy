@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ChoiceRepository;
+use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\WeekRepository;
 use App\Service\WeekService;
@@ -24,7 +25,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/week/{id}', name: 'app_dashboard_id', methods: ['GET'])]
-    public function index(int $id, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
+    public function index(int $id, WeekRepository $weekRepository, ChoiceRepository $choiceRepository, TeamRepository $teamRepository): Response
     {
         // Charger les données des matchs à partir des fichiers JSON
         $matchesLFB = json_decode(file_get_contents($this->getParameter('kernel.project_dir') . '/matchlfb.json'), true);
@@ -45,9 +46,28 @@ class DashboardController extends AbstractController
         $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
     
         // Calculer les points pour la semaine
-        $totalPoints = array_reduce($choices, function($carry, $choice) {
-            return $carry + $choice->getPoints();
-        }, 0);
+        $totalPoints = array_reduce($choices, fn($carry, $choice) => $carry + $choice->getPoints(), 0);
+    
+        // Remplacer les IDs des équipes par leurs noms dans les matchs filtrés
+        foreach ($matchesLFBFiltered as &$match) {
+            $homeTeam = $teamRepository->find($match['home_team_id']);
+            $awayTeam = $teamRepository->find($match['away_team_id']);
+    
+            if ($homeTeam && $awayTeam) {
+                $match['home_team_name'] = $homeTeam->getName();
+                $match['away_team_name'] = $awayTeam->getName();
+            }
+        }
+    
+        foreach ($matchesLF2Filtered as &$match) {
+            $homeTeam = $teamRepository->find($match['home_team_id']);
+            $awayTeam = $teamRepository->find($match['away_team_id']);
+    
+            if ($homeTeam && $awayTeam) {
+                $match['home_team_name'] = $homeTeam->getName();
+                $match['away_team_name'] = $awayTeam->getName();
+            }
+        }
     
         return $this->render('dashboard/index.html.twig', [
             'weekId' => $id,
@@ -58,6 +78,7 @@ class DashboardController extends AbstractController
             'totalPoints' => $totalPoints,
         ]);
     }
+    
     #[Route('/dashboard', name: 'app_dashboard')]
     public function show(Request $request, UserRepository $userRepository, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
     {

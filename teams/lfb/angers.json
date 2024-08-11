@@ -1,0 +1,51 @@
+{
+    "team_id": 11,
+    "players": [
+      {
+        "forename": "Anna",
+        "name": "Ngo Ndjock"
+      
+      },
+      {
+        "forename": "Axelle",
+        "name": "Merceron"
+      
+      },
+      {
+        "forename": "Laura",
+        "name": "Mendez"
+      
+      },
+      {
+        "forename": "Marine",
+        "name": "Dursus"
+      
+      },
+      {
+        "forename": "Quinn",
+        "name": "Dornstauder"
+      
+      },
+      {
+        "forename": "Ameryst",
+        "name": "Alston"
+     
+      },
+      {
+        "forename": "Oumou",
+        "name": "Diarisso"
+      
+      },
+      {
+        "forename": "Jessica",
+        "name": "Jackson"
+      
+      },
+      {
+        "forename": "Emmanuelle",
+        "name": "Tahane"
+      
+      }
+    ]
+  }
+  

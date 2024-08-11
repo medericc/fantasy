@@ -14,15 +14,15 @@
         <h3>Total Points for Week {{ week.id }}: {{ totalPoints }}</h3>
     {% endif %}
 
-    {% if week.id > 22 %}
+      {% if week.id > 22 %}
         <h3>LF2 Matches</h3>
         <ul>
             {% for match in matchesLF2 %}
                 <li>
-                    {% if match.home_team_id is defined and match.away_team_id is defined %}
+                    {% if match.home_team_name is defined and match.away_team_name is defined %}
                         Match Day: {{ week.id }} | 
-                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}">Home Team ID: {{ match.home_team_id }}</a> | 
-                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}">Away Team ID: {{ match.away_team_id }}</a>
+                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}"> {{ match.home_team_name }}</a> | 
+                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}"> {{ match.away_team_name }}</a>
                     {% else %}
                         <span>Invalid match data</span>
                     {% endif %}
@@ -36,10 +36,10 @@
         <ul>
             {% for match in matchesLFB %}
                 <li>
-                    {% if match.home_team_id is defined and match.away_team_id is defined %}
+                    {% if match.home_team_name is defined and match.away_team_name is defined %}
                         Match Day: {{ week.id }} | 
-                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}">Home Team ID: {{ match.home_team_id }}</a> | 
-                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}">Away Team ID: {{ match.away_team_id }}</a>
+                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}"> {{ match.home_team_name }}</a> | 
+                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}"> {{ match.away_team_name }}</a>
                     {% else %}
                         <span>Invalid match data</span>
                     {% endif %}
