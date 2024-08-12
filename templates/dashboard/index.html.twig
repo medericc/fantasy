@@ -13,16 +13,31 @@
     {% endif %}
 
     <div>
-      <div>
-    <h3>Time Remaining to Complete Your Deck</h3>
-    {% if remainingDays > 0 or remainingHours > 0 or remainingMinutes > 0 or remainingSeconds > 0 %}
-        Time remaining: {{ remainingDays }}d {{ remainingHours }}h {{ remainingMinutes }}m {{ remainingSeconds }}s
-    {% else %}
-        Time's up!
-    {% endif %}
-</div>
-
-
+        <div>
+            <h3>Time Remaining to Complete Your Deck</h3>
+            {% if timeIsValid %}
+                Time remaining:
+                {% set adjustedDays = remainingDays %}
+                {% if remainingMonths > 0 %}
+                    {{ remainingMonths }}m 
+                    {% set adjustedDays = remainingDays - 30 %}
+                {% endif %}
+                {% if adjustedDays > 0 %}
+                    {{ adjustedDays }}d 
+                {% endif %}
+                {% if remainingHours > 0 %}
+                    {{ remainingHours }}h 
+                {% endif %}
+                {% if remainingMinutes > 0 %}
+                    {{ remainingMinutes }}m 
+                {% endif %}
+                {% if remainingSeconds > 0 %}
+                    {{ remainingSeconds }}s
+                {% endif %}
+            {% else %}
+                Temps écoulé
+            {% endif %}
+        </div>
     </div>
 
     {% if week.id > 22 %}

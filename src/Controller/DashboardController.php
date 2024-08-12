@@ -45,16 +45,29 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Week not found');
         }
     
-      // Calculer le temps restant jusqu'à la deadline
-$deadline = new \DateTime($this->weekService->getDeadlineForWeek($id));
-$now = new \DateTime();
-$remainingTime = $deadline->diff($now);
+      // Calculate the remaining time until the deadline
+    $deadline = new \DateTime($this->weekService->getDeadlineForWeek($id));
+    $now = new \DateTime();
+    $remainingTime = $deadline->diff($now);
 
-// Extraire les jours, heures, minutes et secondes
-$remainingDays = $remainingTime->days;
-$remainingHours = $remainingTime->h;
-$remainingMinutes = $remainingTime->i;
-$remainingSeconds = $remainingTime->s;
+    // Determine if the current time is before or after the deadline
+    $timeIsValid = $now < $deadline;
+
+    if ($timeIsValid) {
+        // Extract months, days, hours, minutes, and seconds if the deadline hasn't passed
+        $remainingMonths = $remainingTime->m;
+        $remainingDays = $remainingTime->days;
+        $remainingHours = $remainingTime->h;
+        $remainingMinutes = $remainingTime->i;
+        $remainingSeconds = $remainingTime->s;
+    } else {
+        // Set all time components to zero if the deadline has passed
+        $remainingMonths = 0;
+        $remainingDays = 0;
+        $remainingHours = 0;
+        $remainingMinutes = 0;
+        $remainingSeconds = 0;
+    }
         // Obtenir les joueurs sélectionnés pour la semaine spécifique dans la table Choice
         $choices = $choiceRepository->findBy(['week' => $week]);
         $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
@@ -71,11 +84,13 @@ $remainingSeconds = $remainingTime->s;
             'matchesLFB' => $matchesLFBFiltered,
             'matchesLF2' => $matchesLF2Filtered,
             'selectedPlayers' => $selectedPlayers,
-            'remainingDays' => $remainingDays,
-            'remainingHours' => $remainingHours,
-            'remainingMinutes' => $remainingMinutes,
-            'remainingSeconds' => $remainingSeconds,
+            'remainingMonths' => $timeIsValid ? $remainingMonths : 0,
+            'remainingDays' => $timeIsValid ? $remainingDays : 0,
+            'remainingHours' => $timeIsValid ? $remainingHours : 0,
+            'remainingMinutes' => $timeIsValid ? $remainingMinutes : 0,
+            'remainingSeconds' => $timeIsValid ? $remainingSeconds : 0,
             'totalPoints' => $totalPoints,
+            'timeIsValid' => $timeIsValid,
         ]);
     }
     
