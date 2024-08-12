@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Choice;
-
-use App\Entity\User;
-
 use App\Entity\Team;
+use App\Entity\User;
 use App\Form\TeamType;
 use App\Repository\ChoiceRepository;
-use App\Repository\TeamRepository;
 use App\Repository\PlayerRepository;
+use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\WeekRepository;
+use App\Service\WeekService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,58 +22,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[Route('/team')]
 class TeamController extends AbstractController
 {
-    private $datesLimites = [
-        1 => '2024-09-28 19:00:00',  // Semaine 1
-        2 => '2024-10-4 19:00:00',  // Semaine 2
-        3 => '2024-10-11 19:00:00',  // Semaine 3
-        4 => '2024-10-19 18:00:00',  // Semaine 4
-        5 => '2024-11-02 19:00:00',  // Semaine 5
-        6 => '2024-11-16 19:00:00',  // Semaine 6
-        7 => '2024-11-23 19:00:00',  // Semaine 7
-        8 => '2024-11-30 18:00:00',  // Semaine 8
-        9 => '2024-12-06 19:00:00',  // Semaine 9
-        10 => '2024-12-14 18:00:00', // Semaine 10
-        11 => '2024-12-21 18:00:00', // Semaine 11
+    private WeekService $weekService;
 
-        12 => '2025-01-04 19:00:00', // Semaine 12
-        13 => '2025-01-11 19:00:00', // Semaine 13
-        14 => '2025-01-24 19:00:00', // Semaine 14
-
-        15 => '2025-01-31 19:00:00', // Semaine 15
-        16 => '2025-02-15 20:00:00', // Semaine 16
-        17 => '2025-02-21 19:00:00', // Semaine 17
-        18 => '2025-03-08 18:00:00', // Semaine 18
-        19 => '2025-03-14 19:00:00', // Semaine 19
-        20 => '2025-03-21 19:00:00', // Semaine 20
-        21 => '2025-03-29 23:00:00', // Semaine 21
-        22 => '2025-04-05 23:00:00', // Semaine 22
-
-        23 => '2024-10-05 16:00:00', // Semaine 23
-        24 => '2024-10-11 19:00:00', // Semaine 24
-        25 => '2024-10-17 23:00:00', // Semaine 25
-        26 => '2024-10-31 23:00:00', // Semaine 26
-        27 => '2024-11-15 23:00:00', // Semaine 27
-        28 => '2024-11-22 19:00:00', // Semaine 28
-        29 => '2024-11-30 19:00:00', // Semaine 29
-        30 => '2024-12-06 23:00:00', // Semaine 30
-        31 => '2024-12-11 19:00:00', // Semaine 31
-
-        32 => '2024-12-20 17:00:00', // Semaine 32
-
-        33 => '2025-01-11 19:00:00', // Semaine 33
-        34 => '2025-01-18 19:00:00', // Semaine 34
-        35 => '2025-01-24 17:00:00', // Semaine 35
-        36 => '2025-02-01 19:00:00', // Semaine 36
-        37 => '2025-02-15 17:00:00', // Semaine 37
-        38 => '2025-02-22 19:00:00', // Semaine 38
-        39 => '2025-03-01 15:00:00', // Semaine 39
-        40 => '2025-03-07 19:00:00', // Semaine 40
-        41 => '2025-03-15 19:00:00', // Semaine 41
-        42 => '2025-03-22 15:00:00', // Semaine 42
-        43 => '2025-03-29 19:00:00', // Semaine 43
-        44 => '2025-04-05 19:00:00', // Semaine 44
-    ];
-    
+    public function __construct(WeekService $weekService)
+    {
+        $this->weekService = $weekService;
+    }
 
     #[Route('/', name: 'app_team_index', methods: ['GET'])]
     public function index(TeamRepository $teamRepository): Response
@@ -103,39 +56,37 @@ class TeamController extends AbstractController
             'form' => $form,
         ]);
     }
-    
 
     #[Route('/show/{id}', name: 'app_team_show', methods: ['GET'])]
-public function show(
-    Team $team,
-    PlayerRepository $playerRepository,
-    Request $request,
-    ChoiceRepository $choiceRepository,
-    WeekRepository $weekRepository
-): Response {
-    $weekId = $request->query->get('weekId');
-    $week = $weekRepository->find($weekId);
+    public function show(
+        Team $team,
+        PlayerRepository $playerRepository,
+        Request $request,
+        ChoiceRepository $choiceRepository,
+        WeekRepository $weekRepository
+    ): Response {
+        $weekId = $request->query->get('weekId');
+        $week = $weekRepository->find($weekId);
 
-    if (!$week) {
-        throw $this->createNotFoundException('Week not found');
+        if (!$week) {
+            throw $this->createNotFoundException('Week not found');
+        }
+
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException('User not found');
+        }
+
+        $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
+        $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
+
+        return $this->render('team/show.html.twig', [
+            'team' => $team,
+            'players' => $playerRepository->findAll(),
+            'selectedPlayers' => $selectedPlayers,
+            'weekId' => $weekId,
+        ]);
     }
-
-    $user = $this->getUser();
-    if (!$user) {
-        throw $this->createAccessDeniedException('User not found');
-    }
-
-    $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
-    $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
-
-    return $this->render('team/show.html.twig', [
-        'team' => $team,
-        'players' => $playerRepository->findAll(),
-        'selectedPlayers' => $selectedPlayers,
-        'weekId' => $weekId, // Pass weekId to the template
-    ]);
-}
-
 
     #[Route('/edit/{id}', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, EntityManagerInterface $entityManager): Response
@@ -166,103 +117,101 @@ public function show(
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
     }
 
-   #[Route('/save-players', name: 'app_team_save_players', methods: ['POST'])]
-public function savePlayers(
-    Request $request,
-    PlayerRepository $playerRepository,
-    WeekRepository $weekRepository,
-    ChoiceRepository $choiceRepository,
-    EntityManagerInterface $entityManager
-): JsonResponse {
-    try {
-        $data = json_decode($request->getContent(), true);
+    #[Route('/save-players', name: 'app_team_save_players', methods: ['POST'])]
+    public function savePlayers(
+        Request $request,
+        PlayerRepository $playerRepository,
+        WeekRepository $weekRepository,
+        ChoiceRepository $choiceRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
+        try {
+            $data = json_decode($request->getContent(), true);
 
-        if ($data === null) {
-            return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
-        }
-
-        $weekId = $request->query->get('weekId');
-        if (!$weekId) {
-            return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
-        }
-
-        $week = $weekRepository->find($weekId);
-        if (!$week) {
-            return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
-        }
-
-        // Vérifier la date limite pour cette semaine
-        $dateLimite = new \DateTime($this->datesLimites[$weekId]);
-        $maintenant = new \DateTime();
-
-        if ($maintenant > $dateLimite) {
-            return new JsonResponse(['status' => 'error', 'message' => 'La date limite pour l\'ajout de joueurs pour cette semaine est dépassée.'], 403);
-        }
-
-        /** @var User $user */
-        $user = $this->getUser();
-        if (!$user) {
-            return new JsonResponse(['status' => 'error', 'message' => 'User not authenticated'], 401);
-        }
-
-        $existingChoices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
-        $existingPlayerIds = array_map(fn($choice) => $choice->getPlayer()->getId(), $existingChoices);
-
-        $totalPlayersSelected = count($existingPlayerIds) + count($data['players']);
-        if ($totalPlayersSelected > 5) {
-            return new JsonResponse(['status' => 'error', 'message' => 'You cannot select more than 5 players in total'], 400);
-        }
-
-        foreach ($data['players'] as $playerData) {
-            $playerId = $playerData['id'];
-
-            if (in_array($playerId, $existingPlayerIds)) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' has already been selected for this week'], 400);
+            if ($data === null) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Invalid JSON'], 400);
             }
 
-            $recentChoices = $choiceRepository->findRecentChoicesForPlayer($playerId, $week->getId(), 5, $user->getId());
-            if (!empty($recentChoices)) {
-                return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' is blocked for the next 5 weeks.']);
+            $weekId = $request->query->get('weekId');
+            if (!$weekId) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Week ID is required'], 400);
             }
 
-            $player = $playerRepository->find($playerId);
-            if ($player) {
-                $choice = new Choice();
-                $choice->setUser($user);
-                $choice->setWeek($week);
-                $choice->setPlayer($player);
-
-                // Mettre à jour les points du choix avec la méthode updatePoints
-                $choice->updatePoints($entityManager);
-
-                $entityManager->persist($choice);
+            $week = $weekRepository->find($weekId);
+            if (!$week) {
+                return new JsonResponse(['status' => 'error', 'message' => 'Invalid week ID'], 400);
             }
+
+            // Vérifier la date limite pour cette semaine
+            $dateLimite = new \DateTime($this->weekService->getDeadlineForWeek($weekId));
+            $maintenant = new \DateTime();
+
+            if ($maintenant > $dateLimite) {
+                return new JsonResponse(['status' => 'error', 'message' => 'La date limite pour l\'ajout de joueurs pour cette semaine est dépassée.'], 403);
+            }
+
+            /** @var User $user */
+            $user = $this->getUser();
+            if (!$user) {
+                return new JsonResponse(['status' => 'error', 'message' => 'User not authenticated'], 401);
+            }
+
+            $existingChoices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
+            $existingPlayerIds = array_map(fn($choice) => $choice->getPlayer()->getId(), $existingChoices);
+
+            $totalPlayersSelected = count($existingPlayerIds) + count($data['players']);
+            if ($totalPlayersSelected > 5) {
+                return new JsonResponse(['status' => 'error', 'message' => 'You cannot select more than 5 players in total'], 400);
+            }
+
+            foreach ($data['players'] as $playerData) {
+                $playerId = $playerData['id'];
+
+                if (in_array($playerId, $existingPlayerIds)) {
+                    return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' has already been selected for this week'], 400);
+                }
+
+                $recentChoices = $choiceRepository->findRecentChoicesForPlayer($playerId, $week->getId(), 5, $user->getId());
+                if (!empty($recentChoices)) {
+                    return new JsonResponse(['status' => 'error', 'message' => 'Player ' . $playerData['forename'] . ' ' . $playerData['name'] . ' is blocked for the next 5 weeks.']);
+                }
+
+                $player = $playerRepository->find($playerId);
+                if ($player) {
+                    $choice = new Choice();
+                    $choice->setUser($user);
+                    $choice->setWeek($week);
+                    $choice->setPlayer($player);
+
+                    // Mettre à jour les points du choix avec la méthode updatePoints
+                    $choice->updatePoints($entityManager);
+
+                    $entityManager->persist($choice);
+                }
+            }
+
+            $entityManager->flush();
+
+            return new JsonResponse(['status' => 'success', 'message' => 'Players successfully saved']);
+
+        } catch (\Exception $e) {
+            return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
-
-        $entityManager->flush();
-
-        return new JsonResponse(['status' => 'success', 'message' => 'Players successfully saved']);
-
-    } catch (\Exception $e) {
-        return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
-    }
-}
-
-#[Route('/ranking/{league}', name: 'app_team_ranking', methods: ['GET'])]
-public function ranking(string $league, UserRepository $userRepository): Response
-{
-    // Valide le type de league
-    if (!in_array($league, ['lfb', 'lf2'])) {
-        throw $this->createNotFoundException('Invalid league');
     }
 
-    $users = $userRepository->findAllOrderedByPoints($league);
+    #[Route('/ranking/{league}', name: 'app_team_ranking', methods: ['GET'])]
+    public function ranking(string $league, UserRepository $userRepository): Response
+    {
+        // Valide le type de league
+        if (!in_array($league, ['lfb', 'lf2'])) {
+            throw $this->createNotFoundException('Invalid league');
+        }
 
-    return $this->render('team/ranking.html.twig', [
-        'users' => $users,
-        'league' => $league,
-    ]);
-}
-    
+        $users = $userRepository->findAllOrderedByPoints($league);
 
+        return $this->render('team/ranking.html.twig', [
+            'users' => $users,
+            'league' => $league,
+        ]);
+    }
 }
