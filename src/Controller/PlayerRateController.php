@@ -97,11 +97,26 @@ class PlayerRateController extends AbstractController
     private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
     {
         $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
-
-        // Mise à jour des points cumulés pour les deux périodes
-        $user->updateCumulativePoints($choices);
-
+    
+        $totalLfbPoints = 0;
+        $totalLf2Points = 0;
+    
+        foreach ($choices as $choice) {
+            $week = $choice->getWeek();
+            $points = $choice->getPoints();
+    
+            if ($week->getId() <= 22) {
+                $totalLfbPoints += $points;
+            } else {
+                $totalLf2Points += $points;
+            }
+        }
+    
+        $user->setPtlLfb($totalLfbPoints);
+        $user->setPtLf2($totalLf2Points);
+    
         $entityManager->persist($user);
         $entityManager->flush();
     }
+    
 }
