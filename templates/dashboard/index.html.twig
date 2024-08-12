@@ -20,7 +20,7 @@
                 {% set adjustedDays = remainingDays %}
                 {% if remainingMonths > 0 %}
                     {{ remainingMonths }}m 
-                    {% set adjustedDays = remainingDays - 30 %}
+                    {% set adjustedDays = remainingDays - (remainingMonths  *30) %}
                 {% endif %}
                 {% if adjustedDays > 0 %}
                     {{ adjustedDays }}d 

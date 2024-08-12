@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classement Semaine {{ week.id }} - {{ league | upper }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <h1>Classement - Semaine {{ week.id }} ({{ league | upper }})</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Rang</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td>{{ league == 'lfb' ? user.ptlLfb : user.ptLf2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
