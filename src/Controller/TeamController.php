@@ -209,7 +209,7 @@ class TeamController extends AbstractController
 
         $users = $userRepository->findAllOrderedByPoints($league);
 
-        return $this->render('team/ranking.html.twig', [
+        return $this->render('dashboard/ranking.html.twig', [
             'users' => $users,
             'league' => $league,
         ]);
