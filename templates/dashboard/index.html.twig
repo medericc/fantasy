@@ -6,16 +6,16 @@
 
 
     <!-- Temps restant -->
-    <div class="card text-center bg-light mb-4 mt-4">
+ <div class="container">
+    <div class="card text-center bg-light mb-4 mt-4 mx-auto" style="max-width: 500px;">
         <div class="card-body">
-         
             <p class="card-text">
                 {% if timeIsValid %}
-                    il te reste :
+                    Il te reste :
                     {% set adjustedDays = remainingDays %}
                     {% if remainingMonths > 0 %}
                         {{ remainingMonths }}m 
-                        {% set adjustedDays = remainingDays - (remainingMonths  * 30) %}
+                        {% set adjustedDays = remainingDays - (remainingMonths * 30) %}
                     {% endif %}
                     {% if adjustedDays > 0 %}
                         {{ adjustedDays }}d 
@@ -35,68 +35,98 @@
             </p>
         </div>
     </div>
+</div>
+
     <!-- Matches -->
 {% if week.id > 22 %}
     <h2></h2>
-    <h3 class="text-center"{{ week.id - 22 }}e JOURNÉE</h3>
+    <h3 class="text-center">{{ week.id - 22 }}e JOURNÉE</h3>
     <ul class="list-group mb-4">
         {% for match in matchesLF2 %}
-            <li class="list-group-item text-center"> <!-- Ajout de text-center ici -->
-                {% if match.home_team_name is defined and match.away_team_name is defined %}
-                    <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a> | 
-                    <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
-                {% else %}
-                    <span>Invalid match data</span>
-                {% endif %}
+            <li class="list-group-item mb-3"> <!-- Ajout de mb-3 pour l'espace entre les éléments -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-center flex-fill">
+                        {% if match.home_team_name is defined %}
+                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a>
+                        {% else %}
+                            <span>Invalid match data</span>
+                        {% endif %}
+                    </div>
+                    <div class="text-center flex-fill">
+                        {% if match.away_team_name is defined %}
+                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                        {% else %}
+                            <span>Invalid match data</span>
+                        {% endif %}
+                    </div>
+                </div>
             </li>
         {% endfor %}
     </ul>
 {% endif %}
-
 
 {% if week.id <= 22 %}
     <h3 class="text-center">{{ week.id }}e JOURNÉE</h3>
     <ul class="list-group mb-4">
         {% for match in matchesLFB %}
-            <li class="list-group-item text-center"> <!-- Ajout de text-center ici -->
-                {% if match.home_team_name is defined and match.away_team_name is defined %}
-                    <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a> | 
-                    <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
-                {% else %}
-                    <span>Invalid match data</span>
-                {% endif %}
+            <li class="list-group-item mb-3"> <!-- Ajout de mb-3 pour l'espace entre les éléments -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-center flex-fill">
+                        {% if match.home_team_name is defined %}
+                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a>
+                        {% else %}
+                            <span>Invalid match data</span>
+                        {% endif %}
+                    </div>
+                    <div class="text-center flex-fill">
+                        {% if match.away_team_name is defined %}
+                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                        {% else %}
+                            <span>Invalid match data</span>
+                        {% endif %}
+                    </div>
+                </div>
             </li>
         {% endfor %}
     </ul>
 {% endif %}
 
 
-<div class="container my-4">
+
+
+<div class="container-fluid my-4">
     <!-- Informations de la semaine -->
-    <div class="text-center mb-4">
-        {% if week.id > 22 %}
-           
-            <h3>Score : {{ totalPoints }}</h3>
-        {% else %}
-           
-            <h3>Score : {{ totalPoints }}</h3>
-        {% endif %}
+ <div class="container">
+    <div class="card text-center mb-4 mx-auto" style="max-width: 200px;">
+        <div class="card-body">
+            {% if week.id > 22 %}
+                <h3>Score : {{ totalPoints }}</h3>
+            {% else %}
+                <h3>Score : {{ totalPoints }}</h3>
+            {% endif %}
+        </div>
     </div>
+</div>
+
     <!-- Deck Section -->
    <div class="card mb-4">
     <div class="card-header text-center">
         <h3>DECK</h3>
     </div>
-    <div class="card-body">
-        <ul id="deckPlayers" class="list-group d-flex flex-wrap"> <!-- Ajout de d-flex flex-wrap -->
+   <div class="card-body">
+        <ul id="deckPlayers" class="list-group d-flex flex-wrap">
             {% for player in selectedPlayers %}
-                <li class="list-group-item d-inline-block"> <!-- Ajout de d-inline-block -->
+                <li class="list-group-item d-inline-block">
                     {{ player.forename }} {{ player.name }}
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">Supprimer</button>
+                    {% if timeIsValid %}
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">Supprimer</button>
+                    {% else %}
+                              {% endif %}
                 </li>
             {% endfor %}
         </ul>
     </div>
+
 </div>
 
 </div>

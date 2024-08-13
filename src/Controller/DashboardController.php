@@ -107,6 +107,7 @@ class DashboardController extends AbstractController
         }
     }
     
+    
     #[Route('/dashboard', name: 'app_dashboard')]
     public function show(Request $request, UserRepository $userRepository, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
     {
