@@ -3,53 +3,58 @@
 {% block title %}Team: {{ team.name }}{% endblock %}
 
 {% block body %}
-    <!-- Back Button -->
-    <a href="{{ path('app_dashboard_id', { 'id': weekId }) }}" class="btn btn-secondary">Back</a>
+  <!-- Back Button -->
+<a href="{{ path('app_dashboard_id', { 'id': weekId }) }}" class="btn btn-secondary mb-3">Back</a>
 
-    <h1>Team: {{ team.name }}</h1>
+<div class="container">
+    <h1 class="h3 text-center text-md-left">{{ team.name }}</h1>
 
-    <h2>Players in the Team</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Note</th>
-                <th>Action</th>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>Points</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for player in team.players %}
+   
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ player.forename }}</td>
-                    <td>{{ player.name }}</td>
-                    <td>{{ player.rating }}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
-                    </td>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Note</th>
+                    <th>Action</th>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <td>
-                            <a href="{{ path('assign_points', { 'playerId': player.id, 'weekId': weekId }) }}" class="btn btn-warning">Attribuer des points</a>
-                        </td>
+                        <th>Points</th>
                     {% endif %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <div>
-        <h3>DECK</h3>
-        <ul id="deckPlayers">
+            </thead>
+            <tbody>
+                {% for player in team.players %}
+                    <tr>
+                        <td>{{ player.forename }}</td>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.rating }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">Ajouter</button>
+                        </td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <a href="{{ path('assign_points', { 'playerId': player.id, 'weekId': weekId }) }}" class="btn btn-warning btn-sm">Attribuer des points</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 mb-4">
+        <h3 class="h5 text-center text-md-left">DECK</h3>
+        <ul id="deckPlayers" class="list-group">
             {% for player in selectedPlayers %}
-                <li>
+                <li class="list-group-item">
                     {{ player.forename }} {{ player.name }}
                 </li>
             {% endfor %}
         </ul>
     </div>
+</div>
+
 {% endblock %}
 
 {% block javascripts %}

@@ -1,89 +1,114 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
+        <!-- User Pseudo or Connexion Link -->
         {% if app.user is not null %}
-            {% if app.user.pseudo is not null %}
-                <!-- Lien vers le tableau de bord avec le pseudo de l'utilisateur -->
-                <a href="{{ path('app_dashboard') }}" class="navbar-brand">
-                    <p>{{ app.user.pseudo }}</p>
-                </a>
-            {% else %}
-                <!-- Affiche "CONNEXION" si l'utilisateur est connecté mais sans pseudo -->
-                <a href="{{ path('app_login') }}" class="navbar-brand">  <p>CONNEXION</p></a>
-            {% endif %}
+            <a href="{{ path('app_dashboard') }}" class="navbar-brand">
+                <p class="m-0">{{ app.user.pseudo ? app.user.pseudo : 'CONNEXION' }}</p>
+            </a>
         {% else %}
-            <!-- Affiche "CONNEXION" si l'utilisateur n'est pas connecté -->
-           <a href="{{ path('app_login') }}" class="navbar-brand">   <p>CONNEXION</p> </a>
+            <a href="{{ path('app_login') }}" class="navbar-brand">
+                <p class="m-0">CONNEXION</p>
+            </a>
         {% endif %}
-       
-       {% if app.user is not null %}
-    <p>LFB {{ app.user.getPtlLfb() }} POINTS ( RANK )</p>
-    <p>LF2 {{ app.user.getPtLf2() }} POINTS ( RANK )</p>
-{% else %}
-    <p>LFB POINTS ( RANK )</p>
-    <p>LF2 POINTS ( RANK )</p>
-{% endif %}
 
-        <!-- Autres éléments de la navbar -->
+        <!-- Points and Rank Display -->
+   <div class="d-flex flex-column flex-lg-row align-items-lg-center ml-lg-3 mt-2 mt-lg-0">
+    {% if app.user is not null %}
+        <div class="text-center text-lg-left mb-2 mb-lg-0">
+            <p class="m-0 font-weight-bold">LFB</p>
+            <p class="m-0"> {{ app.user.getPtlLfb() }} {{ rankLFB }}</p>
+           
+        </div>
+        <div class="text-center text-lg-left">
+            <p class="m-0 font-weight-bold">LF2</p>
+            <p class="m-0"> {{ app.user.getPtLf2() }} {{ rankLF2 }}</p>
+            
+        </div>
+    {% else %}
+        <div class="text-center text-lg-left mb-2 mb-lg-0">
+            <p class="m-0 font-weight-bold">LFB</p>
+            <p class="m-0">Points: -</p>
+          
+        </div>
+        <div class="text-center text-lg-left">
+            <p class="m-0 font-weight-bold">LF2</p>
+            <p class="m-0">Points: -</p>
+        
+        </div>
+    {% endif %}
+</div>
+
+
+        <!-- Navbar Toggler for Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
+        <!-- Collapsible Navbar Content -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <!-- Les éléments de menu déroulant pour les decks et les classements -->
+                <!-- Dropdown for Deck LFB -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLFB" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         DECK LFB
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownDeckLFB">
                         {% for weekLFB in app.session.get('weeksLFB') %}
-                            <a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLFB.id}) }}">{{ 'Week ' ~ weekLFB.id }}</a>
+                            <a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLFB.id}) }}">
+                                Week {{ weekLFB.id }}
+                            </a>
                         {% endfor %}
                     </div>
                 </li>
-             <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        DECK LF2
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
-        {% for weekLF2 in app.session.get('weeksLF2') %}
-            <a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id}) }}">
-                {{ 'Week ' ~ (weekLF2.id - 22) }}
-            </a>
-        {% endfor %}
-    </div>
-</li>
 
-            <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        RANKING LFB
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
-        <a class="dropdown-item" href="#">Week</a>
-        <a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a>
-    </div>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        RANKING LF2
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
-        <a class="dropdown-item" href="#">Week</a>
-        <a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a>
-    </div>
-</li>
+                <!-- Dropdown for Deck LF2 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLF2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        DECK LF2
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownDeckLF2">
+                        {% for weekLF2 in app.session.get('weeksLF2') %}
+                            <a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id}) }}">
+                                Week {{ weekLF2.id - 22 }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </li>
 
+                <!-- Dropdown for Ranking LFB -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        RANKING LFB
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
+                        <a class="dropdown-item" href="#">Week</a>
+                        <a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for Ranking LF2 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        RANKING LF2
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
+                        <a class="dropdown-item" href="#">Week</a>
+                        <a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a>
+                    </div>
+                </li>
+
+                <!-- Rules Link -->
                 <li class="nav-item">
                     <a class="nav-link" href="#">RULES</a>
                 </li>
 
-                <!-- Affiche le bouton "Déconnexion" si l'utilisateur est connecté -->
+                <!-- Logout Button -->
                 {% if app.user is not null %}
-                <li class="nav-item">
-                    <form class="form-inline" action="{{ path('app_logout') }}" method="post">
-                        <button class="btn btn-outline-success" type="submit">Déconnexion</button>
-                    </form>
-                </li>
+                    <li class="nav-item">
+                        <form action="{{ path('app_logout') }}" method="post" class="form-inline">
+                            <button class="btn btn-outline-success" type="submit">Déconnexion</button>
+                        </form>
+                    </li>
                 {% endif %}
             </ul>
         </div>

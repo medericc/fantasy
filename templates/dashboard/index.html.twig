@@ -3,88 +3,103 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <h1>Dashboard</h1>
-    {% if week.id > 22 %}
-        <h2>Matches for Week {{ week.id - 22 }}</h2>
-        <h3>Total Points for Week {{ week.id - 22 }}: {{ totalPoints }}</h3>
-    {% else %}
-        <h2>Matches for Week {{ week.id }}</h2>
-        <h3>Total Points for Week {{ week.id }}: {{ totalPoints }}</h3>
-    {% endif %}
 
-    <div>
-        <div>
-            <h3>Time Remaining to Complete Your Deck</h3>
-            {% if timeIsValid %}
-                Time remaining:
-                {% set adjustedDays = remainingDays %}
-                {% if remainingMonths > 0 %}
-                    {{ remainingMonths }}m 
-                    {% set adjustedDays = remainingDays - (remainingMonths  *30) %}
+
+    <!-- Temps restant -->
+    <div class="card text-center bg-light mb-4 mt-4">
+        <div class="card-body">
+         
+            <p class="card-text">
+                {% if timeIsValid %}
+                    il te reste :
+                    {% set adjustedDays = remainingDays %}
+                    {% if remainingMonths > 0 %}
+                        {{ remainingMonths }}m 
+                        {% set adjustedDays = remainingDays - (remainingMonths  * 30) %}
+                    {% endif %}
+                    {% if adjustedDays > 0 %}
+                        {{ adjustedDays }}d 
+                    {% endif %}
+                    {% if remainingHours > 0 %}
+                        {{ remainingHours }}h 
+                    {% endif %}
+                    {% if remainingMinutes > 0 %}
+                        {{ remainingMinutes }}m 
+                    {% endif %}
+                    {% if remainingSeconds > 0 %}
+                        {{ remainingSeconds }}s
+                    {% endif %}
+                {% else %}
+                    Temps écoulé
                 {% endif %}
-                {% if adjustedDays > 0 %}
-                    {{ adjustedDays }}d 
-                {% endif %}
-                {% if remainingHours > 0 %}
-                    {{ remainingHours }}h 
-                {% endif %}
-                {% if remainingMinutes > 0 %}
-                    {{ remainingMinutes }}m 
-                {% endif %}
-                {% if remainingSeconds > 0 %}
-                    {{ remainingSeconds }}s
-                {% endif %}
-            {% else %}
-                Temps écoulé
-            {% endif %}
+            </p>
         </div>
     </div>
+    <!-- Matches -->
+{% if week.id > 22 %}
+    <h2></h2>
+    <h3 class="text-center"{{ week.id - 22 }}e JOURNÉE</h3>
+    <ul class="list-group mb-4">
+        {% for match in matchesLF2 %}
+            <li class="list-group-item text-center"> <!-- Ajout de text-center ici -->
+                {% if match.home_team_name is defined and match.away_team_name is defined %}
+                    <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a> | 
+                    <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                {% else %}
+                    <span>Invalid match data</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-    {% if week.id > 22 %}
-        <h3>LF2 Matches</h3>
-        <ul>
-            {% for match in matchesLF2 %}
-                <li>
-                    {% if match.home_team_name is defined and match.away_team_name is defined %}
-                        Match Day: {{ week.id }} | 
-                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}"> {{ match.home_team_name }}</a> | 
-                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}"> {{ match.away_team_name }}</a>
-                    {% else %}
-                        <span>Invalid match data</span>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 
-    {% if week.id <= 22 %}
-        <h3>LFB Matches</h3>
-        <ul>
-            {% for match in matchesLFB %}
-                <li>
-                    {% if match.home_team_name is defined and match.away_team_name is defined %}
-                        Match Day: {{ week.id }} | 
-                        <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}"> {{ match.home_team_name }}</a> | 
-                        <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}"> {{ match.away_team_name }}</a>
-                    {% else %}
-                        <span>Invalid match data</span>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% if week.id <= 22 %}
+    <h3 class="text-center">{{ week.id }}e JOURNÉE</h3>
+    <ul class="list-group mb-4">
+        {% for match in matchesLFB %}
+            <li class="list-group-item text-center"> <!-- Ajout de text-center ici -->
+                {% if match.home_team_name is defined and match.away_team_name is defined %}
+                    <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a> | 
+                    <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                {% else %}
+                    <span>Invalid match data</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-    <div>
+
+<div class="container my-4">
+    <!-- Informations de la semaine -->
+    <div class="text-center mb-4">
+        {% if week.id > 22 %}
+           
+            <h3>Score : {{ totalPoints }}</h3>
+        {% else %}
+           
+            <h3>Score : {{ totalPoints }}</h3>
+        {% endif %}
+    </div>
+    <!-- Deck Section -->
+   <div class="card mb-4">
+    <div class="card-header text-center">
         <h3>DECK</h3>
-        <ul id="deckPlayers">
+    </div>
+    <div class="card-body">
+        <ul id="deckPlayers" class="list-group d-flex flex-wrap"> <!-- Ajout de d-flex flex-wrap -->
             {% for player in selectedPlayers %}
-                <li>
+                <li class="list-group-item d-inline-block"> <!-- Ajout de d-inline-block -->
                     {{ player.forename }} {{ player.name }}
                     <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">Supprimer</button>
                 </li>
             {% endfor %}
         </ul>
     </div>
+</div>
+
+</div>
 
 {% block javascripts %}
     {{ parent() }}

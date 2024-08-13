@@ -1,34 +1,36 @@
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Classement {{ league|upper }}{% endblock %}
 
 {% block body %}
-    <h1>Classement - {{ league|upper }}</h1>
+    <div class="container my-4">
+        <h1 class="text-center mb-4">Classement - {{ league|upper }}</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Rang</th>
-                <th>Pseudo</th>
-                <th>Points {{ league|upper }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ user.pseudo }}</td>
-                    <td>
-                        {% if league == 'lfb' %}
-                            {{ user.ptlLfb  }}
-                        {% else %}
-                            {{ user.ptLf2  }}
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="table-responsive"> <!-- Ajout de table-responsive pour mobile-first -->
+            <table class="table table-striped table-bordered"> <!-- Utilisation des classes Bootstrap -->
+                <thead class="thead-dark"> <!-- Classe Bootstrap pour un en-tête sombre -->
+                    <tr>
+                        <th scope="col">Rang</th>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Points {{ league|upper }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ user.pseudo }}</td>
+                            <td>
+                                {% if league == 'lfb' %}
+                                    {{ user.ptlLfb }}
+                                {% else %}
+                                    {{ user.ptLf2 }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

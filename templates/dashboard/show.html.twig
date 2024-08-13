@@ -3,63 +3,52 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-  <div class="container mt-5 mb-5"> 
-        <div class="row">
-            <div class="col">
-                <div class="example-wrapper bg-danger mb-3 p-3">
-                    <div>
-                        <h1>LFB</h1>
-                        <h2>{{ totalPointsLFB }} PTS SEMAINE {{ latestWeekLFB.id }}</h2>
-                    </div>
-                    <div>
-                        <h2>RANKING SEMAINE {{ latestWeekLFB.id }}: {{ rankLFB }}e / {{ totalUsersLFB }}</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="example-wrapper bg-danger mb-3 p-3">
-                    <div>
-                        <h1>LF2</h1>
-                        <h2>{{ totalPointsLF2 }} PTS SEMAINE {{ latestWeekLF2.id -22 }}</h2>
-                    </div>
-                    <div>
-                        <h2>RANKING SEMAINE {{ latestWeekLF2.id }}: {{ rankLF2 }}e / {{ totalUsersLF2 }}</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+<div class="container mt-5">
     <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LFB</h1>
-                    <h2>{{ app.user.getPtlLfb }}  PTS SAISON</h2>
-                </div>
-                 <div>
-                 <h3>{{ rankLFB }}e / {{ totalUsersLFB }}</h3>
-            </div>
+        <!-- Première ligne de cartes -->
+        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
+            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+                <h1 class="card-title">LFB</h1>
+                <h2>{{ totalPointsLFB }} PTS SEMAINE {{ latestWeekLFB.id }}</h2>
+                <h2>RANKING SEMAINE {{ latestWeekLFB.id }}: {{ rankLFB }}e / {{ totalUsersLFB }}</h2>
             </div>
         </div>
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <div>
-                    <h1>LF2</h1>
-                    <h2>{{app.user.getPtLf2  }} PTS SAISON</h2>
-                </div>
-                <div>
-                  <h3>{{ rankLF2 }}e / {{ totalUsersLF2 }}</h3>
-            </div>
+        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
+            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+                <h1 class="card-title">LF2</h1>
+                <h2>{{ totalPointsLF2 }} PTS SEMAINE {{ latestWeekLF2.id - 22 }}</h2>
+                <h2>RANKING SEMAINE {{ latestWeekLF2.id }}: {{ rankLF2 }}e / {{ totalUsersLF2 }}</h2>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col">
-            <div class="example-wrapper bg-danger mb-3 p-3">
-                <h1>5 MAJEUR</h1>
-                <div><h2>LFB</h2></div>
-                <div><h2>LF2</h2></div>
+        <!-- Deuxième ligne de cartes -->
+        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
+            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+                <h1 class="card-title">LFB</h1>
+                <h2>{{ app.user.getPtlLfb }} PTS SAISON</h2>
+                <h3>{{ rankLFB }}e / {{ totalUsersLFB }}</h3>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
+            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+                <h1 class="card-title">LF2</h1>
+                <h2>{{ app.user.getPtLf2 }} PTS SAISON</h2>
+                <h3>{{ rankLF2 }}e / {{ totalUsersLF2 }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row mb-4">
+        <!-- Troisième ligne de cartes (deck) -->
+        <div class="col-12"> <!-- Sur mobile, occupe toute la largeur -->
+            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 permet au deck d'occuper toute la hauteur possible, text-center pour centrer -->
+                <h1 class="card-title">5 MAJEUR</h1>
+                <h2>LFB</h2>
+                <h2>LF2</h2>
             </div>
         </div>
     </div>
