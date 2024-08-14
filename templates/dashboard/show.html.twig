@@ -16,8 +16,8 @@
         <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
             <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
                 <h1 class="card-title">LF2</h1>
-                <h2>{{ totalPointsLF2 | default(0) }} PTS SEMAINE {{ (latestWeekLF2.id | default(1))  }}</h2>
-                <h2>RANKING SEMAINE {{ latestWeekLF2.id | default(1) }}: {{ rankLF2 | default(0) }}e / {{ totalUsersLF2 | default(0) }}</h2>
+                <h2>{{ totalPointsLF2 | default(0) }} PTS SEMAINE {{ (latestWeekLF2.id -22 | default(1))  }}</h2>
+                <h2>RANKING SEMAINE {{ latestWeekLF2.id -22 | default(1) }}: {{ rankLF2 | default(0) }}e / {{ totalUsersLF2 | default(0) }}</h2>
             </div>
         </div>
     </div>
