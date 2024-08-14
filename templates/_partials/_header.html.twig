@@ -67,26 +67,30 @@
                 </li>
 
                 <!-- Dropdown Ranking LFB -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        RANKING LFB
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
-                        <li><a class="dropdown-item" href="#">Week</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
-                    </ul>
-                </li>
+              <!-- Dropdown Ranking LFB -->
+<!-- Dropdown Ranking LFB -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        RANKING LFB
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
+        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lfb'}) }}">Week</a></li>
+        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
+    </ul>
+</li>
 
-                <!-- Dropdown Ranking LF2 -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        RANKING LF2
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
-                        <li><a class="dropdown-item" href="#">Week</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
-                    </ul>
-                </li>
+<!-- Dropdown Ranking LF2 -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        RANKING LF2
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
+        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lf2'}) }}">Week</a></li>
+        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
+    </ul>
+</li>
+
+
 
                 <!-- Lien vers les règles -->
                 <li class="nav-item">

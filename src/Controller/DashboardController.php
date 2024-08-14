@@ -173,4 +173,39 @@ class DashboardController extends AbstractController
             return new Response('An error occurred while deleting the player.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    #[Route('/ranking/week', name: 'ranking_week')]
+    public function rankingWeek(Request $request, UserRepository $userRepository, WeekRepository $weekRepository): Response
+    {
+        // Get the league from the URL query parameter, default to 'lfb' if not provided
+        $league = $request->query->get('league', 'lfb');
+    
+        // Define week ranges based on the league
+        if ($league === 'lfb') {
+            $startWeek = 1;
+            $endWeek = 22;
+        } elseif ($league === 'lf2') {
+            $startWeek = 23;
+            $endWeek = 44;
+        } else {
+            throw $this->createNotFoundException('Invalid league specified.');
+        }
+    
+        // Find the latest filled week within the specified range
+        $latestWeek = $weekRepository->findLatestFilledWeek($startWeek, $endWeek);
+    
+        if (!$latestWeek) {
+            throw $this->createNotFoundException('No filled week found for the specified league.');
+        }
+    
+        // Get users ordered by their points in the specified league
+        $users = $userRepository->findAllOrderedByPoints($league);
+    
+        // Render the ranking page with the retrieved data
+        return $this->render('dashboard/ranking.week.html.twig', [
+            'week' => $latestWeek,
+            'users' => $users,
+            'league' => $league,
+        ]);
+    }
+    
 }
