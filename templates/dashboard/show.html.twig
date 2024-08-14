@@ -9,15 +9,15 @@
         <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
             <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
                 <h1 class="card-title">LFB</h1>
-                <h2>{{ totalPointsLFB }} PTS SEMAINE {{ latestWeekLFB.id }}</h2>
-                <h2>RANKING SEMAINE {{ latestWeekLFB.id }}: {{ rankLFB }}e / {{ totalUsersLFB }}</h2>
+                <h2>{{ totalPointsLFB | default(0) }} PTS SEMAINE {{ latestWeekLFB.id | default(1) }}</h2>
+                <h2>RANKING SEMAINE {{ latestWeekLFB.id | default(1) }}: {{ rankLFB | default(0) }}e / {{ totalUsersLFB | default(0) }}</h2>
             </div>
         </div>
         <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
             <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
                 <h1 class="card-title">LF2</h1>
-                <h2>{{ totalPointsLF2 }} PTS SEMAINE {{ latestWeekLF2.id - 22 }}</h2>
-                <h2>RANKING SEMAINE {{ latestWeekLF2.id }}: {{ rankLF2 }}e / {{ totalUsersLF2 }}</h2>
+                <h2>{{ totalPointsLF2 | default(0) }} PTS SEMAINE {{ (latestWeekLF2.id | default(1))  }}</h2>
+                <h2>RANKING SEMAINE {{ latestWeekLF2.id | default(1) }}: {{ rankLF2 | default(0) }}e / {{ totalUsersLF2 | default(0) }}</h2>
             </div>
         </div>
     </div>
@@ -27,15 +27,15 @@
         <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
             <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
                 <h1 class="card-title">LFB</h1>
-                <h2>{{ app.user.getPtlLfb }} PTS SAISON</h2>
-                <h3>{{ rankLFB }}e / {{ totalUsersLFB }}</h3>
+                <h2>{{ app.user.getPtlLfb | default(0) }} PTS SAISON</h2>
+                <h3>{{ rankLFB | default(0) }}e / {{ totalUsersLFB | default(0) }}</h3>
             </div>
         </div>
         <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
             <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
                 <h1 class="card-title">LF2</h1>
-                <h2>{{ app.user.getPtLf2 }} PTS SAISON</h2>
-                <h3>{{ rankLF2 }}e / {{ totalUsersLF2 }}</h3>
+                <h2>{{ app.user.getPtLf2 | default(0) }} PTS SAISON</h2>
+                <h3>{{ rankLF2 | default(0) }}e / {{ totalUsersLF2 | default(0) }}</h3>
             </div>
         </div>
     </div>
