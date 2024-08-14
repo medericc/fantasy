@@ -118,7 +118,6 @@ class TeamController extends AbstractController
     }
 
  
-
     #[Route('/save-players', name: 'app_team_save_players', methods: ['POST'])]
     public function savePlayers(
         Request $request,
@@ -158,6 +157,7 @@ class TeamController extends AbstractController
                 return new JsonResponse(['status' => 'error', 'message' => 'User not authenticated'], 401);
             }
     
+            // Fetch existing choices for the authenticated user and the specified week
             $existingChoices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
             $existingPlayerIds = array_map(fn($choice) => $choice->getPlayer()->getId(), $existingChoices);
     
@@ -203,6 +203,8 @@ class TeamController extends AbstractController
             return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    
+    
     
 
     #[Route('/ranking/{league}', name: 'app_team_ranking', methods: ['GET'])]

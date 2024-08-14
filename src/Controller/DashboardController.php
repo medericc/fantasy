@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Choice;
+use App\Entity\User;
 use App\Repository\ChoiceRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
@@ -45,31 +47,26 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Week not found');
         }
     
-      // Calculate the remaining time until the deadline
-    $deadline = new \DateTime($this->weekService->getDeadlineForWeek($id));
-    $now = new \DateTime();
-    $remainingTime = $deadline->diff($now);
-
-    // Determine if the current time is before or after the deadline
-    $timeIsValid = $now < $deadline;
-
-    if ($timeIsValid) {
-        // Extract months, days, hours, minutes, and seconds if the deadline hasn't passed
-        $remainingMonths = $remainingTime->m;
-        $remainingDays = $remainingTime->days;
-        $remainingHours = $remainingTime->h;
-        $remainingMinutes = $remainingTime->i;
-        $remainingSeconds = $remainingTime->s;
-    } else {
-        // Set all time components to zero if the deadline has passed
-        $remainingMonths = 0;
-        $remainingDays = 0;
-        $remainingHours = 0;
-        $remainingMinutes = 0;
-        $remainingSeconds = 0;
-    }
-        // Obtenir les joueurs sélectionnés pour la semaine spécifique dans la table Choice
-        $choices = $choiceRepository->findBy(['week' => $week]);
+        // Calculer le temps restant jusqu'à la date limite
+        $deadline = new \DateTime($this->weekService->getDeadlineForWeek($id));
+        $now = new \DateTime();
+        $remainingTime = $deadline->diff($now);
+    
+        $timeIsValid = $now < $deadline;
+    
+        // Calcul du temps restant
+        $remainingMonths = $timeIsValid ? $remainingTime->m : 0;
+        $remainingDays = $timeIsValid ? $remainingTime->days : 0;
+        $remainingHours = $timeIsValid ? $remainingTime->h : 0;
+        $remainingMinutes = $timeIsValid ? $remainingTime->i : 0;
+        $remainingSeconds = $timeIsValid ? $remainingTime->s : 0;
+    
+        // Récupérer l'utilisateur connecté
+        /** @var User $user */
+        $user = $this->getUser();
+    
+        // Obtenir les choix de l'utilisateur connecté pour la semaine spécifique
+        $choices = $choiceRepository->findBy(['week' => $week, 'user' => $user]);
         $selectedPlayers = array_map(fn($choice) => $choice->getPlayer(), $choices);
     
         // Calculer les points pour la semaine
@@ -84,15 +81,16 @@ class DashboardController extends AbstractController
             'matchesLFB' => $matchesLFBFiltered,
             'matchesLF2' => $matchesLF2Filtered,
             'selectedPlayers' => $selectedPlayers,
-            'remainingMonths' => $timeIsValid ? $remainingMonths : 0,
-            'remainingDays' => $timeIsValid ? $remainingDays : 0,
-            'remainingHours' => $timeIsValid ? $remainingHours : 0,
-            'remainingMinutes' => $timeIsValid ? $remainingMinutes : 0,
-            'remainingSeconds' => $timeIsValid ? $remainingSeconds : 0,
+            'remainingMonths' => $remainingMonths,
+            'remainingDays' => $remainingDays,
+            'remainingHours' => $remainingHours,
+            'remainingMinutes' => $remainingMinutes,
+            'remainingSeconds' => $remainingSeconds,
             'totalPoints' => $totalPoints,
             'timeIsValid' => $timeIsValid,
         ]);
     }
+    
     
     private function replaceTeamIdsWithNames(array &$matches, TeamRepository $teamRepository): void
     {
@@ -153,26 +151,58 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/delete-player/{weekId}/{playerId}', name: 'app_dashboard_delete_player', methods: ['DELETE'])]
-    public function deletePlayer(int $weekId, int $playerId, ChoiceRepository $choiceRepository): Response
+    public function deletePlayer(int $weekId, int $playerId, ChoiceRepository $choiceRepository, EntityManagerInterface $entityManager): Response
     {
         try {
             // Trouver l'entité Choice par joueur et semaine
             $choice = $choiceRepository->findOneBy(['player' => $playerId, 'week' => $weekId]);
-
+    
             if (!$choice) {
                 return new Response('Player not found in the DECK for the specified week.', Response::HTTP_NOT_FOUND);
             }
-
+    
             // Supprimer l'entité Choice
-            $this->entityManager->remove($choice);
-            $this->entityManager->flush();
-
-            return new Response('Player successfully removed from the DECK.', Response::HTTP_OK);
+            $entityManager->remove($choice);
+            $entityManager->flush();
+    
+            // Recalculer les points de l'utilisateur après la suppression
+            $user = $this->getUser();
+            if ($user instanceof User) {
+                $this->updateUserPoints($user, $entityManager);
+            }
+    
+            return new Response('Player successfully removed from the DECK and points updated.', Response::HTTP_OK);
         } catch (\Exception $e) {
             $this->addFlash('error', 'An error occurred while deleting the player: ' . $e->getMessage());
             return new Response('An error occurred while deleting the player.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
+    {
+        $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
+    
+        $totalLfbPoints = 0;
+        $totalLf2Points = 0;
+    
+        foreach ($choices as $choice) {
+            $week = $choice->getWeek();
+            $points = $choice->getPoints();
+    
+            if ($week->getId() <= 22) {
+                $totalLfbPoints += $points;
+            } else {
+                $totalLf2Points += $points;
+            }
+        }
+    
+        $user->setPtlLfb($totalLfbPoints);
+        $user->setPtLf2($totalLf2Points);
+    
+        $entityManager->persist($user);
+        $entityManager->flush();
+    }
+    
     #[Route('/ranking/week', name: 'ranking_week')]
     public function rankingWeek(Request $request, UserRepository $userRepository, WeekRepository $weekRepository): Response
     {
