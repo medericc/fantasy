@@ -22,27 +22,24 @@ class ChoiceRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds recent choices for a player within the last X weeks.
+     * Finds choices for a player within a range of weeks.
      *
      * @param int $playerId
-     * @param int $currentWeekId
-     * @param int $blockWeeks
+     * @param array $weekIds
      * @param int $userId
      *
      * @return Choice[] Returns an array of Choice objects
      */
-    public function findRecentChoicesForPlayer(int $playerId, int $currentWeekId, int $blockWeeks, int $userId): array
+    public function findChoicesForPlayerInWeeks(int $playerId, array $weekIds, int $userId): array
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.week', 'w')
             ->where('c.player = :playerId')
             ->andWhere('c.user = :userId')
-            ->andWhere('w.id >= :weekStart')
-            ->andWhere('w.id < :currentWeekId')
+            ->andWhere('w.id IN (:weekIds)')
             ->setParameter('playerId', $playerId)
             ->setParameter('userId', $userId)
-            ->setParameter('weekStart', $currentWeekId - $blockWeeks)
-            ->setParameter('currentWeekId', $currentWeekId)
+            ->setParameter('weekIds', $weekIds)
             ->getQuery()
             ->getResult();
     }
