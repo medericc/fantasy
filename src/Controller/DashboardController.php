@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Choice;
+use App\Entity\Player;
 use App\Entity\User;
+use App\Entity\Week;
 use App\Repository\ChoiceRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
@@ -165,11 +167,13 @@ class DashboardController extends AbstractController
             $entityManager->remove($choice);
             $entityManager->flush();
     
-            // Recalculer les points de l'utilisateur après la suppression
-            $user = $this->getUser();
-            if ($user instanceof User) {
-                $this->updateUserPoints($user, $entityManager);
-            }
+         // Recalculer les points de l'utilisateur après la suppression
+$user = $this->getUser();
+if ($user instanceof User) {
+    // Appeler la méthode en passant d'abord l'EntityManager
+    $this->updateUserPoints($entityManager);
+}
+
     
             return new Response('Player successfully removed from the DECK and points updated.', Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -178,30 +182,42 @@ class DashboardController extends AbstractController
         }
     }
     
-    private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
+    private function updateUserPoints(EntityManagerInterface $entityManager): void
     {
-        $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
+        // Récupérer tous les utilisateurs
+        $users = $entityManager->getRepository(User::class)->findAll();
     
-        $totalLfbPoints = 0;
-        $totalLf2Points = 0;
+        foreach ($users as $user) {
+            // Récupérer tous les choix de cet utilisateur
+            $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
     
-        foreach ($choices as $choice) {
-            $week = $choice->getWeek();
-            $points = $choice->getPoints();
+            $totalLfbPoints = 0;
+            $totalLf2Points = 0;
     
-            if ($week->getId() <= 22) {
-                $totalLfbPoints += $points;
-            } else {
-                $totalLf2Points += $points;
+            foreach ($choices as $choice) {
+                $week = $choice->getWeek();
+                $points = $choice->getPoints();
+    
+                // Calculer les points pour LFB et LF2 en fonction de l'ID de la semaine
+                if ($week->getId() <= 22) {
+                    $totalLfbPoints += $points;
+                } else {
+                    $totalLf2Points += $points;
+                }
             }
+    
+            // Mettre à jour les points cumulés de l'utilisateur
+            $user->setPtlLfb($totalLfbPoints);
+            $user->setPtLf2($totalLf2Points);
+    
+            // Persister les changements pour cet utilisateur
+            $entityManager->persist($user);
         }
     
-        $user->setPtlLfb($totalLfbPoints);
-        $user->setPtLf2($totalLf2Points);
-    
-        $entityManager->persist($user);
+        // Après avoir parcouru tous les utilisateurs, enregistrer les changements dans la base de données
         $entityManager->flush();
     }
+    
     
     #[Route('/ranking/week', name: 'ranking_week')]
     public function rankingWeek(Request $request, UserRepository $userRepository, WeekRepository $weekRepository): Response

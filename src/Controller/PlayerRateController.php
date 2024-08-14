@@ -61,11 +61,13 @@ class PlayerRateController extends AbstractController
             // Mettre à jour les points pour tous les choix de ce joueur pour cette semaine
             $this->updateChoicesPoints($player, $week, $entityManager);
 
-            // Mettre à jour les points cumulés de l'utilisateur
-            $user = $this->getUser();
-            if ($user instanceof User) {
-                $this->updateUserPoints($user, $entityManager);
-            }
+        // Recalculer les points de l'utilisateur après la suppression
+$user = $this->getUser();
+if ($user instanceof User) {
+    // Appeler la méthode en passant d'abord l'EntityManager
+    $this->updateUserPoints($entityManager);
+}
+
     
             $this->addFlash('success', 'Points assigned successfully.');
     
@@ -94,28 +96,39 @@ class PlayerRateController extends AbstractController
         $entityManager->flush();
     }
     
-    private function updateUserPoints(User $user, EntityManagerInterface $entityManager): void
+    private function updateUserPoints(EntityManagerInterface $entityManager): void
     {
-        $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
+        // Récupérer tous les utilisateurs
+        $users = $entityManager->getRepository(User::class)->findAll();
     
-        $totalLfbPoints = 0;
-        $totalLf2Points = 0;
+        foreach ($users as $user) {
+            // Récupérer tous les choix de cet utilisateur
+            $choices = $entityManager->getRepository(Choice::class)->findBy(['user' => $user]);
     
-        foreach ($choices as $choice) {
-            $week = $choice->getWeek();
-            $points = $choice->getPoints();
+            $totalLfbPoints = 0;
+            $totalLf2Points = 0;
     
-            if ($week->getId() <= 22) {
-                $totalLfbPoints += $points;
-            } else {
-                $totalLf2Points += $points;
+            foreach ($choices as $choice) {
+                $week = $choice->getWeek();
+                $points = $choice->getPoints();
+    
+                // Calculer les points pour LFB et LF2 en fonction de l'ID de la semaine
+                if ($week->getId() <= 22) {
+                    $totalLfbPoints += $points;
+                } else {
+                    $totalLf2Points += $points;
+                }
             }
+    
+            // Mettre à jour les points cumulés de l'utilisateur
+            $user->setPtlLfb($totalLfbPoints);
+            $user->setPtLf2($totalLf2Points);
+    
+            // Persister les changements pour cet utilisateur
+            $entityManager->persist($user);
         }
     
-        $user->setPtlLfb($totalLfbPoints);
-        $user->setPtLf2($totalLf2Points);
-    
-        $entityManager->persist($user);
+        // Après avoir parcouru tous les utilisateurs, enregistrer les changements dans la base de données
         $entityManager->flush();
     }
     
