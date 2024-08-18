@@ -220,12 +220,12 @@ if ($user instanceof User) {
     
     
     #[Route('/ranking/week', name: 'ranking_week')]
-    public function rankingWeek(Request $request, UserRepository $userRepository, WeekRepository $weekRepository): Response
+    public function rankingWeek(Request $request, UserRepository $userRepository, WeekRepository $weekRepository, ChoiceRepository $choiceRepository): Response
     {
-        // Get the league from the URL query parameter, default to 'lfb' if not provided
+        // Obtenir la ligue à partir du paramètre d'URL, par défaut 'lfb'
         $league = $request->query->get('league', 'lfb');
-    
-        // Define week ranges based on the league
+        
+        // Définir les plages de semaines en fonction de la ligue
         if ($league === 'lfb') {
             $startWeek = 1;
             $endWeek = 22;
@@ -236,21 +236,47 @@ if ($user instanceof User) {
             throw $this->createNotFoundException('Invalid league specified.');
         }
     
-        // Find the latest filled week within the specified range
+        // Trouver la dernière semaine remplie dans la plage spécifiée
         $latestWeek = $weekRepository->findLatestFilledWeek($startWeek, $endWeek);
     
         if (!$latestWeek) {
             throw $this->createNotFoundException('No filled week found for the specified league.');
         }
     
-        // Get users ordered by their points in the specified league
-        $users = $userRepository->findAllOrderedByPoints($league);
+        // Récupérer les choix des utilisateurs pour la dernière semaine
+        $choices = $choiceRepository->findBy(['week' => $latestWeek]);
     
-        // Render the ranking page with the retrieved data
+        // Calculer les points pour chaque utilisateur
+        $userPoints = [];
+        foreach ($choices as $choice) {
+            $userId = $choice->getUser()->getId();
+            if (!isset($userPoints[$userId])) {
+                $userPoints[$userId] = 0;
+            }
+            $userPoints[$userId] += $choice->getPoints();
+        }
+    
+        // Récupérer les utilisateurs par leurs IDs et trier par points
+        $users = $userRepository->findBy(['id' => array_keys($userPoints)], []);
+        usort($users, function($a, $b) use ($userPoints) {
+            return $userPoints[$b->getId()] <=> $userPoints[$a->getId()];
+        });
+    
+        // Associer les points calculés aux utilisateurs pour les passer au template
+        $usersWithPoints = [];
+        foreach ($users as $user) {
+            $usersWithPoints[] = [
+                'user' => $user,
+                'pointsForWeek' => $userPoints[$user->getId()]
+            ];
+        }
+    
         return $this->render('dashboard/ranking.week.html.twig', [
             'week' => $latestWeek,
-            'users' => $users,
+            'usersWithPoints' => $usersWithPoints,
             'league' => $league,
+            
+            'hasData' => !empty($usersWithPoints) && $latestWeek !== null,
         ]);
     }
     

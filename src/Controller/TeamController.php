@@ -214,12 +214,33 @@ class TeamController extends AbstractController
         if (!in_array($league, ['lfb', 'lf2'])) {
             throw $this->createNotFoundException('Invalid league');
         }
-
+    
+        // Récupérer l'utilisateur connecté
+        $currentUser = $this->getUser();
+    
+        // Vérifie si l'utilisateur est bien connecté et est une instance de User
+        if (!$currentUser instanceof User) {
+            throw $this->createAccessDeniedException('You must be logged in to view the ranking.');
+        }
+    
+        // Récupérer les utilisateurs triés par points selon la league
         $users = $userRepository->findAllOrderedByPoints($league);
-
+    
+        // Trouver la position de l'utilisateur connecté
+        $userRank = null;
+        foreach ($users as $index => $user) {
+            // Assure que $user est bien une instance de User
+            if ($user instanceof User && $user->getId() === $currentUser->getId()) {
+                $userRank = $index + 1;
+                break;
+            }
+        }
+    
         return $this->render('dashboard/ranking.html.twig', [
             'users' => $users,
             'league' => $league,
+            'currentUser' => $currentUser,
+            'userRank' => $userRank,
         ]);
     }
 }
