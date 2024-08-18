@@ -236,6 +236,14 @@ if ($user instanceof User) {
             throw $this->createNotFoundException('Invalid league specified.');
         }
     
+        // Récupérer l'utilisateur connecté
+        $currentUser = $this->getUser();
+    
+        // Vérifie si l'utilisateur est bien connecté et est une instance de User
+        if (!$currentUser instanceof User) {
+            throw $this->createAccessDeniedException('You must be logged in to view the ranking.');
+        }
+        
         // Trouver la dernière semaine remplie dans la plage spécifiée
         $latestWeek = $weekRepository->findLatestFilledWeek($startWeek, $endWeek);
     
@@ -262,6 +270,15 @@ if ($user instanceof User) {
             return $userPoints[$b->getId()] <=> $userPoints[$a->getId()];
         });
     
+        // Déterminer le rang de l'utilisateur connecté
+        $userRank = null;
+        foreach ($users as $index => $user) {
+            if ($user instanceof User && $user->getId() === $currentUser->getId()) {
+                $userRank = $index + 1;
+                break;
+            }
+        }
+    
         // Associer les points calculés aux utilisateurs pour les passer au template
         $usersWithPoints = [];
         foreach ($users as $user) {
@@ -275,9 +292,11 @@ if ($user instanceof User) {
             'week' => $latestWeek,
             'usersWithPoints' => $usersWithPoints,
             'league' => $league,
-            
+            'currentUser' => $currentUser,
+            'userRank' => $userRank,
             'hasData' => !empty($usersWithPoints) && $latestWeek !== null,
         ]);
     }
+    
     
 }
