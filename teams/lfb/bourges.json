@@ -1,0 +1,50 @@
+{
+    "team_id": 6,
+    "players": [
+      {
+        "forename": "Tima",
+        "name": "Pouye"
+      },
+      {
+        "forename": "Ana-Maria",
+        "name": "Filip"
+      },
+      {
+        "forename": "Pauline",
+        "name": "Astier"
+      },
+      {
+        "forename": "Artemis",
+        "name": "Spanou"
+      },
+      {
+        "forename": "Alix",
+        "name": "Duchet"
+      },
+      {
+        "forename": "Laëtitia",
+        "name": "Guapo"
+      },
+      {
+        "forename": "Amy",
+        "name": "Okonkwo"
+      },
+      {
+        "forename": "Ines",
+        "name": "Pitarch-Granel"
+      },
+      {
+        "forename": "Morgan",
+        "name": "Green"
+      },
+      {
+        "forename": "Kariata",
+        "name": "Diaby"
+      },
+      {
+        "forename": "Alicia",
+        "name": "Tournebize"
+      }
+    ]
+  }
+  

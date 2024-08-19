@@ -1,0 +1,42 @@
+{
+    "team_id": 2,
+    "players": [
+      {
+        "forename": "Romane",
+        "name": "Bernies"
+      },
+      {
+        "forename": "Hortense",
+        "name": "Limouzin"
+      },
+      {
+        "forename": "Ana",
+        "name": "Suarez"
+      },
+      {
+        "forename": "Jasmine",
+        "name": "Bailey"
+      },
+      {
+        "forename": "Nell",
+        "name": "Angloma"
+      },
+      {
+        "forename": "Garance",
+        "name": "Rabot"
+      },
+      {
+        "forename": "Elodie",
+        "name": "Naigre"
+      },
+      {
+        "forename": "Marie-Michelle",
+        "name": "Milapie"
+      },
+      {
+        "forename": "Dulcy",
+        "name": "Mendjiadeu"
+      }
+    ]
+  }
+  

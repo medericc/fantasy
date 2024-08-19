@@ -1,0 +1,42 @@
+{
+    "team_id": 8,
+    "players": [
+      {
+        "forename": "Coline",
+        "name": "Franchelin"
+      },
+      {
+        "forename": "Ornella",
+        "name": "Bankole"
+      },
+      {
+        "forename": "Sara",
+        "name": "Chevaugeon"
+      },
+      {
+        "forename": "Noemie",
+        "name": "Brochant"
+      },
+      {
+        "forename": "Amel",
+        "name": "Bouderra"
+      },
+      {
+        "forename": "Esmery",
+        "name": "Martinez"
+      },
+      {
+        "forename": "Hillary",
+        "name": "Akomatsri"
+      },
+      {
+        "forename": "Oderah",
+        "name": "Chidom"
+      },
+      {
+        "forename": "Tiffany",
+        "name": "Clarke"
+      }
+    ]
+  }
+  

@@ -1,0 +1,38 @@
+{
+    "team_id": 9,
+    "players": [
+      {
+        "forename": "Sarah",
+        "name": "Ousfar"
+      },
+      {
+        "forename": "Vaciana",
+        "name": "Gomis"
+      },
+      {
+        "forename": "Louise",
+        "name": "Preneau"
+      },
+      {
+        "forename": "Ashley",
+        "name": "Bawara"
+      },
+      {
+        "forename": "Emma",
+        "name": "Peytour"
+      },
+      {
+        "forename": "Jade",
+        "name": "Phillips"
+      },
+      {
+        "forename": "Diana",
+        "name": "Balayera"
+      },
+      {
+        "forename": "Carine",
+        "name": "Silatsa"
+      }
+    ]
+  }
+  
