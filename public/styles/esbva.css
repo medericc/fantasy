@@ -1,0 +1,123 @@
+/* feytiat la tronch emondeville le havre  */
+
+
+
+body {
+    background-color: rgb(255, 0, 0) !important; /* Red */
+}
+button.add-player-btn:disabled {
+    background-color: rgb(255, 0, 0); /* Red */
+    color: #fff;
+}
+button.add-player-btn {
+    background-color: rgb(255, 0, 0); /* Red */
+    color: #fff;
+}
+.back-banner H1 {
+    color: "fff"; /* Black */
+}
+
+a.back-link {
+    color: rgb(0, 0, 0); /* Black */
+    text-decoration: none;
+}
+a.back-link:visited {
+    color: rgb(0, 0, 0); /* Black */
+}
+a.back-link:hover,
+a.back-link:active {
+    color: rgb(0, 0, 0); /* Black */
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: center;
+    font-size: 0.875rem;
+    border: 1px solid #ccc;
+}
+.table th {
+    background-color: rgb(255, 0, 0); /* Black */
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #000; /* Dark gray text */
+}
+.table tbody tr:nth-child(even) {
+    background-color: #f3f4f6; /* Light gray background for even rows */
+}
+.table tbody tr:hover {
+    background-color: #374151; /* Darker gray for hover */
+    color: #ffffff; /* White text on hover */
+}
+.card {
+    max-width: 377px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 5px;
+}
+.card-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.card-body {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+.list-group-item {
+    list-style: none;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    text-align: center;
+}
+.back-banner {
+    display: flex;
+    align-items: center;
+    background-color: #FF0000; /* Red */
+    padding: 16px;
+    margin-bottom: 16px;
+    justify-content: center;
+}
+.back-link {
+    display: flex;
+    align-items: center;
+    color: #fff; /* Black */
+    margin-right: 16px;
+    text-decoration: none;
+}
+.back-link i {
+    font-size: 24px;
+    margin-right: 16px;
+    color: #fff; /* Black */
+}
+h1 {
+    margin: 0;
+    color: #fff; /* Red */
+    font-size: 2.25rem;
+    font-weight: bold;
+}
+button.add-player-btn {
+    background-color: #FF0000; /* Red */
+    color: #fff; /* Black */
+    padding: 5px 15px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+}
+button.add-player-btn:hover {
+    background-color: #CC0000; /* Darker Red */
+}
+.tout {
+    background-color: rgba(0, 0, 0, 0.781); /* Black */
+}

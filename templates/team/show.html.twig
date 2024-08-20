@@ -3,40 +3,64 @@
 {% block title %}Team: {{ team.name }}{% endblock %}
 
 {% block body %}
-  <!-- Back Button -->
-  <a href="{{ path('app_dashboard_id', { 'id': weekId }) }}" class="bg-gray-800 text-white px-4 py-2 rounded-md shadow-md mb-4 inline-block hover:bg-gray-700 transition">Back</a>
+{% if team.name in ['Tarbes GB', 'UF Angers', 'Landerneau BB'] %}
+    <link href="{{ asset('styles/tarbes.css') }}" rel="stylesheet">
+{% elseif team.name == 'Pays Voironnais' %}
+    <link href="{{ asset('styles/voiron.css') }}" rel="stylesheet">
+{% elseif team.name in ['Saint Amand', 'BC Montbrison'] %}
+    <link href="{{ asset('styles/montbrison.css') }}" rel="stylesheet">
+{% elseif team.name in ['Basket Landes', 'Chartres Basket'] %}
+    <link href="{{ asset('styles/landes.css') }}" rel="stylesheet">
+{% elseif team.name in ['Flammes Carolo', 'Cavigal Nice'] %}
+    <link href="{{ asset('styles/flammes.css') }}" rel="stylesheet">
+{% elseif team.name in ['ESBVA Lille', 'Roche Vendée', 'USO Mondeville', 'Feytiat Basket', 'BB La Tronche-Meylan', 'Le Havre Basket'] %}
+    <link href="{{ asset('styles/esbva.css') }}" rel="stylesheet">
+{% elseif team.name in ['ASVEL Féminin', 'Toulouse MB', 'Charnay BBS'] %}
+    <link href="{{ asset('styles/charnay.css') }}" rel="stylesheet">
+{% elseif team.name == 'Tango Bourges' %}
+    <link href="{{ asset('styles/bourges.css') }}" rel="stylesheet">
+{% elseif team.name in ['Pôle Espoir', 'AS Aulnoye', 'Lattes-Montpellier'] %}
+    <link href="{{ asset('styles/blma.css') }}" rel="stylesheet">
+{% elseif team.name == 'USD Alençon' %}
+    <link href="{{ asset('styles/alencon.css') }}" rel="stylesheet">
+{% endif %}
 
-  <div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold text-center mb-6">{{ team.name }}</h1>
+<div class=tout">
+  <div class="back-banner">
+    <a href="{{ path('app_dashboard_id', { 'id': weekId }) }}" class="back-link">
+      <i class="fa-solid fa-backward"></i>
+    </a>
+    <h1>{{ team.name }}</h1>
+  </div>
 
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white shadow-md rounded-lg divide-y divide-gray-200">
-        <thead class="bg-gray-100">
+  <div class="container" style="margin: 0 auto; padding: 0 1rem;">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Prénom</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Nom</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Note</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Action</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Note</th>
+            <th>Action</th>
             {% if is_granted('ROLE_ADMIN') %}
-                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Points</th>
+              <th>Points</th>
             {% endif %}
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody>
           {% for player in team.players %}
-            <tr class="hover:bg-gray-50 transition">
-              <td class="px-6 py-4 text-sm text-gray-900">{{ player.forename }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ player.name }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ player.rating }}</td>
-              <td class="px-6 py-4 text-sm">
-                <button type="button" class="add-player-btn bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">
-  Ajouter
-</button>
-
+            <tr>
+              <td>{{ player.forename }}</td>
+              <td>{{ player.name }}</td>
+              <td>{{ player.rating }}</td>
+              <td>
+                <button type="button" class="add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">
+                  Ajouter
+                </button>
               </td>
               {% if is_granted('ROLE_ADMIN') %}
-                <td class="px-6 py-4 text-sm">
-                  <a href="{{ path('assign_points', { 'playerId': player.id, 'weekId': weekId }) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition">Attribuer des points</a>
+                <td>
+                  <a href="{{ path('assign_points', { 'playerId': player.id, 'weekId': weekId }) }}" class="add-player-btn">Attribuer des points</a>
                 </td>
               {% endif %}
             </tr>
@@ -44,20 +68,19 @@
         </tbody>
       </table>
     </div>
+  </div>
 
-    <div class="mt-6">
-       
-        <h3>DECK</h3>
-        <ul id="deckPlayers">
-            {% for player in selectedPlayers %}
-                <li>
-                    {{ player.forename }} {{ player.name }}
-                </li>
-            {% endfor %}
-        </ul>
-    
+  <div class="card mb-4 mt-4">
+    <div class="card-header">DECK</div>
+    <div class="card-body">
+      <ul id="deckPlayers" class="list-group d-flex flex-wrap">
+        {% for player in selectedPlayers %}
+          <li class="list-group-item">{{ player.forename }} {{ player.name }}</li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
+</div>
 
 {% endblock %}
 
@@ -75,7 +98,7 @@
         .then(response => {
           if (response.ok) {
             alert(playerName + ' a été supprimé du DECK.');
-            location.reload(); // Recharger la page pour refléter les modifications
+            location.reload();
           } else {
             alert('Une erreur s\'est produite lors de la suppression de ' + playerName);
           }
@@ -86,43 +109,42 @@
       }
     }
 
-  document.addEventListener('DOMContentLoaded', function() {
-   const weekId = new URLSearchParams(window.location.search).get('weekId');
+    document.addEventListener('DOMContentLoaded', function() {
+      const weekId = new URLSearchParams(window.location.search).get('weekId');
 
-   document.querySelectorAll('.add-player-btn').forEach(button => {
-     button.addEventListener('click', function() {
-       const playerId = this.dataset.playerId;
-       const playerForename = this.dataset.playerForename;
-       const playerName = this.dataset.playerName;
+      document.querySelectorAll('.add-player-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const playerId = this.dataset.playerId;
+          const playerForename = this.dataset.playerForename;
+          const playerName = this.dataset.playerName;
 
-       fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({ players: [{ id: playerId, forename: playerForename, name: playerName }] }),
-       })
-       .then(response => response.json())
-       .then(data => {
-         if (data.status === 'success') {
-           // Update the DECK UI with the new player
-           const deckPlayersList = document.getElementById('deckPlayers');
-           const newPlayerItem = document.createElement('li');
-           newPlayerItem.textContent = `${playerForename} ${playerName}`;
-           deckPlayersList.appendChild(newPlayerItem);
+          fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ players: [{ id: playerId, forename: playerForename, name: playerName }] }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              const deckPlayersList = document.getElementById('deckPlayers');
+              const newPlayerItem = document.createElement('li');
+              newPlayerItem.classList.add("list-group-item");
+              newPlayerItem.textContent = `${playerForename} ${playerName}`;
+              deckPlayersList.appendChild(newPlayerItem);
 
-           alert(playerForename + ' ' + playerName + ' a été ajouté avec succès!');
-         } else {
-           alert('Erreur: ' + data.message);
-         }
-       })
-       .catch(error => {
-         alert('Erreur: ' + error.message);
-         console.error('Erreur:', error);
-       });
-     });
-   });
- });
-
+              alert(playerForename + ' ' + playerName + ' a été ajouté avec succès!');
+            } else {
+              alert('Erreur: ' + data.message);
+            }
+          })
+          .catch(error => {
+            alert('Erreur: ' + error.message);
+            console.error('Erreur:', error);
+          });
+        });
+      });
+    });
   </script>
 {% endblock %}
