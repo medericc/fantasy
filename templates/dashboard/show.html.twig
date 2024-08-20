@@ -3,11 +3,41 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
+<style>
+    /* Set the dark background for the body */
+    body {
+        background-color: #ddddd7; /* Almost black background */
+        color: #f5f5f5; /* Light color for text */
+    }
+
+    /* Set the card style with yellow background */
+    .card {
+        background-color: #f1f1eb; /* Muted yellow background */
+        color: #1a1a1a; /* Dark color for text */
+    }
+
+    .card-title {
+        background-color: #1a1a1a; /* Same dark background as body */
+        color: #f0c30f; /* Yellow text color */
+        padding: 5px;
+        margin:auto;
+        width:40%;
+        
+        border-radius: 5px;
+        
+    }
+
+    /* Additional styling for text inside the card */
+    .card h2, .card h3 {
+        color: #1a1a1a; /* Dark color for text */
+    }
+</style>
+
 <div class="container-fluid mt-5">
     <div class="row">
         <!-- Première ligne de cartes -->
-        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
-            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card p-3 h-100 text-center">
                 <h1 class="card-title">LFB</h1>
                 {% if latestWeekLFB is not null %}
                     <h2>{{ totalPointsLFB | default(0) }} PTS SEMAINE {{ latestWeekLFB.id }}</h2>
@@ -18,8 +48,8 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
-            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card p-3 h-100 text-center">
                 <h1 class="card-title">LF2</h1>
                 {% if latestWeekLF2 is not null %}
                     <h2>{{ totalPointsLF2 | default(0) }} PTS SEMAINE {{ (latestWeekLF2.id - 22) }}</h2>
@@ -34,30 +64,30 @@
 
     <div class="row">
         <!-- Deuxième ligne de cartes -->
-        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
-            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card p-3 h-100 text-center">
                 <h1 class="card-title">LFB</h1>
                 <h2>{{ app.user.getPtlLfb | default(0) }} PTS SAISON</h2>
                 <h3>{{ rankLFB | default(0) }}e / {{ totalUsersLFB | default(0) }}</h3>
             </div>
         </div>
-        <div class="col-12 col-md-6 mb-4"> <!-- Sur mobile, occupe toute la largeur, sur écran moyen et plus, occupe la moitié -->
-            <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 pour une hauteur égale, text-center pour centrer -->
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card p-3 h-100 text-center">
                 <h1 class="card-title">LF2</h1>
                 <h2>{{ app.user.getPtLf2 | default(0) }} PTS SAISON</h2>
                 <h3>{{ rankLF2 | default(0) }}e / {{ totalUsersLF2 | default(0) }}</h3>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row mb-4">
-    <!-- Troisième ligne de cartes (deck) -->
-    <div class="col-12"> <!-- Sur mobile, occupe toute la largeur -->
-        <div class="card bg-danger text-light p-3 h-100 text-center"> <!-- h-100 permet au deck d'occuper toute la hauteur possible, text-center pour centrer -->
-            <h1 class="card-title">5 MAJEUR</h1>
-            <h2>LFB</h2>
-            <h2>LF2</h2>
+    <div class="row mb-4">
+        <!-- Troisième ligne de cartes (deck) -->
+        <div class="col-12">
+            <div class="card p-3 h-100 text-center">
+                <h1 class="card-title">5 MAJEUR</h1>
+                <h2>LFB</h2>
+                <h2>LF2</h2>
+            </div>
         </div>
     </div>
 </div>

@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg" style="background-color: #333333;">
     <div class="container-fluid">
-        <!-- Lien pour la pseudo ou connexion -->
+        <!-- Lien pour le pseudo ou la connexion -->
         {% if app.user is not null %}
-            <a href="{{ path('app_dashboard') }}" class="navbar-brand">
+            <a href="{{ path('app_dashboard') }}" class="navbar-brand" style="color: #f0c30f;">
                 <p class="m-0">{{ app.user.pseudo ? app.user.pseudo : 'CONNEXION' }}</p>
             </a>
         {% else %}
-            <a href="{{ path('app_login') }}" class="navbar-brand">
+            <a href="{{ path('app_login') }}" class="navbar-brand" style="color: #f0c30f;">
                 <p class="m-0">CONNEXION</p>
             </a>
         {% endif %}
@@ -14,22 +14,22 @@
         <!-- Affichage des points et du rang -->
         <div class="d-flex flex-row align-items-center">
             {% if app.user is not null %}
-                <div class="text-center text-lg-left me-4">
-                    <p class="font-bold text-black">LFB</p>
-                    <p class="text-black"> {{ app.user.getPtlLfb() }}pts ({{ rankLFB }}e)</p>
+                <div class="text-center text-lg-left me-4 p-2" style="background-color: #f0c30f; color: #000000; border-radius: 5px;">
+                    <p class="font-bold" style="margin: 0;">LFB</p>
+                    <p style="margin: 0;">{{ app.user.getPtlLfb() }}pts ({{ rankLFB }}e)</p>
                 </div>
-                <div class="text-center text-lg-left">
-                    <p class="font-bold text-black">LF2</p>
-                    <p class="text-black"> {{ app.user.getPtLf2() }}pts ({{ rankLF2 }}e)</p>
+                <div class="text-center text-lg-left p-2" style="background-color: #f0c30f; color: #000000; border-radius: 5px;">
+                    <p class="font-bold" style="margin: 0;">LF2</p>
+                    <p style="margin: 0;">{{ app.user.getPtLf2() }}pts ({{ rankLF2 }}e)</p>
                 </div>
             {% else %}
-                <div class="text-center text-lg-left me-4">
-                    <p class="font-bold text-black">LFB</p>
-                    <p class="text-black">Points: -</p>
+                <div class="text-center text-lg-left me-4 p-2" style="background-color: #f0c30f; color: #000000; border-radius: 5px;">
+                    <p class="font-bold" style="margin: 0;">LFB</p>
+                    <p style="margin: 0;">Points: -</p>
                 </div>
-                <div class="text-center text-lg-left">
-                    <p class="font-bold text-black">LF2</p>
-                    <p class="text-black">Points: -</p>
+                <div class="text-center text-lg-left p-2" style="background-color: #f0c30f; color: #000000; border-radius: 5px;">
+                    <p class="font-bold" style="margin: 0;">LF2</p>
+                    <p style="margin: 0;">Points: -</p>
                 </div>
             {% endif %}
         </div>
@@ -44,7 +44,7 @@
             <ul class="navbar-nav">
                 <!-- Dropdown Deck LFB -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f0c30f;">
                         DECK LFB
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLFB">
@@ -56,45 +56,41 @@
 
                 <!-- Dropdown Deck LF2 -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f0c30f;">
                         DECK LF2
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLF2">
                         {% for weekLF2 in app.session.get('weeksLF2') %}
-                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id}) }}">Week {{ weekLF2.id - 22 }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id - 22}) }}">Week {{ weekLF2.id - 22 }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
 
                 <!-- Dropdown Ranking LFB -->
-              <!-- Dropdown Ranking LFB -->
-<!-- Dropdown Ranking LFB -->
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        RANKING LFB
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
-        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lfb'}) }}">Week</a></li>
-        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
-    </ul>
-</li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f0c30f;">
+                        RANKING LFB
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
+                        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lfb'}) }}">Week</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
+                    </ul>
+                </li>
 
-<!-- Dropdown Ranking LF2 -->
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        RANKING LF2
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
-        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lf2'}) }}">Week</a></li>
-        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
-    </ul>
-</li>
-
-
+                <!-- Dropdown Ranking LF2 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f0c30f;">
+                        RANKING LF2
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
+                        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lf2'}) }}">Week</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
+                    </ul>
+                </li>
 
                 <!-- Lien vers les règles -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">RULES</a>
+                    <a class="nav-link" href="#" style="color: #f0c30f;">RULES</a>
                 </li>
 
                 <!-- Bouton de déconnexion -->
