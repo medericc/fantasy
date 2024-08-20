@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Règles de la Fantasy League{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center text-primary mb-4">Règles de la Fantasy League</h2>
+    <p class="lead text-muted">
+        Chaque semaine, vous avez la possibilité de choisir un maximum de 5 joueuses issues de la LFB ou de la LF2 pour composer votre équipe. 
+        Une fois sélectionnées, ces joueuses seront indisponibles pour les 5 semaines suivantes, vous obligeant à diversifier vos choix et à éviter de toujours compter sur les mêmes stars. 
+        Les points que vous gagnez sont directement liés à leurs performances réelles sur le terrain : points marqués, passes décisives, rebonds, et autres statistiques. 
+        Utilisez votre flair pour dénicher les talents cachés et construire une stratégie gagnante sur la durée !
+    </p>
+</div>
+
+<style>
+    .container {
+        background-color: #f8f9fa; /* Fond clair pour le texte */
+        padding: 20px;
+        border-radius: 8px; /* Coins arrondis */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #007bff; /* Bleu primaire pour le titre */
+    }
+
+    p.lead {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        color: #6c757d; /* Texte légèrement gris pour un contraste doux */
+    }
+</style>
+{% endblock %}

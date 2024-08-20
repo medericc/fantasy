@@ -3,8 +3,8 @@
 {% block body %}
 
   {% if hasData %}
-    <div class="container-fluid my-4">
-      <h2>Classement pour la semaine {{ week.id }} dans la ligue {{ league }}</h2>
+    <div class="container-fluid my-4 ">
+      <h2 class="text-center">Classement Semaine {{ week.id }} de {{ league | upper }}</h2>
 
       <div class="table-responsive"> <!-- Ajout de table-responsive pour mobile-first -->
         <table class="table table-striped table-bordered"> <!-- Utilisation des classes Bootstrap -->

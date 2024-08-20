@@ -117,6 +117,3 @@ button.add-player-btn {
 button.add-player-btn:hover {
     background-color: rgb(238, 174, 185) /* Darker Red */
 }
-.tout {
-    background-color: rgba(0, 0, 0, 0.781); /* Black */
-}
