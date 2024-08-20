@@ -3,10 +3,113 @@
 {% block title %}Journée{% endblock %}
 
 {% block body %}
+<style>
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+    }
 
+    .team-pill {
+        width: 140px;
+        background-color: transparent;
+        color: #000;
+        text-align: center;
+        line-height: 1.5;
+        margin: 5px 0;
+        text-decoration: none;
+    }
 
-    <!-- Temps restant -->
- <div class="container">
+    .list-group-item {
+        display: flex;
+        justify-content: center;
+    }
+
+    .team-container > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Deck players styling */
+    #deckPlayers {
+        display: flex;
+        flex-wrap: nowrap; /* Prevents wrapping to keep 5 players in a row */
+        justify-content: space-between;
+        padding: 0;
+        margin: 0;
+        gap: 5px; /* Space between each item */
+    }
+
+    #deckPlayers .list-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+        padding: 5px; /* Reduced padding */
+        width: calc(100% / 5 - 5px); /* Width calculation to fit 5 items */
+        list-style-type: none;
+        font-size: 12px; /* Smaller font size */
+    }
+
+    #deckPlayers .list-item div {
+        font-size: 11px; /* Smaller text size */
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #deckPlayers button {
+        margin-top: 5px;
+        font-size: 11px; /* Smaller button text size */
+        padding: 3px 7px; /* Adjust button padding */
+        background-color: transparent; /* Make button background transparent */
+        border: none; /* Remove border */
+        color: red; /* Set the color for the icon */
+        cursor: pointer;
+    }
+
+    /* Utilisation du texte pour les écrans larges */
+    #deckPlayers button .icon {
+        display: none;
+    }
+    
+    #deckPlayers button .text {
+        display: inline;
+    }
+
+    /* Utilisation de l'icône pour les écrans mobiles */
+  @media (max-width: 768px) {
+    #deckPlayers .list-item {
+        font-size: 10px;
+        width: calc(100% / 5 - 10px); /* Ensure 5 items still fit */
+    }
+
+    /* Display only the last name on smaller screens */
+    #deckPlayers .list-item .forename {
+        display: none;
+    }
+
+    #deckPlayers .list-item .name {
+        display: inline;
+    }
+
+    #deckPlayers button .icon {
+        display: inline;
+    }
+
+    #deckPlayers button .text {
+        display: none;
+    }
+}
+
+</style>
+
+<!-- Temps restant -->
+<div class="container">
     <div class="card text-center bg-light mb-4 mt-4 mx-auto" style="max-width: 500px;">
         <div class="card-body">
             <p class="card-text">
@@ -37,24 +140,23 @@
     </div>
 </div>
 
-    <!-- Matches -->
+<!-- Matches -->
 {% if week.id > 22 %}
-    <h2></h2>
     <h3 class="text-center">{{ week.id - 22 }}e JOURNÉE</h3>
-    <ul class="list-group mb-4">
+    <ul class="list-group mb-1 mt-2 ">
         {% for match in matchesLF2 %}
-            <li class="list-group-item mb-3"> <!-- Ajout de mb-3 pour l'espace entre les éléments -->
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-center flex-fill">
+            <li class="list-group-item ">
+                <div class="team-container">
+                    <div>
                         {% if match.home_team_name is defined %}
-                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a>
+                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="team-pill">{{ match.home_team_name }}</a>
                         {% else %}
                             <span>Invalid match data</span>
                         {% endif %}
                     </div>
-                    <div class="text-center flex-fill">
+                    <div>
                         {% if match.away_team_name is defined %}
-                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="team-pill">{{ match.away_team_name }}</a>
                         {% else %}
                             <span>Invalid match data</span>
                         {% endif %}
@@ -67,20 +169,20 @@
 
 {% if week.id <= 22 %}
     <h3 class="text-center">{{ week.id }}e JOURNÉE</h3>
-    <ul class="list-group mb-4">
+    <ul class="list-group mt-2 mb-1">
         {% for match in matchesLFB %}
-            <li class="list-group-item mb-3"> <!-- Ajout de mb-3 pour l'espace entre les éléments -->
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-center flex-fill">
+            <li class="list-group-item ">
+                <div class="team-container">
+                    <div>
                         {% if match.home_team_name is defined %}
-                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.home_team_name }}</a>
+                            <a href="{{ path('app_team_show', {'id': match.home_team_id, 'weekId': week.id}) }}" class="team-pill">{{ match.home_team_name }}</a>
                         {% else %}
                             <span>Invalid match data</span>
                         {% endif %}
                     </div>
-                    <div class="text-center flex-fill">
+                    <div>
                         {% if match.away_team_name is defined %}
-                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="text-dark text-decoration-none">{{ match.away_team_name }}</a>
+                            <a href="{{ path('app_team_show', {'id': match.away_team_id, 'weekId': week.id}) }}" class="team-pill">{{ match.away_team_name }}</a>
                         {% else %}
                             <span>Invalid match data</span>
                         {% endif %}
@@ -91,45 +193,47 @@
     </ul>
 {% endif %}
 
-
-
-
 <div class="container-fluid my-4">
     <!-- Informations de la semaine -->
- <div class="container">
-    <div class="card text-center mb-4 mx-auto" style="max-width: 200px;">
-        <div class="card-body">
-            {% if week.id > 22 %}
-                <h3>Score : {{ totalPoints }}</h3>
-            {% else %}
-                <h3>Score : {{ totalPoints }}</h3>
-            {% endif %}
+    <div class="container">
+        <div class="card text-center mb-4 mx-auto" style="max-width: 200px;">
+            <div class="card-body">
+                {% if week.id > 22 %}
+                    <h3>Score : {{ totalPoints }}</h3>
+                {% else %}
+                    <h3>Score : {{ totalPoints }}</h3>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Deck Section -->
-   <div class="card mb-4">
+<div class="card mb-4">
     <div class="card-header text-center">
         <h3>DECK</h3>
     </div>
-   <div class="card-body">
-        <ul id="deckPlayers" class="list-group d-flex flex-wrap">
+    <div class="card-body">
+        <ul id="deckPlayers">
             {% for player in selectedPlayers %}
-                <li class="list-group-item d-inline-block">
-                    {{ player.forename }} {{ player.name }}
+                <li class="list-item">
+                    <!-- Nom et prénom du joueur en haut -->
+                    <div>
+                        <span class="forename">{{ player.forename }}</span>
+                        <span class="name">{{ player.name }}</span>
+                    </div>
+                    <!-- Bouton de suppression en bas -->
                     {% if timeIsValid %}
-                        <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">Supprimer</button>
-                    {% else %}
-                              {% endif %}
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">
+                            <span class="icon"><i class="fa-solid fa-trash"></i></span>
+                            <span class="text">Supprimer</span>
+                        </button>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
     </div>
-
 </div>
 
-</div>
 
 {% block javascripts %}
     {{ parent() }}
