@@ -135,6 +135,7 @@
 
            <!-- Points et rang, juste à côté du pseudo -->
 <div class="d-flex flex-row align-items-center ms-3">
+{% if app.user is not null %}
     <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;    ">
         <p class="font-bold" style="margin: 0;">LFB</p>
         <p style="margin: 0;">{{ app.user.getPtlLfb() }}pts ({{ rankLFB }}e)</p>
@@ -144,8 +145,18 @@
         <p style="margin: 0;">{{ app.user.getPtLf2() }}pts ({{ rankLF2 }}e)</p>
     </div>
 </div>
+ {% else %}
+        <div class="d-flex flex-row align-items-center ms-3">
+    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+        <p class="font-bold" style="margin: 0;">LFB</p>
+        <p style="margin: 0;">Points: -</p>
+    </div>
+    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+        <p class="font-bold" style="margin: 0;">LF2</p>
+        <p style="margin: 0;">Points: -</p>
+    </div>   {% endif %}
+</div>
 
-        </div>
 
         <!-- Bouton toggle aligné à droite -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border-color: #fff;">
