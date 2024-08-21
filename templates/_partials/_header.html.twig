@@ -174,7 +174,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLF2">
                         {% for weekLF2 in app.session.get('weeksLF2') %}
-                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id - 22}) }}">Week {{ weekLF2.id - 22 }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id}) }}">Week {{ weekLF2.id - 22 }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -203,7 +203,7 @@
 
                 <!-- Lien vers les règles -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: #000;">RULES</a>
+                    <a class="nav-link" href="{{ path('rules_page')}}" style="color: #000;">RULES</a>
                 </li>
 
                 <!-- Bouton de déconnexion -->

@@ -3,7 +3,7 @@
 {% block title %}Règles de la Fantasy League{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container mt-5 mb-5">
     <h2 class="text-center text-primary mb-4">Règles de la Fantasy League</h2>
     <p class="lead text-muted">
         Chaque semaine, vous avez la possibilité de choisir un maximum de 5 joueuses issues de la LFB ou de la LF2 pour composer votre équipe. 
@@ -14,22 +14,53 @@
 </div>
 
 <style>
-    .container {
-        background-color: #f8f9fa; /* Fond clair pour le texte */
-        padding: 20px;
-        border-radius: 8px; /* Coins arrondis */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    }
+ 
 
     h2 {
         font-weight: bold;
-        color: #007bff; /* Bleu primaire pour le titre */
+        color: #007bff; /* Primary blue for the title */
     }
 
     p.lead {
         font-size: 1.25rem;
         line-height: 1.6;
-        color: #6c757d; /* Texte légèrement gris pour un contraste doux */
+        color: #6c757d; /* Slightly gray text for soft contrast */
     }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Ensures the body covers the full height of the viewport */
+    }
+
+    .container {
+        flex: 1; /* Allows the container to grow and fill available space */
+    }
+
+    footer {
+        flex-shrink: 0; /* Prevents the footer from shrinking */
+    }
+    body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+    padding-bottom: 60px; /* Adjust this padding based on footer height */
+}
+
+footer {
+    flex-shrink: 0;
+    padding: 10px 0; /* Ensure there's enough padding inside the footer */
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.back-banner, .tout {
+    margin-bottom: 20px; /* Add margin to ensure there's space above the footer */
+}
+
 </style>
 {% endblock %}

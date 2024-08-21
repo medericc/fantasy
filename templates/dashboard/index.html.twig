@@ -236,7 +236,6 @@
 
 
 {% block javascripts %}
-    {{ parent() }}
     <script>
         function confirmDelete(playerId, playerName, weekId) {
             if (confirm('Êtes-vous sûr de vouloir supprimer ' + playerName + ' du DECK ?')) {
@@ -261,4 +260,5 @@
         }
     </script>
 {% endblock %}
+
 {% endblock %}
