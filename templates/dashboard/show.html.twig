@@ -15,12 +15,28 @@
         background-color: #C0C0C1 ; /* Muted yellow background */
         color: #1a1a1a; /* Dark color for text */
     }
+/* Additional styling for text inside the card */
+.card h1, .card h2 {
+    color: #1a1a1a; /* Dark color for text */
+    white-space: nowrap; /* Prevents wrapping */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
+    font-size: calc(1rem + 1vw); /* Adjusts font size based on viewport */
+}
+
+/* Ensure that the card can fit content properly */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%; /* Make sure cards take full height available */
+}
 
     .card-title {
          color: #1a1a1a; /* Yellow text color */
         padding: 5px;
         margin:auto;
-        width:45%;
+      
         
         border-radius: 5px;
         
@@ -30,6 +46,82 @@
     .card h2, .card h3 {
         color: #1a1a1a; /* Dark color for text */
     }
+    /* Adjustments for smaller breakpoints */
+/* General styles for all cards */
+.card h1, .card h2, .card h3 {
+    color: #1a1a1a; /* Dark color for text */
+    white-space: nowrap; /* Prevents wrapping */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
+}
+
+/* Adjustments for various breakpoints */
+@media (min-width: 576px) and (max-width: 767px) {
+    .card-title {
+        font-size: 1.5rem; /* Slightly larger font size */
+        padding: 4px; /* Moderate padding */
+    }
+    .card h1 {
+        font-size: 1.2rem; /* Slightly larger font size for h1 */
+    }
+    .card h2 {
+        font-size: 1rem; /* Slightly larger font size for h2 */
+    }
+    .card h3 {
+        font-size: 0.9rem; /* Slightly larger font size for h3 */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .card-title {
+        font-size: 1.7rem; /* Larger font size */
+        padding: 6px; /* Increased padding */
+    }
+    .card h1 {
+        font-size: 1.4rem; /* Larger font size for h1 */
+    }
+    .card h2 {
+        font-size: 1.2rem; /* Larger font size for h2 */
+    }
+    .card h3 {
+        font-size: 1rem; /* Larger font size for h3 */
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .card-title {
+        font-size: 1.9rem; /* Larger font size */
+        padding: 8px; /* Increased padding */
+    }
+    .card h1 {
+        font-size: 1.6rem; /* Larger font size for h1 */
+    }
+    .card h2 {
+        font-size: 1.4rem; /* Larger font size for h2 */
+    }
+    .card h3 {
+        font-size: 1.2rem; /* Larger font size for h3 */
+    }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1200px) {
+    .card-title {
+        font-size: 2.2rem; /* Even larger font size */
+        padding: 10px; /* Further increased padding */
+    }
+    .card h1 {
+        font-size: 1.8rem; /* Larger font size for h1 */
+    }
+    .card h2 {
+        font-size: 1.6rem; /* Larger font size for h2 */
+    }
+    .card h3 {
+        font-size: 1.4rem; /* Larger font size for h3 */
+    }
+}
+
+
 </style>
 
 <div class="container-fluid mt-5">
