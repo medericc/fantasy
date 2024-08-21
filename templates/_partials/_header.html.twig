@@ -1,7 +1,121 @@
 <style>
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+.dance {
+    margin-right: 1em;
 }
+    /* General navbar styles */
+    .navbar {
+        background-color: #D3D3D3;
+    }
+
+    .navbar-brand p {
+        margin: 0;
+        font-size: 1.2rem; /* Default font size */
+        color: #000;
+    }
+
+    .navbar-toggler {
+        border-color: #fff;
+    }
+
+    .navbar-nav .nav-link {
+        color: #000;
+    }
+
+    .navbar-nav .dropdown-menu {
+        background-color: #D3D3D3;
+    }
+
+    /* Points and rank container styles */
+    .points-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 10px;
+    }
+
+    .points-container div {
+        background-color: #F0F0F2;
+        color: #000;
+        border-radius: 5px;
+        padding: 8px 12px;
+        margin: 0 8px;
+    }
+
+    .points-container p {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 576px) {
+        .navbar-brand p {
+            font-size: 1rem; /* Smaller font size for small screens */
+        }
+
+        .points-container {
+            flex-direction: column; /* Stack points containers vertically */
+            margin-left: 0;
+        }
+
+        .points-container div {
+            padding: 6px 8px;
+            margin: 4px 0;
+        }
+
+        .points-container p {
+            font-size: 0.8rem; /* Smaller font size for text */
+        }
+
+        .navbar-toggler {
+            margin-left: auto; /* Ensure the toggler stays to the right */
+        }
+
+        /* Navbar collapse adjustments */
+        .navbar-collapse {
+            justify-content: start;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 0.9rem; /* Smaller font size for nav links */
+        }
+
+        .btn {
+            padding: 4px 8px; /* Smaller padding for buttons */
+            font-size: 0.8rem; /* Smaller font size for buttons */
+        }
+    }
+
+    /* Additional adjustments for very small screens like 320px */
+    @media (max-width: 320px) {
+        .navbar-brand p {
+            font-size: 0.9rem; /* Further reduce font size */
+        }
+
+        .points-container div {
+            padding: 2px 3px !important; /* Reduce padding */
+            margin-right:0 !important;
+            margin: 2px 0; /* Further reduce margin */
+        }
+
+        .points-container p {
+            font-size: 0.7rem; /* Further reduce text size */
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 0.8rem; /* Further reduce font size for nav links */
+        }
+
+.moin {
+    padding:0.2rem !important;
+}
+        .btn {
+            padding: 2px 6px; /* Further reduce padding for buttons */
+            font-size: 0.7rem; /* Further reduce font size for buttons */
+        }
+    }
 </style>
 
 
@@ -21,11 +135,11 @@
 
            <!-- Points et rang, juste à côté du pseudo -->
 <div class="d-flex flex-row align-items-center ms-3">
-    <div class="text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;    margin-right: 1em;">
+    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;    ">
         <p class="font-bold" style="margin: 0;">LFB</p>
         <p style="margin: 0;">{{ app.user.getPtlLfb() }}pts ({{ rankLFB }}e)</p>
     </div>
-    <div class="text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
         <p class="font-bold" style="margin: 0;">LF2</p>
         <p style="margin: 0;">{{ app.user.getPtLf2() }}pts ({{ rankLF2 }}e)</p>
     </div>
