@@ -1,19 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<style>
+    /* Styles personnalisés pour le formulaire d'inscription */
+    .register-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff; /* Blanc pour le fond */
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-    {{ form_errors(registrationForm) }}
+    .register-container h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333333;
+        text-align: center;
+    }
+
+    .register-container .btn {
+        width: 100%;
+        background-color: #ffcc00; /* Jaune pour le bouton */
+        color: #333333;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .register-container .btn:hover {
+        background-color: #e6b800; /* Jaune légèrement plus foncé au survol */
+    }
+
+    .register-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Styles spécifiques pour les messages d'erreur */
+    .form-error-message {
+        color: #e74c3c; /* Rouge pour les erreurs */
+        font-size: 14px;
+    }
+</style>
+
+<div class="register-container">
+    <h1>S'inscrire</h1>
+
+    {{ form_errors(registrationForm, { 'attr': { 'class': 'form-error-message' } }) }}
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class="form-group">
+            {{ form_row(registrationForm.email, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(registrationForm.plainPassword, {
+                'label': 'Mot de passe',
+                'attr': { 'class': 'form-control' }
+            }) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(registrationForm.agreeTerms, { 'attr': { 'class': 'form-check-input' } }) }}
+        </div>
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn">S'inscrire</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

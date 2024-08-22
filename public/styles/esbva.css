@@ -5,14 +5,7 @@
 body {
     background-color: rgb(255, 0, 0) !important; /* Red */
 }
-button.add-player-btn:disabled {
-    background-color: rgb(255, 0, 0); /* Red */
-    color: #fff;
-}
-button.add-player-btn {
-    background-color: rgb(255, 0, 0); /* Red */
-    color: #fff;
-}
+
 .back-banner H1 {
     color: "fff"; /* Black */
 }
@@ -41,14 +34,9 @@ a.back-link:active {
     font-size: 0.875rem;
     border: 1px solid #ccc;
 }
-.table th {
-    background-color: rgb(255, 0, 0); /* Black */
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #000; /* Dark gray text */
-}
+
 .table tbody tr:nth-child(even) {
-    background-color: #f3f4f6; /* Light gray background for even rows */
+    background-color: #fff; /* Light gray background for even rows */
 }
 .table tbody tr:hover {
     background-color: #374151; /* Darker gray for hover */
@@ -107,14 +95,32 @@ h1 {
     font-size: 2.25rem;
     font-weight: bold;
 }
-button.add-player-btn {
-    background-color: #FF0000; /* Red */
-    color: #fff; /* Black */
+
+
+.table th {
+    background-color: #000000; /* Fond noir */
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #FFFFFF; /* Texte blanc */
+}
+
+
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
+    background-color: #FFFFFF; /* Fond blanc */
+    color: #FF0000; /* Texte rouge */
     padding: 5px 15px;
     border-radius: 9999px;
     border: none;
     cursor: pointer;
 }
-button.add-player-btn:hover {
-    background-color: #CC0000; /* Darker Red */
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
+    background-color: #FFFFFF; /* Fond blanc */
+    color: #FF0000; /* Texte rouge */
+    padding: 5px 15px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
 }
+
