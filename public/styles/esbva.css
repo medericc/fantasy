@@ -1,7 +1,5 @@
-/* feytiat la tronch emondeville le havre */
-
 body {
-    background-color: rgb(255, 0, 0) !important; /* Rouge */
+    background-color: rgb(221, 8, 8) !important; /* Rouge */
 }
 
 .back-banner h1 {
@@ -21,114 +19,122 @@ a.back-link:active {
 
 .table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate; /* Changer de collapse à separate */
+    border-spacing: 0; /* Espacement entre les cellules */
     margin-top: 5px !important;
     margin-bottom: 0 !important;
+    border-radius: 8px; /* Ajouter du border-radius */
+    overflow: hidden; /* Pour que le border-radius s'applique aussi aux cellules */
 }
 
 .table th, .table td {
-    padding: 8px;
-    text-align: center;
+    padding: 12px; /* Augmenter l'espace à l'intérieur des cellules */
+    text-align: center; /* Centrer horizontalement */
+    vertical-align: middle; /* Centrer verticalement */
     font-size: 0.875rem;
     border: 1px solid #ccc;
-}
-
-.table tbody tr:nth-child(even) {
-    background-color: #fff; /* Fond gris clair pour les lignes paires */
-}
-
-.table tbody tr:hover {
-    background-color
-: #374151; /* Gris foncé pour le survol /
-color: #ffffff; / Texte blanc lors du survol */
-}
-
-.card {
-width: 100%; /* Utiliser la pleine largeur disponible /
-margin-top: 20px; / Ajouter un espacement en haut */
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-background-color: white;
-border-radius: 5px;
-}
-
-.card-header {
-text-align: center;
-font-weight: bold;
-font-size: 1.5rem;
-margin-bottom: 1rem;
-}
-
-.card-body {
-max-height: 300px;
-overflow-y: auto;
-padding: 10px;
-}
-
-.list-group-item {
-list-style: none;
-padding: 5px 10px;
-border: 1px solid #ddd;
-margin-bottom: 5px;
-background-color: #f9f9f9;
-border-radius: 5px;
-text-align: center;
-}
-
-.back-banner {
-display: flex;
-align-items: center;
-background-color: #FF0000; /* Rouge */
-padding: 16px;
-margin-bottom: 16px;
-justify-content: center;
-}
-
-.back-link {
-display: flex;
-align-items: center;
-color: #ffffff; /* Blanc */
-margin-right: 16px;
-text-decoration: none;
-}
-
-.back-link i {
-font-size: 24px;
-margin-right: 16px;
-color: #ffffff; /* Blanc */
-}
-
-h1 {
-margin: 0;
-color: #ffffff; /* Blanc */
-font-size: 2.25rem;
-font-weight: bold;
+    font-weight: bold; /* Mettre en gras */
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+    color: #333; /* Couleur du texte */
 }
 
 
-.table th {
+
+.table thead th {
     background-color: #000000; /* Fond noir */
     font-weight: 600;
     text-transform: uppercase;
     color: #FFFFFF; /* Texte blanc */
 }
 
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fond gris clair pour les lignes paires */
+}
+
+
+
+.card {
+    width: 100%; /* Utiliser la pleine largeur disponible */
+    margin-top: 20px; /* Ajouter un espacement en haut */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 8px; /* Ajouter du border-radius */
+}
+
+.card-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.list-group-item {
+    list-style: none;
+    padding: 10px 15px; /* Augmenter l'espace */
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    border-radius: 8px; /* Ajouter du border-radius */
+    text-align: center;
+}
+
+.back-banner {
+    display: flex;
+    align-items: center;
+    background-color: rgb(221, 8, 8);
+    padding: 16px;
+    
+    justify-content: center;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    color: #ffffff; /* Blanc */
+    margin-right: 16px;
+    text-decoration: none;
+}
+
+.back-link i {
+    font-size: 24px;
+    margin-right: 16px;
+    color: #ffffff; /* Blanc */
+}
+
+h1 {
+    margin: 0;
+    color: #ffffff; /* Blanc */
+    font-size: 2.25rem;
+    font-weight: bold;
+}
 
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
 .table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
     background-color: #FFFFFF; /* Fond blanc */
-    color: #FF0000; /* Texte rouge */
+    color: rgb(221, 8, 8); /* Texte rouge */
     padding: 5px 15px;
     border-radius: 9999px;
     border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
     cursor: pointer;
 }
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
 .table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
-    background-color: #FFFFFF; /* Fond blanc */
-    color: #FF0000; /* Texte rouge */
+    background-color: rgb(221, 8, 8); /* Fond rouge */
+    color: #FFFFFF; /* Texte blanc */
     padding: 5px 15px;
     border-radius: 9999px;
     border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
     cursor: pointer;
 }
-
