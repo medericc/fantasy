@@ -4,7 +4,14 @@
 
   {% if hasData %}
     <div class="container-fluid my-4">
-      <h2 class="text-center mb-4">Semaine {{ week.id }} de la {{ league | upper }}</h2>
+      <h2 class="text-center mb-4">
+       {% if league == 'lf2'%}
+        Semaine {{ week.id - 22 }} de la {{ league | upper }}
+    {% else %}
+        Semaine {{ week.id }} de la {{ league | upper }}
+    {% endif %}
+      </h2>
+     
 
       <div class="table-responsive"> <!-- Ajout de table-responsive pour mobile-first -->
         <table class="table table-striped table-bordered"> <!-- Utilisation des classes Bootstrap -->
