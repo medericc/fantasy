@@ -52,7 +52,8 @@
             <tr>
               <td>{{ player.forename }}</td>
               <td>{{ player.name }}</td>
-              <td>{{ player.rating }}</td>
+             <td>{{ player.rating|number_format(2, '.', '') }}</td>
+
               <td>
                 <button type="button" class="add-player-btn" data-player-id="{{ player.id }}" data-player-forename="{{ player.forename }}" data-player-name="{{ player.name }}">
                   Ajouter
