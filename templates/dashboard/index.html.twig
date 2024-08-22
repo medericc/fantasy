@@ -30,6 +30,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin: 0 1rem;
     }
 
     /* Deck players styling */
@@ -105,6 +106,32 @@
         display: none;
     }
 }
+.team-pill {
+    width: 140px;
+    background-color: transparent;
+    color: #000;
+    text-align: center;
+    line-height: 1.5;
+    margin: 5px 0;
+    text-decoration: none;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Hover effect: change text color to gray */
+.team-pill:hover {
+    color: #555; /* Change to gray */
+    background-color: #f0f0f0; /* Light gray background */
+    text-decoration: none; /* Ensure no underline */
+}
+
+/* Focus effect: no underline and custom color */
+.team-pill:focus {
+    color: #555; /* Maintain gray color on click */
+    background-color: #f0f0f0; /* Maintain light gray background */
+    text-decoration: none; /* Ensure no underline */
+    outline: none; /* Remove default focus outline */
+}
+
 
 </style>
 
