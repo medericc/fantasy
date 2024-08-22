@@ -33,7 +33,7 @@
     <h1>{{ team.name }}</h1>
   </div>
 
-  <div class="container" style="margin: 0 auto; padding: 0 1rem;">
+  <div class="container">
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -68,16 +68,16 @@
         </tbody>
       </table>
     </div>
-  </div>
 
-  <div class="card mb-4 mt-4">
-    <div class="card-header">DECK</div>
-    <div class="card-body">
-      <ul id="deckPlayers" class="list-group d-flex flex-wrap">
-        {% for player in selectedPlayers %}
-          <li class="list-group-item">{{ player.forename }} {{ player.name }}</li>
-        {% endfor %}
-      </ul>
+    <div class="card mb-4 mt-4">
+      <div class="card-header">DECK</div>
+      <div class="card-body">
+        <ul id="deckPlayers" class="list-group d-flex flex-wrap">
+          {% for player in selectedPlayers %}
+            <li class="list-group-item">{{ player.forename }} {{ player.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -109,42 +109,49 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const weekId = new URLSearchParams(window.location.search).get('weekId');
+   document.addEventListener('DOMContentLoaded', function() {
+  const weekId = new URLSearchParams(window.location.search).get('weekId');
+  console.log('Week ID:', weekId);
 
-      document.querySelectorAll('.add-player-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          const playerId = this.dataset.playerId;
-          const playerForename = this.dataset.playerForename;
-          const playerName = this.dataset.playerName;
+  document.querySelectorAll('.add-player-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const playerId = this.dataset.playerId;
+      const playerForename = this.dataset.playerForename;
+      const playerName = this.dataset.playerName;
 
-          fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ players: [{ id: playerId, forename: playerForename, name: playerName }] }),
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.status === 'success') {
-              const deckPlayersList = document.getElementById('deckPlayers');
-              const newPlayerItem = document.createElement('li');
-              newPlayerItem.classList.add("list-group-item");
-              newPlayerItem.textContent = `${playerForename} ${playerName}`;
-              deckPlayersList.appendChild(newPlayerItem);
+      console.log('Player ID:', playerId);
+      console.log('Player Forename:', playerForename);
+      console.log('Player Name:', playerName);
 
-              alert(playerForename + ' ' + playerName + ' a été ajouté avec succès!');
-            } else {
-              alert('Erreur: ' + data.message);
-            }
-          })
-          .catch(error => {
-            alert('Erreur: ' + error.message);
-            console.error('Erreur:', error);
-          });
-        });
+      fetch("{{ path('app_team_save_players') }}?weekId=" + encodeURIComponent(weekId), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ players: [{ id: playerId, forename: playerForename, name: playerName }] }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Response Data:', data);
+        if (data.status === 'success') {
+          const deckPlayersList = document.getElementById('deckPlayers');
+          const newPlayerItem = document.createElement('li');
+          newPlayerItem.classList.add("list-group-item");
+          newPlayerItem.textContent = `${playerForename} ${playerName}`;
+          deckPlayersList.appendChild(newPlayerItem);
+
+          alert(playerForename + ' ' + playerName + ' a été ajouté avec succès!');
+        } else {
+          alert('Erreur: ' + data.message);
+        }
+      })
+      .catch(error => {
+        alert('Erreur: ' + error.message);
+        console.error('Erreur:', error);
       });
     });
+  });
+});
+
   </script>
 {% endblock %}

@@ -1,26 +1,24 @@
-/* feytiat la tronch emondeville le havre  */
-
-
+/* feytiat la tronch emondeville le havre */
 
 body {
-    background-color: rgb(255, 0, 0) !important; /* Red */
+    background-color: rgb(255, 0, 0) !important; /* Rouge */
 }
 
-.back-banner H1 {
-    color: "fff"; /* Black */
+.back-banner h1 {
+    color: #ffffff; /* Blanc */
 }
 
 a.back-link {
-    color: rgb(0, 0, 0); /* Black */
+    color: rgb(0, 0, 0); /* Noir */
     text-decoration: none;
 }
-a.back-link:visited {
-    color: rgb(0, 0, 0); /* Black */
-}
+
+a.back-link:visited,
 a.back-link:hover,
 a.back-link:active {
-    color: rgb(0, 0, 0); /* Black */
+    color: rgb(0, 0, 0); /* Noir */
 }
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -36,64 +34,74 @@ a.back-link:active {
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #fff; /* Light gray background for even rows */
+    background-color: #fff; /* Fond gris clair pour les lignes paires */
 }
+
 .table tbody tr:hover {
-    background-color: #374151; /* Darker gray for hover */
-    color: #ffffff; /* White text on hover */
+    background-color
+: #374151; /* Gris foncé pour le survol /
+color: #ffffff; / Texte blanc lors du survol */
 }
+
 .card {
-    max-width: 377px;
-    margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    border-radius: 5px;
+width: 100%; /* Utiliser la pleine largeur disponible /
+margin-top: 20px; / Ajouter un espacement en haut */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+background-color: white;
+border-radius: 5px;
 }
+
 .card-header {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+text-align: center;
+font-weight: bold;
+font-size: 1.5rem;
+margin-bottom: 1rem;
 }
+
 .card-body {
-    max-height: 300px;
-    overflow-y: auto;
-    padding: 10px;
+max-height: 300px;
+overflow-y: auto;
+padding: 10px;
 }
+
 .list-group-item {
-    list-style: none;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    text-align: center;
+list-style: none;
+padding: 5px 10px;
+border: 1px solid #ddd;
+margin-bottom: 5px;
+background-color: #f9f9f9;
+border-radius: 5px;
+text-align: center;
 }
+
 .back-banner {
-    display: flex;
-    align-items: center;
-    background-color: #FF0000; /* Red */
-    padding: 16px;
-    margin-bottom: 16px;
-    justify-content: center;
+display: flex;
+align-items: center;
+background-color: #FF0000; /* Rouge */
+padding: 16px;
+margin-bottom: 16px;
+justify-content: center;
 }
+
 .back-link {
-    display: flex;
-    align-items: center;
-    color: #fff; /* Black */
-    margin-right: 16px;
-    text-decoration: none;
+display: flex;
+align-items: center;
+color: #ffffff; /* Blanc */
+margin-right: 16px;
+text-decoration: none;
 }
+
 .back-link i {
-    font-size: 24px;
-    margin-right: 16px;
-    color: #fff; /* Black */
+font-size: 24px;
+margin-right: 16px;
+color: #ffffff; /* Blanc */
 }
+
 h1 {
-    margin: 0;
-    color: #fff; /* Red */
-    font-size: 2.25rem;
-    font-weight: bold;
+margin: 0;
+color: #ffffff; /* Blanc */
+font-size: 2.25rem;
+font-weight: bold;
 }
 
 
