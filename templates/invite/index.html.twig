@@ -51,7 +51,7 @@ body {
 }
 
 .main-content {
-    margin-top: 20px;
+
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -66,7 +66,7 @@ body {
     width: auto;
     padding: 10px 30px;
     background-color: #ffcc00; /* Jaune */
-    color: #ffffff;
+    color: #000;
     font-size: 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -80,7 +80,7 @@ body {
 .section {
     padding: 50px 0;
     background-color: #ffffff; /* Blanc par défaut */
-    margin-bottom: 30px;
+    
 }
 
 /* Alternating Background Colors for Sections */
@@ -88,7 +88,7 @@ body {
     background-color: #ffcc00; /* Jaune */
     color: #333333;
     padding: 40px;
-    margin-top: 20px;
+    
 }
 
 #rules h2 {
@@ -105,7 +105,7 @@ body {
     background-color: #ffffff; /* Blanc */
     color: #333333;
     padding: 40px;
-    margin-top: 20px;
+   
 }
 
 #ranking h3 {
@@ -125,8 +125,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding-left: 15px;
-    padding-right: 15px;
+ 
 }
 
 .row {
@@ -144,53 +143,109 @@ img.img-fluid {
     height: auto;
     border-radius: 10px;
 }
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width: 375px) {
+    #lfb {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    /* New or updated styles for the "But du jeu" section */
+#rules {
+   color: #333333;
+    padding: 20px;
+    padding-left: 30px; /* Added padding to the left */
+   
+    border-left: 4px solid #ffcc00; /* Yellow border to highlight the section */
+}
+
+#rules h4 {
+    color: #ffcc00; /* Yellow color for the subtitle */
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#rules h2 {
+    color: #333333;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 26px;
+}
+
+#rules p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+
+}
+
+
 </style>
 
 <div class="container">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Fantasy League FP</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="#rules">Rules</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#create">Create</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#ranking">Ranking</a></li>
-                        <li class="nav-item special-link"><a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                        </li>
-                    </ul>
-                </div>
+   <header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid" style="padding-left: 15px; padding-right: 15px;">
+            <a class="navbar-brand" href="#">Fantasy League FP</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#rules">Rules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#create">Create</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ranking">Ranking</a></li>
+                    <li class="nav-item special-link"><a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
+
 
     <main class="main-content">
         <div class="container-fluid">
-            <section id="lfb" class="section text-center">
-                <h2 class="section-title">La LFB et la LF2<br>ont leur FANTASY LEAGUE</h2>
-                <a class="btn-start" href="{{ path('app_register') }}">START NOW</a>
-            </section>
+         <section id="lfb" class="section text-center">
+    <h2 class="section-title">La LFB et la LF2<br>ont leur FANTASY LEAGUE</h2>
+    <a class="btn-start" href="{{ path('app_register') }}">START NOW</a>
+</section>
 
-            <section id="rules" class="section">
-                <div class="row">
-                    <div class="col-md-6 rules-left">
-                        <h2>Règles du jeu</h2>
-                        <p>Démontrez vos talents de stratège en choisissant le meilleur cinq majeur chaque semaine parmi
-                            les joueuses de la LFB et de la LF2. Mais attention, une fois une joueuse sélectionnée, elle
-                            devient indisponible pour les six semaines suivantes !</p>
-                    </div>
-                    <div class="col-md-6 rules-right">
-                        <h2>But du jeu</h2>
-                        <p>L'objectif du jeu est d'accumuler le plus grand nombre de points en fonction des performances
-                            réelles des joueuses sur le terrain chaque semaine. Des classements hebdomadaires, mensuels
-                            et saisonniers sont établis pour suivre votre progression.</p>
-                    </div>
-                </div>
-            </section>
+
+      <section id="rules" class="section text-center" style=" padding: 40px; border-radius: 10px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 style="text-transform: uppercase; font-weight: bold; color: #000; letter-spacing: 1px; margin-bottom:15px;">La LFB, c'est quoi ?</h3>
+            <p style="font-size: 18px; line-height: 1.8; color: #555555; margin-bottom: 15px;">
+                Dans la Fantasy League FP, l'objectif est simple : accumuler le plus grand nombre de points en fonction des performances réelles des joueuses chaque semaine.
+                Sélectionnez votre équipe et affrontez les autres joueurs pour atteindre le sommet du classement.
+            </p>
+            <p style="font-size: 18px; line-height: 1.8; color: #555555;">
+                Chaque semaine, faites vos choix avec soin car les mêmes joueuses ne peuvent être sélectionnées qu'une fois par mois !
+                C'est la stratégie qui fera la différence.
+            </p>
+        </div>
+    </div>
+</section>
+
+
 
             <section id="create" class="section text-center" style="background-color: #ffffff;">
                 <h2>Choisis ton équipe</h2>
