@@ -116,118 +116,143 @@
             font-size: 0.7rem; /* Further reduce font size for buttons */
         }
     }
+    .navbar-brand p {
+    margin: 0;
+    font-size: 1.2rem; /* Default font size */
+    color: #f5f0dd; /* Light color for contrast */
+    font-weight: bold; /* Makes the text bold */
+    font-family: 'Arial Black', 'Gadget', sans-serif; /* Bold and prominent font */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow for more emphasis */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .navbar-brand p {
+        font-size: 1rem; /* Smaller font size for small screens */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Adjust shadow for smaller size */
+    }
+}
+
+@media (max-width: 320px) {
+    .navbar-brand p {
+        font-size: 0.9rem; /* Further reduce font size */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Further adjust shadow for smallest size */
+    }
+}
+
 </style>
 
 
-<nav class="navbar navbar-expand-lg" style="background-color: #D3D3D3;">
+<nav class="navbar navbar-expand-lg" style="background-color: #ffcc00;">
     <div class="container-fluid d-flex align-items-center justify-content-between">
         <!-- Pseudo à gauche -->
         <div class="d-flex align-items-center">
             {% if app.user is not null %}
                 <a href="{{ path('app_dashboard') }}" class="navbar-brand" style="color: #000;">
-                    <p class="m-0">{{ app.user.pseudo ? app.user.pseudo : 'CONNEXION' }}</p>
+                    <p class="m-0" style="color: #f5f0dd;">{{ app.user.pseudo ? app.user.pseudo : 'CONNEXION' }}</p>
                 </a>
             {% else %}
                 <a href="{{ path('app_login') }}" class="navbar-brand" style="color: #000;">
-                    <p class="m-0">CONNEXION</p>
+                    <p class="m-0" style="color: #f5f0dd;">CONNEXION</p>
                 </a>
             {% endif %}
-
+  {% if app.user is not null %}
            <!-- Points et rang, juste à côté du pseudo -->
 <div class="d-flex flex-row align-items-center ms-3">
 {% if app.user is not null %}
-    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;    ">
+    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #f5f0dd ; color: #ac8906; border-radius: 5px;    ">
         <p class="font-bold" style="margin: 0;">LFB</p>
         <p style="margin: 0;">{{ app.user.getPtlLfb() }}pts ({{ rankLFB }}e)</p>
     </div>
-    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #f5f0dd ; color: #ac8906; border-radius: 5px;">
         <p class="font-bold" style="margin: 0;">LF2</p>
         <p style="margin: 0;">{{ app.user.getPtLf2() }}pts ({{ rankLF2 }}e)</p>
     </div>
 </div>
  {% else %}
         <div class="d-flex flex-row align-items-center ms-3">
-    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+    <div class="moin dance text-center text-lg-left me-5 p-2" style="background-color: #F0F0F2; color: #ac8906; border-radius: 5px;">
         <p class="font-bold" style="margin: 0;">LFB</p>
         <p style="margin: 0;">Points: -</p>
     </div>
-    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #000000; border-radius: 5px;">
+    <div class="moin text-center text-lg-left ms-4 p-2" style="background-color: #F0F0F2; color: #ac8906; border-radius: 5px;">
         <p class="font-bold" style="margin: 0;">LF2</p>
         <p style="margin: 0;">Points: -</p>
     </div>   {% endif %}
 </div>
 
 
-        <!-- Bouton toggle aligné à droite -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border-color: #fff;">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+     
+    <!-- Bouton toggle aligné à droite -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border-color: #fff;">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Contenu de la barre de navigation -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <!-- Dropdown Deck LFB -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
-                        DECK LFB
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLFB">
-                        {% for weekLFB in app.session.get('weeksLFB') %}
-                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLFB.id}) }}">Week {{ weekLFB.id }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
+    <!-- Contenu de la barre de navigation -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <!-- Dropdown Deck LFB -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                    DECK LFB
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLFB">
+                    {% for weekLFB in app.session.get('weeksLFB') %}
+                        <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLFB.id}) }}">Week {{ weekLFB.id }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
 
-                <!-- Dropdown Deck LF2 -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
-                        DECK LF2
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLF2">
-                        {% for weekLF2 in app.session.get('weeksLF2') %}
-                            <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id}) }}">Week {{ weekLF2.id - 22 }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
+            <!-- Dropdown Deck LF2 -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDeckLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                    DECK LF2
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownDeckLF2">
+                    {% for weekLF2 in app.session.get('weeksLF2') %}
+                        <li><a class="dropdown-item" href="{{ path('app_dashboard_id', {'id': weekLF2.id }) }}">Week {{ weekLF2.id - 22 }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
 
-                <!-- Dropdown Ranking LFB -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
-                        RANKING LFB
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
-                        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lfb'}) }}">Week</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
-                    </ul>
-                </li>
+            <!-- Dropdown Ranking LFB -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLFB" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                    RANKING LFB
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLFB">
+                    <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lfb'}) }}">Week</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lfb'}) }}">Season</a></li>
+                </ul>
+            </li>
 
-                <!-- Dropdown Ranking LF2 -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
-                        RANKING LF2
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
-                        <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lf2'}) }}">Week</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
-                    </ul>
-                </li>
+            <!-- Dropdown Ranking LF2 -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRankingLF2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                    RANKING LF2
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownRankingLF2">
+                    <li><a class="dropdown-item" href="{{ path('ranking_week', {'league': 'lf2'}) }}">Week</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_team_ranking', {'league': 'lf2'}) }}">Season</a></li>
+                </ul>
+            </li>
 
-                <!-- Lien vers les règles -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('rules_page')}}" style="color: #000;">RULES</a>
-                </li>
+            <!-- Lien vers les règles -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('rules_page')}}" style="color: #000;">RULES</a>
+            </li>
 
-                <!-- Bouton de déconnexion -->
-                {% if app.user is not null %}
-                    <li class="nav-item">
-                        <form action="{{ path('app_logout') }}" method="post" class="form-inline">
-                            <button class="btn btn-outline-success" type="submit">Déconnexion</button>
-                        </form>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
+            <!-- Bouton de déconnexion -->
+            <li class="nav-item">
+                <form action="{{ path('app_logout') }}" method="post" class="form-inline">
+                    <button class="btn btn-outline-success" type="submit">Déconnexion</button>
+                </form>
+            </li>
+        </ul>
+    </div></div>
+{% endif %}
+
+    
 </nav>
 
 

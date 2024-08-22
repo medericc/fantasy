@@ -3,12 +3,12 @@
 {% block body %}
 
   {% if hasData %}
-    <div class="container-fluid my-4 ">
-      <h2 class="text-center">Classement Semaine {{ week.id }} de {{ league | upper }}</h2>
+    <div class="container-fluid my-4">
+      <h2 class="text-center mb-4">Semaine {{ week.id }} de la {{ league | upper }}</h2>
 
       <div class="table-responsive"> <!-- Ajout de table-responsive pour mobile-first -->
         <table class="table table-striped table-bordered"> <!-- Utilisation des classes Bootstrap -->
-          <thead class="thead-dark"> <!-- Classe Bootstrap pour un en-tête sombre -->
+          <thead style="background-color: #000; color: #fff;"> <!-- En-tête sombre avec texte blanc -->
             <tr>
               <th scope="col">Rang</th>
               <th scope="col">Utilisateur</th>
@@ -18,7 +18,7 @@
           <tbody>
             <!-- Afficher l'utilisateur connecté en premier -->
             {% if currentUser %}
-              <tr class="table-primary"> <!-- Classe Bootstrap pour surligner la ligne -->
+              <tr style="background-color: #ffcc00;"> <!-- Ligne surlignée en jaune -->
                 <td>{{ userRank }}</td>
                 <td>{{ currentUser.pseudo }}</td>
                 <td>{{ usersWithPoints[userRank - 1].pointsForWeek }}</td>
