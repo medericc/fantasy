@@ -1,5 +1,5 @@
 body {
-  background-color: rgba(10, 13, 143, 0.781) !important;
+  background-color: #EC4899 !important;
 }
 button.add-player-btn:disabled {
   background-color: rgb(236,72,153); /* Pink */
@@ -32,20 +32,30 @@ a.back-link:active {
   text-align: center;
   font-size: 0.875rem;
   border: 1px solid #ccc;
+  vertical-align: middle;
+  font-weight: bold; /* Mettre en gras */
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+
 }
 .table th {
-  background-color: rgb(236,72,153); /* Pink */
+  background-color: rgb(255, 255, 255); /* Pink */
   font-weight: 600;
   text-transform: uppercase;
-  color: #4b5563; /* Dark gray text */
+  color: rgb(236,72,153); /* Dark gray text */
 }
 .table tbody tr:nth-child(even) {
   background-color: #f3f4f6; /* Light gray background for even rows */
 }
-.table tbody tr:hover {
-  background-color: #374151; /* Darker gray for hover */
-  color: #ffffff; /* White text on hover */
+
+.table tr:nth-child(odd) td {
+  color: #fff; /* Couleur du texte pour les lignes impaires */
 }
+
+
+.table tr:nth-child(even) td {
+  color: rgb(236,72,153); /* Couleur du texte pour les lignes paires */
+}
+
 .card {
   max-width: 377px;
   margin: 0 auto;
@@ -109,5 +119,30 @@ button.add-player-btn {
 }
 button.add-player-btn:hover {
   background-color: #DB2777; /* Darker Pink */
+}
+
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
+  background-color: #FFFFFF; /* Fond blanc */
+  color: rgb(236,72,153); /* Texte rouge */
+  padding: 5px 15px;
+  border-radius: 9999px;
+  border: none;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+ 
+  font-weight: 600;
+  cursor: pointer;
+}
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
+  background-color: rgb(236,72,153); /* Fond rouge */
+  color: #FFFFFF; /* Texte blanc */
+  padding: 5px 15px;
+  border-radius: 9999px;
+  border: none;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+ 
+  font-weight: 600;
+  cursor: pointer;
 }
 
