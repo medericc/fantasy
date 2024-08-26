@@ -1,6 +1,6 @@
 
 body {
-  background-color: black !important;
+  background-color: rgb(249,115,22) !important;
 }
 button.add-player-btn:disabled {
   background-color: rgb(249,115,22);
@@ -34,20 +34,22 @@ a.back-link:active {
   text-align: center;
   font-size: 0.875rem;
   border: 1px solid #ccc;
+  vertical-align: middle;
+  font-weight: bold; /* Mettre en gras */
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+
 }
 .table th {
-  background-color: rgb(249,115,22); /* Background for header */
+  background-color: #000 ; /* Background for header */
   font-weight: 600;
   text-transform: uppercase;
-  color: #4b5563; /* Dark gray text */
+  color: rgb(249,115,22); /* Dark gray text */
+  
 }
 .table tbody tr:nth-child(even) {
   background-color: #f3f4f6; /* Light gray background for even rows */
 }
-.table tbody tr:hover {
-  background-color: #374151; /* Darker gray for hover */
-  color: #ffffff; /* White text on hover */
-}
+
 .card {
   max-width: 377px;
   margin: 0 auto;
@@ -93,7 +95,7 @@ a.back-link:active {
 .back-link i {
   font-size: 24px;
   margin-right: 16px;
-  color: #FFFFFF;
+  color: #000;
 }
 h1 {
   margin: 0;
@@ -111,4 +113,29 @@ button.add-player-btn {
 }
 button.add-player-btn:hover {
   background-color: #EA580C;
+}
+.table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
+  background-color: rgb(0, 0, 0); /* Fond rouge */
+  color: #F97316; /* Texte blanc */
+
+ 
+  padding: 5px 15px;
+  border-radius: 9999px;
+  border: none;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+ 
+  font-weight: 600;
+  cursor: pointer;
+}
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
+  background-color: #F97316; /* Fond blanc */
+  color: rgb(0, 0, 0); /* Texte rouge */
+  padding: 5px 15px;
+  border-radius: 9999px;
+  border: none;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+ 
+  font-weight: 600;
+  cursor: pointer;
 }

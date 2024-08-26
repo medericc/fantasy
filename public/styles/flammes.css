@@ -36,22 +36,26 @@ a.back-link:active {
 .table th, .table td {
     padding: 8px;
     text-align: center;
+    vertical-align: middle;
     font-size: 0.875rem;
-    border: 1px solid #ccc;
+    border: 1px solid #8d8a8a;
+    font-weight: bold; /* Mettre en gras */
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+
 }
+
+.table thead th {border-bottom: 2px solid #ffffff;}
+
 .table th {
-    background-color: rgb(255, 0, 0); /* Black */
+    background-color: rgb(0, 0, 0); /* Black */
     font-weight: 600;
     text-transform: uppercase;
-    color: #4b5563; /* Dark gray text */
+    color: #ee2207; /* Dark gray text */
 }
 .table tbody tr:nth-child(even) {
     background-color: #f3f4f6; /* Light gray background for even rows */
 }
-.table tbody tr:hover {
-    background-color: #374151; /* Darker gray for hover */
-    color: #ffffff; /* White text on hover */
-}
+
 .card {
     max-width: 377px;
     margin: 0 auto;
@@ -105,14 +109,43 @@ h1 {
     font-size: 2.25rem;
     font-weight: bold;
 }
-button.add-player-btn {
-    background-color: #FF0000; /* Red */
-    color: #000000; /* Black */
+
+button.add-player-btn:hover {
+    background-color: #CC0000; /* Darker Red */
+}
+.table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
+   
+    background-color: rgb(0, 0, 0); /* Fond blanc */
+    color: rgb(226, 5, 5); /* Texte rouge */
+   
     padding: 5px 15px;
     border-radius: 9999px;
     border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
     cursor: pointer;
 }
-button.add-player-btn:hover {
-    background-color: #CC0000; /* Darker Red */
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
+    background-color: rgb(226, 5, 5); /* Fond rouge */
+    color: rgb(0, 0, 0); /* Texte blanc */
+    padding: 5px 15px;
+    border-radius: 9999px;
+    border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
+    cursor: pointer;
+}
+.table tr:nth-child(odd) td {
+    color: #000; /* Couleur du texte pour les lignes impaires */
+}
+
+
+.table tr:nth-child(even) td {
+    color: rgb(226, 5, 5); /* Couleur du texte pour les lignes paires */
+}
+.table tbody tr:nth-child(even) {
+    background-color: #020202; /* Light gray background for even rows */
 }

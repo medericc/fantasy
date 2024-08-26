@@ -36,21 +36,43 @@ a.back-link:active {
     padding: 8px;
     text-align: center;
     font-size: 0.875rem;
+    vertical-align: middle;
     border: 1px solid #ccc;
+    font-weight: bold; /* Mettre en gras */
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
 }
 .table th {
-    background-color: rgb(242,242,242); 
+    background-color: #f3f2f0;
     font-weight: 600;
     text-transform: uppercase;
-    color: #4b5563; /* Dark gray text */
+    color: #1e7b92; /* Dark gray text */
 }
-.table tbody tr:nth-child(even) {
-    background-color: #f3f4f6; /* Light gray background for even rows */
+.table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
+    background-color: rgb(255, 255, 255); /* Fond rouge */
+    color: rgb(43, 145, 179); /* Texte blanc */
+ 
+   
+    padding: 5px 15px;
+    border-radius: 9999px;
+    border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
+    cursor: pointer;
 }
-.table tbody tr:hover {
-    background-color: #374151; /* Darker gray for hover */
-    color: #ffffff; /* White text on hover */
+/* Changer l'apparence des boutons lorsque la ligne est rouge */
+.table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
+    background-color: rgb(43, 145, 179); /* Fond blanc */
+    color: rgb(255, 255, 255); /* Texte rouge */
+    padding: 5px 15px;
+    border-radius: 9999px;
+    border: none;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
+   
+    font-weight: 600;
+    cursor: pointer;
 }
+
 .card {
     max-width: 377px;
     margin: 0 auto;
@@ -114,4 +136,15 @@ button.add-player-btn {
 }
 button.add-player-btn:hover {
     background-color: rgb(43, 145, 179); /* Darker Light Blue */
+}
+.table tr:nth-child(odd) td {
+    color: #fff; /* Couleur du texte pour les lignes impaires */
+}
+
+
+.table tr:nth-child(even) td {
+    color: rgb(43, 145, 179); /* Couleur du texte pour les lignes paires */
+}
+.table tbody tr:nth-child(even) {
+    background-color: #f3f4f6; /* Light gray background for even rows */
 }
