@@ -4,9 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fantasy League FP</title>
+      <title>Fantasy League LFB/LF2 - Basketball Féminin</title>
+    <meta name="description" content="Rejoignez la Fantasy League LFB et LF2 pour composer votre équipe de basketball féminin. Défiez les autres joueurs en fonction des performances réelles des joueuses de la LFB et de la LF2.">
+    <meta name="keywords" content="Fantasy League, Basketball Féminin, Nationale Féminine 1, LFB, LF2, Ligue, Sport, Joueurs, Classement">
+    <meta name="author" content="Fantasy League LFB et LF2">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    
+
+
+
+       
+    <!-- JSON-LD for LFB -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "Fantasy League LFB",
+      "sport": "Basketball",
+      "memberOf": {
+        "@type": "SportsLeague",
+        "name": "Ligue Féminine de Basketball"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD for LF2 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "Fantasy League LF2",
+      "sport": "Basketball",
+      "memberOf": {
+        "@type": "SportsLeague",
+        "name": "Ligue Féminine 2"
+      }
+    }
+    </script>
     <!-- Bootstrap 5.3 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
