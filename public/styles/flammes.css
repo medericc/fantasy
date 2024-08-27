@@ -12,19 +12,19 @@ button.add-player-btn {
     color: #000;
 }
 .back-banner H1 {
-    color: rgb(0, 0, 0); /* Black */
+    color: #fff; /* Black */
 }
 
 a.back-link {
-    color: rgb(0, 0, 0); /* Black */
+    color: #fff; /* Black */
     text-decoration: none;
 }
 a.back-link:visited {
-    color: rgb(0, 0, 0); /* Black */
+    color: #fff; /* Black */
 }
 a.back-link:hover,
 a.back-link:active {
-    color: rgb(0, 0, 0); /* Black */
+    color: #fff; /* Black */
 }
 .table {
     width: 100%;
@@ -38,7 +38,7 @@ a.back-link:active {
     text-align: center;
     vertical-align: middle;
     font-size: 0.875rem;
-    border: 1px solid #8d8a8a;
+    border: 1px solid #ccc;
     font-weight: bold; /* Mettre en gras */
     font-family: 'Arial', 'Helvetica', sans-serif; /* Police plus visible */
 
@@ -47,7 +47,7 @@ a.back-link:active {
 .table thead th {border-bottom: 2px solid #ffffff;}
 
 .table th {
-    background-color: rgb(0, 0, 0); /* Black */
+    background-color: #fff; /* Black */
     font-weight: 600;
     text-transform: uppercase;
     color: #ee2207; /* Dark gray text */
@@ -55,7 +55,14 @@ a.back-link:active {
 .table tbody tr:nth-child(even) {
     background-color: #f3f4f6; /* Light gray background for even rows */
 }
+.table tr:nth-child(odd) td {
+    color: #fff; /* Couleur du texte pour les lignes impaires */
+}
 
+
+.table tr:nth-child(even) td {
+    color: rgb(209, 12, 12); /* Couleur du texte pour les lignes paires */
+}
 .card {
     max-width: 377px;
     margin: 0 auto;
@@ -94,14 +101,14 @@ a.back-link:active {
 .back-link {
     display: flex;
     align-items: center;
-    color: #000000; /* Black */
+    color: #fff; /* Black */
     margin-right: 16px;
     text-decoration: none;
 }
 .back-link i {
     font-size: 24px;
     margin-right: 16px;
-    color: #000000; /* Black */
+    color: #fff; /* Black */
 }
 h1 {
     margin: 0;
@@ -115,7 +122,7 @@ button.add-player-btn:hover {
 }
 .table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
    
-    background-color: rgb(0, 0, 0); /* Fond blanc */
+    background-color: #fff; /* Fond blanc */
     color: rgb(226, 5, 5); /* Texte rouge */
    
     padding: 5px 15px;
@@ -129,7 +136,7 @@ button.add-player-btn:hover {
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
 .table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
     background-color: rgb(226, 5, 5); /* Fond rouge */
-    color: rgb(0, 0, 0); /* Texte blanc */
+    color: #fff; /* Texte blanc */
     padding: 5px 15px;
     border-radius: 9999px;
     border: none;
@@ -139,7 +146,7 @@ button.add-player-btn:hover {
     cursor: pointer;
 }
 .table tr:nth-child(odd) td {
-    color: #000; /* Couleur du texte pour les lignes impaires */
+    color: #fff; /* Couleur du texte pour les lignes impaires */
 }
 
 
@@ -147,5 +154,5 @@ button.add-player-btn:hover {
     color: rgb(226, 5, 5); /* Couleur du texte pour les lignes paires */
 }
 .table tbody tr:nth-child(even) {
-    background-color: #020202; /* Light gray background for even rows */
+    background-color: #fff; /* Light gray background for even rows */
 }
