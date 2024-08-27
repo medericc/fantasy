@@ -33,14 +33,13 @@
         margin: 0 1rem;
     }
 
-    /* Deck players styling */
     #deckPlayers {
         display: flex;
-        flex-wrap: nowrap; /* Prevents wrapping to keep 5 players in a row */
+        flex-wrap: nowrap;
         justify-content: space-between;
         padding: 0;
         margin: 0;
-        gap: 5px; /* Space between each item */
+        gap: 5px;
     }
 
     #deckPlayers .list-item {
@@ -49,14 +48,14 @@
         justify-content: space-between;
         align-items: center;
         border: 1px solid #ddd;
-        padding: 5px; /* Reduced padding */
-        width: calc(100% / 5 - 5px); /* Width calculation to fit 5 items */
+        padding: 5px;
+        width: calc(100% / 5 - 5px);
         list-style-type: none;
-        font-size: 12px; /* Smaller font size */
+        font-size: 12px;
     }
 
     #deckPlayers .list-item div {
-        font-size: 11px; /* Smaller text size */
+        font-size: 11px;
         text-align: center;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -65,74 +64,68 @@
 
     #deckPlayers button {
         margin-top: 5px;
-        font-size: 11px; /* Smaller button text size */
-        padding: 3px 7px; /* Adjust button padding */
-        background-color: transparent; /* Make button background transparent */
-        border: none; /* Remove border */
-        color: red; /* Set the color for the icon */
+        font-size: 11px;
+        padding: 3px 7px;
+        background-color: transparent;
+        border: none;
+        color: red;
         cursor: pointer;
     }
 
-    /* Utilisation du texte pour les écrans larges */
     #deckPlayers button .icon {
         display: none;
     }
-    
+
     #deckPlayers button .text {
         display: inline;
     }
 
-    /* Utilisation de l'icône pour les écrans mobiles */
-  @media (max-width: 768px) {
-    #deckPlayers .list-item {
-        font-size: 10px;
-        width: calc(100% / 5 - 10px); /* Ensure 5 items still fit */
+    @media (max-width: 768px) {
+        #deckPlayers .list-item {
+            font-size: 10px;
+            width: calc(100% / 5 - 10px);
+        }
+
+        #deckPlayers .list-item .forename {
+            display: none;
+        }
+
+        #deckPlayers .list-item .name {
+            display: inline;
+        }
+
+        #deckPlayers button .icon {
+            display: inline;
+        }
+
+        #deckPlayers button .text {
+            display: none;
+        }
     }
 
-    /* Display only the last name on smaller screens */
-    #deckPlayers .list-item .forename {
-        display: none;
+    .team-pill {
+        width: 140px;
+        background-color: transparent;
+        color: #000;
+        text-align: center;
+        line-height: 1.5;
+        margin: 5px 0;
+        text-decoration: none;
+        transition: color 0.2s ease, background-color 0.2s ease;
     }
 
-    #deckPlayers .list-item .name {
-        display: inline;
+    .team-pill:hover {
+        color: #555;
+        background-color: #f0f0f0;
+        text-decoration: none;
     }
 
-    #deckPlayers button .icon {
-        display: inline;
+    .team-pill:focus {
+        color: #555;
+        background-color: #f0f0f0;
+        text-decoration: none;
+        outline: none;
     }
-
-    #deckPlayers button .text {
-        display: none;
-    }
-}
-.team-pill {
-    width: 140px;
-    background-color: transparent;
-    color: #000;
-    text-align: center;
-    line-height: 1.5;
-    margin: 5px 0;
-    text-decoration: none;
-    transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-/* Hover effect: change text color to gray */
-.team-pill:hover {
-    color: #555; /* Change to gray */
-    background-color: #f0f0f0; /* Light gray background */
-    text-decoration: none; /* Ensure no underline */
-}
-
-/* Focus effect: no underline and custom color */
-.team-pill:focus {
-    color: #555; /* Maintain gray color on click */
-    background-color: #f0f0f0; /* Maintain light gray background */
-    text-decoration: none; /* Ensure no underline */
-    outline: none; /* Remove default focus outline */
-}
-
-
 </style>
 
 <!-- Temps restant -->
@@ -235,55 +228,50 @@
     </div>
 
     <!-- Deck Section -->
-<div class="card mb-4">
-    <div class="card-header text-center">
-        <h3>DECK</h3>
-    </div>
-    <div class="card-body">
-        <ul id="deckPlayers">
-            {% for player in selectedPlayers %}
-                <li class="list-item">
-                    <!-- Nom et prénom du joueur en haut -->
-                    <div>
-                        <span class="forename">{{ player.forename }}</span>
-                        <span class="name">{{ player.name }}</span>
-                    </div>
-                    <!-- Bouton de suppression en bas -->
-                    {% if timeIsValid %}
-                        <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ player.id }}, '{{ player.forename }} {{ player.name }}', {{ week.id }})">
-                            <span class="icon"><i class="fa-solid fa-trash"></i></span>
-                            <span class="text">Supprimer</span>
-                        </button>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="card mb-4">
+        <div class="card-header text-center">
+            <h3>DECK</h3>
+        </div>
+        <div class="card-body">
+            <ul id="deckPlayers">
+                {% for player in selectedPlayers %}
+                    <li class="list-item">
+                        <div>
+                            <span class="forename">{{ player.forename }}</span>
+                            <span class="name">{{ player.name }}</span>
+                        </div>
+                        {% if timeIsValid %}
+                            <button class="btn btn-danger btn-sm" onclick="deletePlayer({{ player.id }}, {{ week.id }})">
+                                <span class="icon"><i class="fa-solid fa-trash"></i></span>
+                                <span class="text">Supprimer</span>
+                            </button>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 
-
 {% block javascripts %}
     <script>
-        function confirmDelete(playerId, playerName, weekId) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ' + playerName + ' du DECK ?')) {
-                fetch(`/dashboard/delete-player/${weekId}/${playerId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token('delete-player') }}'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert(playerName + ' a été supprimé du DECK.');
-                        location.reload(); // Recharger la page pour refléter les modifications
-                    } else {
-                        alert('Une erreur s\'est produite lors de la suppression de ' + playerName);
-                    }
-                })
-                .catch(error => {
-                    alert('Erreur : ' + error.message);
-                });
-            }
+        function deletePlayer(playerId, weekId) {
+            fetch(`/dashboard/delete-player/${weekId}/${playerId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token('delete-player') }}'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Recharger la page pour refléter les modifications
+                } else {
+                    alert('Une erreur s\'est produite lors de la suppression du joueur.');
+                }
+            })
+            .catch(error => {
+                alert('Erreur : ' + error.message);
+            });
         }
     </script>
 {% endblock %}
