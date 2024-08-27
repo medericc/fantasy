@@ -3,14 +3,14 @@
 
 
 body {
-    background-color: rgb(255, 0, 0) !important; /* Red */
+    background-color: rgb(233, 9, 9) !important; /* Red */
 }
 button.add-player-btn:disabled {
-    background-color: rgb(255, 0, 0); /* Red */
+    background-color: rgb(233, 9, 9); /* Red */
     color: #fff;
 }
 button.add-player-btn {
-    background-color: rgb(255, 0, 0); /* Red */
+    background-color: rgb(233, 9, 9); /* Red */
     color: #fff;
 }
 .back-banner H1 {
@@ -54,7 +54,14 @@ a.back-link:active {
 .table tbody tr:nth-child(even) {
     background-color: #f3f4f6; /* Light gray background for even rows */
 }
+.table tr:nth-child(odd) td {
+    color: #fff; /* Couleur du texte pour les lignes impaires */
+}
 
+
+.table tr:nth-child(even) td {
+    color: rgb(209, 12, 12); /* Couleur du texte pour les lignes paires */
+}
 .card {
     max-width: 377px;
     margin: 0 auto;
@@ -85,9 +92,9 @@ a.back-link:active {
 .back-banner {
     display: flex;
     align-items: center;
-    background-color: #FF0000; /* Red */
+    background-color: rgb(233, 9, 9); /* Red */
     padding: 16px;
-    margin-bottom: 16px;
+    
     justify-content: center;
 }
 .back-link {
@@ -109,7 +116,7 @@ h1 {
     font-weight: bold;
 }
 button.add-player-btn {
-    background-color: #FF0000; /* Red */
+    background-color: rgb(233, 9, 9); /* Red */
     color: #fff; /* Black */
     padding: 5px 15px;
     border-radius: 9999px;
@@ -121,7 +128,7 @@ button.add-player-btn:hover {
 }
 .table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
     background-color: rgb(255, 255, 255); /* Fond rouge */
-    color: #FF0000; /* Texte blanc */
+    color: rgb(233, 9, 9); /* Texte blanc */
  
    
     padding: 5px 15px;
@@ -134,7 +141,7 @@ button.add-player-btn:hover {
 }
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
 .table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
-    background-color: #FF0000; /* Fond blanc */
+    background-color: rgb(233, 9, 9); /* Fond blanc */
     color: rgb(255, 255, 255); /* Texte rouge */
     padding: 5px 15px;
     border-radius: 9999px;

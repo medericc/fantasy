@@ -46,7 +46,7 @@ body {
     background-color: rgb(242,242,242);; 
     font-weight: 600;
     text-transform: uppercase;
-    color: #4b5563; /* Dark gray text */
+    color: rgb(95, 6, 95); /* Dark gray text */
   }
   .table tbody tr:nth-child(even) {
     background-color: #f3f4f6; /* Light gray background for even rows */
@@ -57,7 +57,7 @@ body {
 
 
 .table tr:nth-child(even) td {
-    color: #6A0DAD; /* Couleur du texte pour les lignes paires */
+    color: rgb(128, 0, 128); /* Couleur du texte pour les lignes paires */
 }
   .card {
     max-width: 377px;
@@ -89,9 +89,9 @@ body {
   .back-banner {
     display: flex;
     align-items: center;
-    background-color: #800080; /* Violet */
+    background-color: rgb(128, 0, 128); /* Violet */
     padding: 16px;
-    margin-bottom: 16px;
+    
     justify-content: center;
   }
   .back-link {
@@ -113,7 +113,7 @@ body {
     font-weight: bold;
   }
   button.add-player-btn {
-    background-color: #800080; /* Violet */
+    background-color: rgb(128, 0, 128); /* Violet */
     color: rgb(242,242,242);
     padding: 5px 15px;
     border-radius: 9999px;
@@ -121,12 +121,12 @@ body {
     cursor: pointer;
   }
   button.add-player-btn:hover {
-    background-color: #6A0DAD; /* Darker Violet */
+    background-color: rgb(128, 0, 128); /* Darker Violet */
   }
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
  .table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
      background-color: #FFFFFF; /* Fond blanc */
-     color: #6A0DAD; /* Texte rouge */
+     color: rgb(128, 0, 128); /* Texte rouge */
      padding: 5px 15px;
      border-radius: 9999px;
      border: none;
@@ -137,7 +137,7 @@ body {
  }
  /* Changer l'apparence des boutons lorsque la ligne est rouge */
  .table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
-     background-color: #6A0DAD; /* Fond rouge */
+     background-color: rgb(128, 0, 128); /* Fond rouge */
      color: #FFFFFF; /* Texte blanc */
      padding: 5px 15px;
      border-radius: 9999px;

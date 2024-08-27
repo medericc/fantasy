@@ -105,7 +105,7 @@ a.back-link:active {
     align-items: center;
     background-color: rgb(43, 145, 179); /* Light Blue */
     padding: 16px;
-    margin-bottom: 16px;
+    
     justify-content: center;
 }
 .back-link {

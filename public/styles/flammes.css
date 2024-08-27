@@ -88,7 +88,7 @@ a.back-link:active {
     align-items: center;
     background-color: #FF0000; /* Red */
     padding: 16px;
-    margin-bottom: 16px;
+    
     justify-content: center;
 }
 .back-link {
