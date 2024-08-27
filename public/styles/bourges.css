@@ -40,7 +40,7 @@ a.back-link:active {
 
 }
 .table th {
-  background-color: #000 ; /* Background for header */
+  background-color: #fff ; /* Background for header */
   font-weight: 600;
   text-transform: uppercase;
   color: rgb(249,115,22); /* Dark gray text */
@@ -48,6 +48,15 @@ a.back-link:active {
 }
 .table tbody tr:nth-child(even) {
   background-color: #f3f4f6; /* Light gray background for even rows */
+}
+
+.table tr:nth-child(odd) td {
+  color: #fff; /* Couleur du texte pour les lignes impaires */
+}
+
+
+.table tr:nth-child(even) td {
+  color: rgb(249,115,22); /* Couleur du texte pour les lignes paires */
 }
 
 .card {
@@ -95,11 +104,11 @@ a.back-link:active {
 .back-link i {
   font-size: 24px;
   margin-right: 16px;
-  color: #000;
+  color: #fff;
 }
 h1 {
   margin: 0;
-  color: #000000;
+  color: #fff;
   font-size: 2.25rem;
   font-weight: bold;
 }
@@ -115,7 +124,7 @@ button.add-player-btn:hover {
   background-color: #EA580C;
 }
 .table tbody tr:nth-child(odd) button.add-player-btn { /* Si la ligne est rouge */
-  background-color: rgb(0, 0, 0); /* Fond rouge */
+  background-color: #fff; /* Fond rouge */
   color: #F97316; /* Texte blanc */
 
  
@@ -130,7 +139,7 @@ button.add-player-btn:hover {
 /* Changer l'apparence des boutons lorsque la ligne est rouge */
 .table tbody tr:nth-child(even) button.add-player-btn { /* Si la ligne est rouge */
   background-color: #F97316; /* Fond blanc */
-  color: rgb(0, 0, 0); /* Texte rouge */
+  color: #fff; /* Texte rouge */
   padding: 5px 15px;
   border-radius: 9999px;
   border: none;
