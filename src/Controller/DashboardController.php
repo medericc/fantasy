@@ -116,28 +116,30 @@ class DashboardController extends AbstractController
         $weeksData = $this->weekService->getWeeksData();
         $session->set('weeksLFB', $weeksData['weeksLFB']);
         $session->set('weeksLF2', $weeksData['weeksLF2']);
-
+    
         // Récupération de l'utilisateur connecté
         $currentUser = $this->getUser();
-
+    
         // Récupérer les utilisateurs triés par points LFB
         $usersLFB = $userRepository->findBy([], ['ptl_lfb' => 'DESC']);
         $usersLF2 = $userRepository->findBy([], ['pt_lf2' => 'DESC']);
-
+    
         // Calcul du rang de l'utilisateur connecté
         $rankLFB = array_search($currentUser, $usersLFB) + 1;
         $rankLF2 = array_search($currentUser, $usersLF2) + 1;
+    
+     
+        // Récupérer les entités Week correspondantes
+     // Trouver la dernière semaine écoulée pour LFB et LF2
+$latestWeekLFB = $weekRepository->findLatestElapsedWeek(1, 22); // Pour LFB, semaines 1-22
+$latestWeekLF2 = $weekRepository->findLatestElapsedWeek(23, 44); // Pour LF2, semaines 23-44
 
-        // Trouver la dernière semaine remplie pour LFB et LF2
-        $latestWeekLFB = $weekRepository->findLatestFilledWeek(1, 22); // Pour LFB, semaines 1-22
-        $latestWeekLF2 = $weekRepository->findLatestFilledWeek(23, 44); // Pour LF2, semaines 23-44
+// Obtenir les choix et calculer les points pour les semaines correspondantes
+$choicesLFB = $choiceRepository->findBy(['week' => $latestWeekLFB, 'user' => $currentUser]);
+$choicesLF2 = $choiceRepository->findBy(['week' => $latestWeekLF2, 'user' => $currentUser]);
 
-        // Obtenir les choix et calculer les points pour les semaines correspondantes
-        $choicesLFB = $choiceRepository->findBy(['week' => $latestWeekLFB, 'user' => $currentUser]);
-        $choicesLF2 = $choiceRepository->findBy(['week' => $latestWeekLF2, 'user' => $currentUser]);
-
-        $totalPointsLFB = array_reduce($choicesLFB, fn($carry, $choice) => $carry + $choice->getPoints(), 0);
-        $totalPointsLF2 = array_reduce($choicesLF2, fn($carry, $choice) => $carry + $choice->getPoints(), 0);
+$totalPointsLFB = array_reduce($choicesLFB, fn($carry, $choice) => $carry + $choice->getPoints(), 0);
+$totalPointsLF2 = array_reduce($choicesLF2, fn($carry, $choice) => $carry + $choice->getPoints(), 0);
 
         return $this->render('dashboard/show.html.twig', [
             'controller_name' => 'DashboardController',
